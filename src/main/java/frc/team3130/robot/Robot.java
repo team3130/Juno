@@ -3,6 +3,7 @@ package frc.team3130.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team3130.robot.subsystems.Chassis;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,6 +27,9 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    OI.GetInstance();
+    Chassis.GetInstance();
   }
 
   /**
