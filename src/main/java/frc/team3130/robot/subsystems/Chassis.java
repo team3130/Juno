@@ -4,10 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
 
-public class Chassis {
+public class Chassis extends Subsystem{
 
     //Instance Handling
     private static Chassis m_pInstance;
