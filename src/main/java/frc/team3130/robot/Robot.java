@@ -29,7 +29,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     OI.GetInstance();
+  
     Chassis.GetInstance();
+
   }
 
   /**
