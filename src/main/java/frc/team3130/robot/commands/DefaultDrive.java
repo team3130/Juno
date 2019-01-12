@@ -32,7 +32,7 @@ public class DefaultDrive extends Command {
 
     
     double turnThrottle = (0.5 * OI.stickR.getRawAxis(2)-0.5);
-    Chassis.DriveArcade(moveSpeed, turnSpeed, false);
+    Chassis.DriveArcade(moveSpeed, turnSpeed, true);
   }
 
   // Make this return true when this Command no longer needs to run execute()
