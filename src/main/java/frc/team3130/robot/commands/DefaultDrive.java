@@ -31,7 +31,7 @@ public class DefaultDrive extends Command {
     double turnSpeed = OI.gamepad.getRawAxis(4); //arcade drive has left as positive, but we want right to be positive
 
     
-    double turnThrottle = (0.5 * OI.stickR.getRawAxis(3)-0.5);
+    double turnThrottle = (0.5 * OI.stickR.getRawAxis(2)-0.5);
     Chassis.DriveArcade(moveSpeed, turnSpeed, false);
   }
 
