@@ -20,5 +20,6 @@ public class RobotMap {
 	public static final int CAN_LEFTMOTORREAR = 3;
 	public static final int CAN_RIGHTMOTORFRONT = 4;
 	public static final int CAN_RIGHTMOTORREAR = 5;
+
 	public static final int CAN_TESTMOTOR = 6;
 }
