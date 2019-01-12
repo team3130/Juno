@@ -42,6 +42,11 @@ public class Chassis extends Subsystem{
         m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
         m_drive.setSafetyEnabled(false);
 
+        m_testMotor = new WPI_TalonSRX(RobotMap.CAN_TESTMOTOR);
+
+        Solenoid pneumaticSolenoid1 = new Solenoid(1);
+        Solenoid pneumaticSolenoid2 = new Solenoid(2);
+        Solenoid pneumaticSolenoid3 = new Solenoid(3);
     }
 
     public void initDefaultCommand() {
