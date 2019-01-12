@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.subsystems.Chassis;
+import frc.team3130.robot.subsystems.TestIntake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,6 +33,8 @@ public class Robot extends TimedRobot {
     OI.GetInstance();
   
     Chassis.GetInstance();
+
+    TestIntake.GetInstance();
 
   }
 

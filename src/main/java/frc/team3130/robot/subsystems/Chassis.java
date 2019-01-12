@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
@@ -26,6 +27,8 @@ public class Chassis extends Subsystem{
     private static WPI_TalonSRX m_rightMotorFront;
     private static WPI_TalonSRX m_rightMotorRear;
 
+
+
     private Chassis() {
         
 
@@ -42,11 +45,7 @@ public class Chassis extends Subsystem{
         m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
         m_drive.setSafetyEnabled(false);
 
-        m_testMotor = new WPI_TalonSRX(RobotMap.CAN_TESTMOTOR);
 
-        Solenoid pneumaticSolenoid1 = new Solenoid(1);
-        Solenoid pneumaticSolenoid2 = new Solenoid(2);
-        Solenoid pneumaticSolenoid3 = new Solenoid(3);
     }
 
     public void initDefaultCommand() {

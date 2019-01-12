@@ -1,7 +1,11 @@
 package frc.team3130.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.team3130.robot.commands.RunIntake;
+import frc.team3130.robot.commands.ToggleIntake;
+import frc.team3130.robot.subsystems.TestIntake;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -62,11 +66,23 @@ public class OI {
     public static Joystick stickR;
     public static Joystick gamepad;
 
+    public static JoystickButton runIntake;
+
+    public static JoystickButton toggleIntake;
+
 
     private OI(){
         stickL = new Joystick(0);
         stickR = new Joystick(1);
-        
         gamepad = new Joystick(2);
+
+        runIntake = new JoystickButton(stickR, 1);
+        toggleIntake = new JoystickButton(stickR, 5);
+
+        runIntake.whileHeld(new RunIntake());
+
+        toggleIntake.whenPressed(new ToggleIntake());
+
+
     }
 }
