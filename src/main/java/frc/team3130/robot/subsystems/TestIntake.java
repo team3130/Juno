@@ -17,6 +17,7 @@ public class TestIntake extends Subsystem {
     }
 
     private static Solenoid pneumaticSolenoid1;
+    private static Solenoid pneumaticSolenoid2;
 
     private static WPI_TalonSRX m_testMotor;
 
@@ -25,6 +26,7 @@ public class TestIntake extends Subsystem {
         m_testMotor = new WPI_TalonSRX(RobotMap.CAN_TESTMOTOR);
 
         pneumaticSolenoid1 = new Solenoid(RobotMap.CAN_PNMMODULE,0);
+        pneumaticSolenoid2 = new Solenoid(RobotMap.CAN_PNMMODULE,1);
 
     }
 
@@ -36,9 +38,14 @@ public class TestIntake extends Subsystem {
 
     public static void toggleSolenoid1(){
         pneumaticSolenoid1.set(!pneumaticSolenoid1.get());
+        
     }
 
     public static void runBeaterBar(double speed){
         m_testMotor.set(speed);
     }
+
+	public static void toggleSolenoid2() {
+        pneumaticSolenoid2.set(!pneumaticSolenoid2.get());
+	}
 }
