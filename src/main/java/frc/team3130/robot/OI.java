@@ -61,10 +61,12 @@ public class OI {
     public static Joystick stickL;
     public static Joystick stickR;
     public static Joystick gamepad;
+    public static Joystick gamepadRJoystick;
 
     private OI(){
         stickL = new Joystick(0);
         stickR = new Joystick(1);
+        
         gamepad = new Joystick(2);
     }
 }
