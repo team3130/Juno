@@ -16,7 +16,6 @@ public class connorsThing extends Subsystem {
     //Create necessary objects
 
 
-
     //Create and define all standard data types needed
     private static WPI_TalonSRX tantan1;
     private static WPI_TalonSRX tantan2;
@@ -26,18 +25,18 @@ public class connorsThing extends Subsystem {
     private static Solenoid nickolas4;
     private static Solenoid cage5;
 
-    private connorsThing(){
+    private connorsThing() {
         /**
          * Constructor:
          * Define and configure your defined objects (ie. talons, vars)
          */
-        tantan1= new WPI_TalonSRX(RobotMap.CAN_TESTMOTOR);
+        tantan1 = new WPI_TalonSRX(RobotMap.CAN_TESTMOTOR);
         tantan2 = new WPI_TalonSRX(RobotMap.CAN_TESTMOTOR);
 
-        matt2 = new Solenoid(RobotMap.CAN_PNMMODULE,2);
-        damon3 = new Solenoid(RobotMap.CAN_PNMMODULE,3);
-        nickolas4 = new Solenoid(RobotMap.CAN_PNMMODULE,4);
-        cage5 = new Solenoid(RobotMap.CAN_PNMMODULE,5);
+        matt2 = new Solenoid(RobotMap.CAN_PNMMODULE, 2);
+        damon3 = new Solenoid(RobotMap.CAN_PNMMODULE, 3);
+        nickolas4 = new Solenoid(RobotMap.CAN_PNMMODULE, 4);
+        cage5 = new Solenoid(RobotMap.CAN_PNMMODULE, 5);
     }
 
     public void initDefaultCommand() {
@@ -45,11 +44,21 @@ public class connorsThing extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 
+    public static void toggleMotors() {
 
-    public static void togglesolenoid1(){
+    }
+
+    public static void toggleSolenoids() {
         matt2.set(!matt2.get());
         nickolas4.set(!nickolas4.get());
     }
 
-}
+    protected void solenoids() {
+        connorsThing.toggleSolenoids();
+    }
 
+    protected void motors() {
+        connorsThing.toggleMotors();
+    }
+
+}
