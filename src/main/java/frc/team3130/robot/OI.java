@@ -3,9 +3,9 @@ package frc.team3130.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.commands.RunIntake;
 import frc.team3130.robot.commands.ToggleIntake;
-import frc.team3130.robot.subsystems.TestIntake;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -82,8 +82,25 @@ public class OI {
         runIntake.whileHeld(new RunIntake());
 
         toggleIntake.whenPressed(new ToggleIntake());
-        
+
 
 
     }
+
+    public static final LimeLight _limelight = new LimeLight();
+    //public static final LimeLight _limelight = new LimeLight("NetworkTable Key");  //If you renamed your limelight ex: limelight-custome
+
+    @Override
+    public void robotPeriodic() {
+        //Getters
+        SmartDashboard.putBoolean("Target Found", _limelight.getIsTargetFound());
+        SmartDashboard.putNumber("Deg Rotation to Target", _limelight.getdegRotationToTarget());
+        //.....and MORE
+
+        //Setters
+        _limelight.setPipeline(1);
+        _limelight.setLEDMode(LedMode.kforceOff);
+        _limelight.setCamMode(CamMode.kdriver);
+        _limelight.setSnapshot(Snapshot.kon);
+        _limelight.setStream(StreamType.kPiPMain);
 }
