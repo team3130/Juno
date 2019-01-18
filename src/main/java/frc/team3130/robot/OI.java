@@ -3,9 +3,7 @@ package frc.team3130.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.team3130.robot.commands.RunIntake;
-import frc.team3130.robot.commands.ToggleIntakeSolenoid1;
-import frc.team3130.robot.commands.ToggleIntakeSolenoid2;
+import frc.team3130.robot.commands.*;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -66,7 +64,10 @@ public class OI {
     public static Joystick stickR;
     public static Joystick gamepad;
 
-    public static JoystickButton runIntake;
+    public static JoystickButton runBallOut;
+    public static JoystickButton runBallIn;
+
+    public static JoystickButton runHatchIn;
 
     public static JoystickButton toggleIntake1;
     public static JoystickButton toggleIntake2;
@@ -77,11 +78,17 @@ public class OI {
         stickR = new Joystick(1);
         gamepad = new Joystick(2);
 
-        runIntake = new JoystickButton(stickR, 1);
+        runHatchIn = new JoystickButton(stickR, 1);
+        runBallIn = new JoystickButton(stickR, 3);
+        runBallOut = new JoystickButton(stickL, 1);
+
         toggleIntake1 = new JoystickButton(stickR, 5);
         toggleIntake2 = new JoystickButton(stickR, 4);
 
-        runIntake.whileHeld(new RunIntake());
+        runHatchIn.whileHeld(new HatchIn());
+
+        runBallIn.whileHeld(new BallIn());
+        runBallOut.whileHeld(new BallOut());
 
         toggleIntake1.whenPressed(new ToggleIntakeSolenoid1());
         toggleIntake2.whenPressed(new ToggleIntakeSolenoid2());

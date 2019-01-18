@@ -28,9 +28,6 @@ public class TestIntake extends Subsystem {
 
         pneumaticSolenoid1 = new Solenoid(RobotMap.CAN_PNMMODULE,0);
         pneumaticSolenoid2 = new Solenoid(RobotMap.CAN_PNMMODULE,1);
-
-        m_intakeMotor2.set(ControlMode.Follower, RobotMap.CAN_TESTINTAKE1);
-
     }
 
     public void initDefaultCommand() {
@@ -39,15 +36,15 @@ public class TestIntake extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 
-    public static void runBeaterBar(double speed){
+    public static void runBallIntake(double speed){
         m_intakeMotor1.set(speed);
     }
+
+    public static void runHatchIntake(double speed){ m_intakeMotor2.set(speed); }
 
     public static void toggleSolenoid1(){
         pneumaticSolenoid1.set(!pneumaticSolenoid1.get());
     }
-
-
 
 	public static void toggleSolenoid2() {
         pneumaticSolenoid2.set(!pneumaticSolenoid2.get());
