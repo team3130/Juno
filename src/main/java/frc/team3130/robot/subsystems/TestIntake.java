@@ -1,5 +1,6 @@
 package frc.team3130.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -27,6 +28,8 @@ public class TestIntake extends Subsystem {
 
         pneumaticSolenoid1 = new Solenoid(RobotMap.CAN_PNMMODULE,0);
         pneumaticSolenoid2 = new Solenoid(RobotMap.CAN_PNMMODULE,1);
+
+        m_intakeMotor2.set(ControlMode.Follower, RobotMap.CAN_TESTINTAKE1);
 
     }
 

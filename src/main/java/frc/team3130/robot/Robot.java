@@ -1,5 +1,6 @@
 package frc.team3130.robot;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.LocatorEx;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -20,6 +21,9 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  //public static final LimeLight _limelight = new LimeLight();
+  //public static final LimeLight _limelight = new LimeLight("NetworkTable Key");  //If you renamed your limelight ex: limelight-custome
 
   /**
    * This function is run when the robot is first started up and should be
@@ -50,8 +54,19 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  }
+  }/*
+  //Getters
+        SmartDashboard.putBoolean("Target Found", _limelight.getIsTargetFound());
+        SmartDashboard.putNumber("Deg Rotation to Target", _limelight.getdegRotationToTarget());
+  //.....and MORE
 
+  //Setters
+        _limelight.setPipeline(1);
+        _limelight.setLEDMode(LedMode.kforceOff);
+        _limelight.setCamMode(CamMode.kdriver);
+        _limelight.setSnapshot(LocatorEx.Snapshot.kon);
+        _limelight.setStream(StreamType.kPiPMain);
+        */
   /**
    * This autonomous (along with the chooser code above) shows how to select
    * between different autonomous modes using the dashboard. The sendable

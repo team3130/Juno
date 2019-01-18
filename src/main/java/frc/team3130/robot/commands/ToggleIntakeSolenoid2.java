@@ -3,8 +3,8 @@ package frc.team3130.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.TestIntake;
 
-public class ToggleIntake extends Command {
-    public ToggleIntake() {
+public class ToggleIntakeSolenoid2 extends Command {
+    public ToggleIntakeSolenoid2() {
         //Put in the instance of whatever command u need here
         //requires();
         requires(TestIntake.GetInstance());
@@ -12,7 +12,6 @@ public class ToggleIntake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        TestIntake.toggleSolenoid1();
         TestIntake.toggleSolenoid2();
     }
 
