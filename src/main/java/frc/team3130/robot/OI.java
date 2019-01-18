@@ -78,8 +78,8 @@ public class OI {
         stickR = new Joystick(1);
         gamepad = new Joystick(2);
 
-        runHatchIn = new JoystickButton(stickR, 1);
-        runBallIn = new JoystickButton(stickR, 3);
+        runHatchIn = new JoystickButton(stickR, 3);
+        runBallIn = new JoystickButton(stickR, 1);
         runBallOut = new JoystickButton(stickL, 1);
 
         toggleIntake1 = new JoystickButton(stickR, 5);
