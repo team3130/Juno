@@ -1,6 +1,5 @@
 package frc.team3130.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,13 +17,13 @@ public class TestIntake extends Subsystem {
     private static Solenoid pneumaticSolenoid1;
     private static Solenoid pneumaticSolenoid2;
 
-    private static WPI_TalonSRX m_intakeMotor1;
-    private static WPI_TalonSRX m_intakeMotor2;
+    private static WPI_TalonSRX m_ballMotor;
+    private static WPI_TalonSRX m_hatchMotor;
 
 
     private TestIntake(){
-        m_intakeMotor1 = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE1);
-        m_intakeMotor2 = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE2);
+        m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE1);
+        m_hatchMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE2);
 
         pneumaticSolenoid1 = new Solenoid(RobotMap.CAN_PNMMODULE,0);
         pneumaticSolenoid2 = new Solenoid(RobotMap.CAN_PNMMODULE,1);
@@ -37,10 +36,10 @@ public class TestIntake extends Subsystem {
     }
 
     public static void runBallIntake(double speed){
-        m_intakeMotor1.set(speed);
+        m_ballMotor.set(speed);
     }
 
-    public static void runHatchIntake(double speed){ m_intakeMotor2.set(speed); }
+    public static void runHatchIntake(double speed){ m_hatchMotor.set(speed); }
 
     public static void toggleSolenoid1(){
         pneumaticSolenoid1.set(!pneumaticSolenoid1.get());
