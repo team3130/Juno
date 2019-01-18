@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.team3130.robot.commands.RunIntake;
 import frc.team3130.robot.commands.ToggleIntakeSolenoid1;
+import frc.team3130.robot.commands.ToggleIntakeSolenoid2;
 
 public class OI {
     private class JoystickTrigger extends Trigger {

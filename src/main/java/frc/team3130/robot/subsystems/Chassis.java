@@ -45,7 +45,6 @@ public class Chassis extends Subsystem{
         m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
         m_drive.setSafetyEnabled(false);
 
-
     }
 
     public void initDefaultCommand() {
@@ -57,5 +56,7 @@ public class Chassis extends Subsystem{
     public static void DriveArcade(double moveThrottle, double turnThrottle, boolean squaredinputs){
         m_drive.arcadeDrive(moveThrottle, turnThrottle, squaredinputs);
     }
+
+
 
 }

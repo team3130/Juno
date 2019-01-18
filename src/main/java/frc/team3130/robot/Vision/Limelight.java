@@ -3,7 +3,9 @@ package frc.team3130.robot.Vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class Limelight {
 
@@ -17,8 +19,9 @@ public class Limelight {
     double y = ty.getDouble(0.0);
     double area = ta.getDouble(0.0);
 
+    /*
     //post to smart dashboard periodically
-    SmartDashboard.putNumber("LimelightX", x);
+    Shuffleboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
 
@@ -26,9 +29,9 @@ public class Limelight {
     double targetOffsetAngle_Vertical = table.getNumber ("ty", 0);
     double targetArea = table.getNumber ("ta", 0);
     double targetSkew = table.getNumber ("ts", 0);
-    
+
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDouble(0);
 
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").setNumber(<value>);
-
+    */
 }
