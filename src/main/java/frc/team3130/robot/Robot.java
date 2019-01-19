@@ -37,7 +37,6 @@ public class Robot extends TimedRobot {
     OI.GetInstance();
   
     Chassis.GetInstance();
-
     TestIntake.GetInstance();
 
     CameraServer.getInstance().addAxisCamera("10.31.30.12");
