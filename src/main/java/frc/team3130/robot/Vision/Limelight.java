@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -19,8 +20,13 @@ public class Limelight {
     double y = ty.getDouble(0.0);
     double area = ta.getDouble(0.0);
 
-    /*
+    private ShuffleboardTab tab = Shuffleboard.getTab("Smartdashboard");
+
+    
+
+
     //post to smart dashboard periodically
+    /*
     Shuffleboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
@@ -34,4 +40,5 @@ public class Limelight {
 
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").setNumber(<value>);
     */
+
 }
