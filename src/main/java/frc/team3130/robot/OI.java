@@ -76,6 +76,9 @@ public class OI {
     public static JoystickButton retractClimber;
     public static JoystickButton driveClimber;
 
+    public static JoystickButton toggleClimber;
+
+
 
     private OI(){
         stickL = new Joystick(0);
@@ -89,9 +92,12 @@ public class OI {
         toggleIntake1 = new JoystickButton(stickR, 5);
         toggleIntake2 = new JoystickButton(stickR, 4);
 
+
         deployClimber = new JoystickButton(stickL, 6);
         driveClimber = new JoystickButton(stickL, 7);
         retractClimber = new JoystickButton(stickL, 8);
+
+        toggleClimber = new JoystickButton(stickL, 4);
 
         runHatchIn.whileHeld(new HatchIn());
 
@@ -101,9 +107,14 @@ public class OI {
         toggleIntake1.whenPressed(new ToggleIntakeSolenoid1());
         toggleIntake2.whenPressed(new ToggleIntakeSolenoid2());
 
+
         deployClimber.whileHeld(new DeployClimber());
         retractClimber.whileHeld(new RetractClimber());
         driveClimber.whileHeld(new climberWheel());
+
+        toggleClimber.whenPressed(new ToggleClimber());
+
+
 
 
     }
