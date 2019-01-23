@@ -72,6 +72,8 @@ public class OI {
     public static JoystickButton toggleIntake1;
     public static JoystickButton toggleIntake2;
 
+    public static JoystickButton toggleClimber;
+
 
     private OI(){
         stickL = new Joystick(0);
@@ -85,6 +87,8 @@ public class OI {
         toggleIntake1 = new JoystickButton(stickR, 5);
         toggleIntake2 = new JoystickButton(stickR, 4);
 
+        toggleClimber = new JoystickButton(stickL, 4);
+
         runHatchIn.whileHeld(new HatchIn());
 
         runBallIn.whileHeld(new BallIn());
@@ -92,6 +96,8 @@ public class OI {
 
         toggleIntake1.whenPressed(new ToggleIntakeSolenoid1());
         toggleIntake2.whenPressed(new ToggleIntakeSolenoid2());
+
+        toggleClimber.whenPressed(new ToggleClimber());
 
 
 
