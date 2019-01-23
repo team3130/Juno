@@ -26,5 +26,8 @@ public class RobotMap {
 
 	public static final int CAN_TESTINTAKE1 = 6;
 	public static final int CAN_TESTINTAKE2 = 7;
-	
+
+	public static final int CAN_CLIMBER1 = 8;
+	public static final int CAN_CLIMBER2 = 9;
+	public static final int CAN_CLIMBER3 = 10;
 }
