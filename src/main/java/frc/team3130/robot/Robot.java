@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.subsystems.Chassis;
-import frc.team3130.robot.subsystems.PistonClimber;
 import frc.team3130.robot.subsystems.TestIntake;
 
 /**
@@ -39,7 +38,6 @@ public class Robot extends TimedRobot {
   
     Chassis.GetInstance();
     TestIntake.GetInstance();
-    PistonClimber.GetInstance();
 
     CameraServer.getInstance().addAxisCamera("10.31.30.12");
   }
