@@ -3,8 +3,8 @@ package frc.team3130.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.MotorizedClimber;
 
-public class climberWheel extends Command {
-    public climberWheel() {
+public class ClimberWheel extends Command {
+    public ClimberWheel() {
         //Put in the instance of whatever command u need here
         //requires();
     }

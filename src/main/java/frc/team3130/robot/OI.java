@@ -110,7 +110,7 @@ public class OI {
 
         deployClimber.whileHeld(new DeployClimber());
         retractClimber.whileHeld(new RetractClimber());
-        driveClimber.whileHeld(new climberWheel());
+        driveClimber.whileHeld(new ClimberWheel());
 
         toggleClimber.whenPressed(new ToggleClimber());
 
