@@ -27,7 +27,7 @@ public class PistonClimber extends Subsystem {
          * Define and configure your defined objects (ie. talons, vars)
          */
         piston1 = new Solenoid(RobotMap.CAN_PNMMODULE,2);
-        piston2 = new Solenoid(RobotMap.CAN_PNMMODULE,3);
+        piston2 = new Solenoid(RobotMap.CAN_PNMMODULE,1);
 
     }
 
