@@ -26,6 +26,10 @@ public class TestIntake extends Subsystem {
         m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE1);
         m_hatchMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE2);
 
+        //talon reset for ball and hatch
+        m_ballMotor.configFactoryDefault();
+        m_hatchMotor.configFactoryDefault();
+
         pneumaticSolenoid1 = new Solenoid(RobotMap.CAN_PNMMODULE,0);
         pneumaticSolenoid2 = new Solenoid(RobotMap.CAN_PNMMODULE,3);
 
