@@ -10,6 +10,9 @@ public class ExampleSubsystem extends Subsystem {
         if (m_pInstance == null) m_pInstance = new ExampleSubsystem();
         return m_pInstance;
     }
+    /**_talon.configFactoryDefault();
+     * resets hardware defaults that could have been configured on talon before
+    */
 
     //Create necessary objects
 
