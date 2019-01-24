@@ -26,6 +26,10 @@ public class MotorizedClimber extends Subsystem {
         m_motorTwo = new WPI_TalonSRX(RobotMap.CAN_CLIMBER2);
         m_motorThree = new WPI_TalonSRX(RobotMap.CAN_CLIMBER3);
 
+        m_motorOne.configFactoryDefault();
+        m_motorTwo.configFactoryDefault();
+        m_motorThree.configFactoryDefault();
+
         m_motorOne.setNeutralMode(NeutralMode.Brake);
         m_motorTwo.setNeutralMode(NeutralMode.Brake);
     }
