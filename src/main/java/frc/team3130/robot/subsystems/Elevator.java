@@ -56,6 +56,10 @@ public class Elevator extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 
+    public synchronized static double getHeight(){
+        return m_elevatorMaster.getSelectedSensorPosition(0) / RobotMap.kElevatorTicksPerInch; //Returns height in inches
+    }
+
     public static void runElevator(double percent){
         boolean isGoingDown = percent < 0;
 
@@ -69,14 +73,19 @@ public class Elevator extends Subsystem {
             if(getHeight() < RobotMap.kElevatorSlowZone){
                 percent *= Math.abs(getHeight()/RobotMap.kElevatorSlowZone);
             }
-
         }
-
         m_elevatorMaster.set(ControlMode.PercentOutput, percent);
     }
 
-    public synchronized static double getHeight(){
-        return m_elevatorMaster.getSelectedSensorPosition(0) / RobotMap.kElevatorTicksPerInch; //Returns height in inches
+    /**
+     *  Move the elevator to an absolute height
+     * @param height The height setpoint to go to in inches
+     */
+    public synchronized static void setHeight(double height){
+        m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
+
     }
+
+
 
 }
