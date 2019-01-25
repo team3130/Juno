@@ -17,6 +17,23 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class RobotMap {
 
+	//Constants
+
+	//Elevator
+	//TODO: Actually find these values
+	public static double kElevatorBias = 0.0;
+	public static double kElevatorSlowZone = 0.0;
+
+	public static double kElevatorP = 0.0;
+	public static double kElevatorI = 0.0;
+	public static double kElevatorD = 0.0;
+	public static double kElevatorF = 0.0;
+
+	public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI); //1024 ticks per revolution of shaft
+
+
+
+	//CAN IDs
 	public static final int CAN_PNMMODULE = 1;
 
     public static final int CAN_LEFTMOTORFRONT = 2;
@@ -30,4 +47,9 @@ public class RobotMap {
 	public static final int CAN_CLIMBER1 = 8;
 	public static final int CAN_CLIMBER2 = 9;
 	public static final int CAN_CLIMBER3 = 10;
+
+	public static final int CAN_ELEVATOR1 = 11;
+	public static final int CAN_ELEVATOR2 = 12;
+
+
 }
