@@ -3,13 +3,16 @@ package frc.team3130.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.DefaultDrive;
+import edu.wpi.first.wpilibj.SPI;
 
 public class Chassis extends Subsystem{
 
@@ -28,11 +31,15 @@ public class Chassis extends Subsystem{
     private static WPI_TalonSRX m_rightMotorFront;
     private static WPI_TalonSRX m_rightMotorRear;
     private static Solenoid m_shifter;
+    private static AHRS m_navX;
 
+    //Create and define all standard data types needed
     private static boolean m_bShiftedHigh;
+    private static boolean m_bNavXPresent;
 
     private static double prevSpeedLimit;
 
+    public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
     public static double moveSpeed;
 
     private Chassis() {
@@ -60,6 +67,19 @@ public class Chassis extends Subsystem{
         m_bShiftedHigh = true;
 
         moveSpeed = 0;
+
+        try{
+            //Connect to navX Gyro on MXP port.
+            m_navX = new AHRS(SPI.Port.kMXP);
+            m_bNavXPresent = true;
+            //navX.setName("Chassis", "NavX");
+        } catch(Exception ex){
+            //If connection fails log the error and fall back to encoder based angles.
+            String str_error = "Error instantiating navX from MXP: ";
+            str_error += ex.getLocalizedMessage();
+            DriverStation.reportError(str_error, true);
+            m_bNavXPresent = false;
+        }
 
     }
 
@@ -117,6 +137,70 @@ public class Chassis extends Subsystem{
             m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
             m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
         }
+    }
+
+    public static double GetAngle()
+    {
+        //System.out.println("navx "+m_bNavXPresent);
+        if(m_bNavXPresent)
+        {
+            //Angle use wants a faster, more accurate, but drifting angle, for quick use.
+            //System.out.println(m_navX.getAngle());
+            return m_navX.getAngle();
+        }else {
+            //Means that angle use wants a driftless angle measure that lasts.
+            return ( GetDistanceR() - GetDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
+            /*
+             *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
+             *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
+             */
+        }
+    }
+
+    /**
+     * Returns the current rate of change of the robots heading
+     *
+     * <p> GetRate() returns the rate of change of the angle the robot is facing,
+     * with a return of negative one if the gyro isn't present on the robot,
+     * as calculating the rate of change of the angle using encoders is not currently being done.
+     * @return the rate of change of the heading of the robot.
+     */
+    public static double GetRate()
+    {
+        if(m_bNavXPresent) return m_navX.getRate();
+        return -1;
+    }
+
+    public static double GetDistanceL()
+    {
+        return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
+    }
+
+    /**
+     *
+     * @return Current distance of the front left motor in inches
+     *
+     *
+     */
+    public static double GetRawL(){
+        return m_leftMotorFront.getSelectedSensorPosition(0);
+    }public static double GetRawR(){
+        return m_rightMotorFront.getSelectedSensorPosition(0);
+    }
+
+    /**
+     *
+     * @return Current distance of the front right motor in inches
+     */
+    public static double GetDistanceR()
+    {
+        return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
+    }
+
+    public static double GetDistance()
+    {
+        //Returns the average of the left and right distances
+        return (GetDistanceL() + GetDistanceR()) / 2.0;
     }
 
 

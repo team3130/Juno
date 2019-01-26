@@ -20,6 +20,13 @@ public class RobotMap {
 
     //Constants
 
+	//Chassis
+	//TODO: Get the actual values, using janky values bots right now
+	public static double kChassisWidth = 23.25; //Distance between the left and right middle wheels
+	public static double kLWheelDiameter = 3.0; //Center wheel
+	public static double kRWheelDiameter = 3.0;	//Center wheel
+	public static double kDriveCodesPerRev = 2048.0;
+
 	//Elevator
 	//TODO: Actually find these values
 	public static double kElevatorBias = 0.0;
