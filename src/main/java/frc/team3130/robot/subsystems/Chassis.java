@@ -14,6 +14,7 @@ import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.DefaultDrive;
 import edu.wpi.first.wpilibj.SPI;
 
+
 public class Chassis extends Subsystem{
 
     //Instance Handling
@@ -32,6 +33,7 @@ public class Chassis extends Subsystem{
     private static WPI_TalonSRX m_rightMotorRear;
     private static Solenoid m_shifter;
     private static AHRS m_navX;
+    private static boolean arcadeDrive;
 
     //Create and define all standard data types needed
     private static boolean m_bShiftedHigh;
@@ -98,6 +100,14 @@ public class Chassis extends Subsystem{
         m_drive.arcadeDrive(moveThrottle, turnThrottle, squaredinputs);
     }
 
+    public static WPI_TalonSRX getFrontL(){
+        return m_leftMotorFront;
+    }
+
+    public static WPI_TalonSRX getFrontR(){
+        return m_rightMotorFront;
+    }
+
     //shifts the robot either into high or low gear
     public static void ShiftDown(boolean shiftDown)
     {
@@ -139,7 +149,48 @@ public class Chassis extends Subsystem{
         }
     }
 
+    public static boolean getArcade(){
+        return arcadeDrive;
+    }
+
+    public static void setArcade(boolean a){
+        arcadeDrive = a;
+    }
+
+    /**
+     * Returns the current speed of the front left motor
+     * @return Current speed of the front left motor (RPS)
+     */
+    public static double GetSpeedL()
+    {
+        // The speed units will be in the sensor's native ticks per 100ms.
+        return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
+    }
+
+    /**
+     * Returns the current speed of the front right motor
+     * @return Current speed of the front right motor (RPS)
+     */
+    public static double GetSpeedR()
+    {
+        // The speed units will be in the sensor's native ticks per 100ms.
+        return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
+    }
+
+    /**
+     * Returns the current speed of the robot by averaging the front left and right motors
+     * @return Current speed of the robot
+     */
+    public static double GetSpeed()
+    {
+        //The right encoder is nonfunctional, just use the left speed.
+        //return (GetSpeedL() + GetSpeedR())/2.0;
+        return 0.5 * (GetSpeedL() + GetSpeedR());
+    }
+
+
     public static double GetAngle()
+
     {
         //System.out.println("navx "+m_bNavXPresent);
         if(m_bNavXPresent)
@@ -170,6 +221,7 @@ public class Chassis extends Subsystem{
         if(m_bNavXPresent) return m_navX.getRate();
         return -1;
     }
+    
 
     public static double GetDistanceL()
     {
