@@ -3,7 +3,6 @@ package frc.team3130.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 
 public class Elevator extends Subsystem {

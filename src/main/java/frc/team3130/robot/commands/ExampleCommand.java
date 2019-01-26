@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ExampleCommand extends Command {
     public ExampleCommand() {
-        //Put in the instance of whatever command u need here
+        //Put in the instance of whatever subsystem u need here
         //requires();
     }
 
