@@ -17,7 +17,8 @@ import edu.wpi.first.wpilibj.Preferences;
  */
 public class RobotMap {
 
-	//Constants
+
+    //Constants
 
 	//Elevator
 	//TODO: Actually find these values
@@ -50,6 +51,10 @@ public class RobotMap {
 
 	public static final int CAN_ELEVATOR1 = 11;
 	public static final int CAN_ELEVATOR2 = 12;
+
+
+	//Pneumatics ports
+	public static final int PNM_SHIFT = 4;
 
 
 }

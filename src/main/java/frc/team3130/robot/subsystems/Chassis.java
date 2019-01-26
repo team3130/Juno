@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
@@ -26,8 +27,13 @@ public class Chassis extends Subsystem{
     private static WPI_TalonSRX m_leftMotorRear;
     private static WPI_TalonSRX m_rightMotorFront;
     private static WPI_TalonSRX m_rightMotorRear;
+    private static Solenoid m_shifter;
 
+    private static boolean m_bShiftedHigh;
 
+    private static double prevSpeedLimit;
+
+    public static double moveSpeed;
 
     private Chassis() {
         
@@ -50,6 +56,11 @@ public class Chassis extends Subsystem{
         m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
         m_drive.setSafetyEnabled(false);
 
+        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
+        m_bShiftedHigh = true;
+
+        moveSpeed = 0;
+
     }
 
     public void initDefaultCommand() {
@@ -58,9 +69,56 @@ public class Chassis extends Subsystem{
         //setDefaultCommand(new MySpecialCommand());
     }
 
+    public static void DriveTank(double moveL, double moveR)
+    {
+        m_drive.tankDrive(moveL, moveR, false);
+    }
+
     public static void DriveArcade(double moveThrottle, double turnThrottle, boolean squaredinputs){
         m_drive.arcadeDrive(moveThrottle, turnThrottle, squaredinputs);
     }
+
+    //shifts the robot either into high or low gear
+    public static void ShiftDown(boolean shiftDown)
+    {
+        m_shifter.set(shiftDown);
+        m_bShiftedHigh = !shiftDown;
+    }
+
+    /**
+     * Returns the current shift of the robot
+     * @return Current shift of the robot
+     */
+    public static boolean GetShiftedUp(){return m_bShiftedHigh;}
+
+    protected void usePIDOutput(double bias) {
+        //Chassis ramp rate is the limit on the voltage change per cycle to prevent skidding.
+        final double speedLimit = prevSpeedLimit + Preferences.getInstance().getDouble("ChassisRampRate", 0.25);
+        if (bias >  speedLimit) bias = speedLimit;
+        if (bias < -speedLimit) bias = -speedLimit;
+        double speed_L = moveSpeed+bias;
+        double speed_R = moveSpeed-bias;
+        DriveTank(speed_L, speed_R);
+        prevSpeedLimit = Math.abs(speedLimit);
+    }
+
+
+
+    public static void TalonsToCoast(boolean coast)
+    {
+        if (coast){
+            m_leftMotorFront.setNeutralMode(NeutralMode.Coast);
+            m_leftMotorRear.setNeutralMode(NeutralMode.Coast);
+            m_rightMotorFront.setNeutralMode(NeutralMode.Coast);
+            m_rightMotorRear.setNeutralMode(NeutralMode.Coast);
+        } else {
+            m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
+            m_leftMotorRear.setNeutralMode(NeutralMode.Brake);
+            m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
+            m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
+        }
+    }
+
 
 
 
