@@ -30,8 +30,8 @@ public class TestIntake extends Subsystem {
         m_ballMotor.configFactoryDefault();
         m_hatchMotor.configFactoryDefault();
 
-        pneumaticSolenoid1 = new Solenoid(RobotMap.CAN_PNMMODULE,0);
-        pneumaticSolenoid2 = new Solenoid(RobotMap.CAN_PNMMODULE,3);
+        pneumaticSolenoid1 = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON1);
+        pneumaticSolenoid2 = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON2);
 
         m_ballMotor.setNeutralMode(NeutralMode.Brake);
         m_hatchMotor.setNeutralMode(NeutralMode.Brake);

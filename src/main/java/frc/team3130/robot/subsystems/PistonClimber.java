@@ -2,6 +2,7 @@ package frc.team3130.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 
 public class PistonClimber extends Subsystem {
@@ -26,8 +27,8 @@ public class PistonClimber extends Subsystem {
          * Constructor:
          * Define and configure your defined objects (ie. talons, vars)
          */
-        piston1 = new Solenoid(RobotMap.CAN_PNMMODULE,2);
-        piston2 = new Solenoid(RobotMap.CAN_PNMMODULE,1);
+        piston1 = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON1);
+        piston2 = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_CLIMBPISTON2);
 
     }
 
@@ -39,7 +40,7 @@ public class PistonClimber extends Subsystem {
 
     public static void toggleClimbPistons() {
         piston1.set(!piston1.get());
-        piston2.set((!piston2.get()));
+        piston2.set(!piston2.get());
     }
 
 }
