@@ -64,6 +64,8 @@ public class OI {
     public static Joystick stickR;
     public static Joystick gamepad;
 
+    public static JoystickButton shift;
+
     public static JoystickButton runBallOut;
     public static JoystickButton runBallIn;
 
@@ -85,11 +87,13 @@ public class OI {
         stickR = new Joystick(1);
         gamepad = new Joystick(2);
 
+        shift = new JoystickButton(stickR, 5);
+
         runHatchIn = new JoystickButton(stickR, 3);
         runBallIn = new JoystickButton(stickR, 1);
         runBallOut = new JoystickButton(stickL, 1);
 
-        toggleIntake1 = new JoystickButton(stickR, 5);
+        toggleIntake1 = new JoystickButton(stickR, 6);
         toggleIntake2 = new JoystickButton(stickR, 4);
 
 
@@ -98,6 +102,8 @@ public class OI {
         retractClimber = new JoystickButton(stickL, 8);
 
         toggleClimber = new JoystickButton(stickL, 4);
+
+        shift.whenPressed(new ShiftToggle());
 
         runHatchIn.whileHeld(new HatchIn());
 
@@ -113,9 +119,7 @@ public class OI {
         driveClimber.whileHeld(new ClimberWheel());
 
         toggleClimber.whenPressed(new ToggleClimber());
-
-
-
+        
 
     }
 
