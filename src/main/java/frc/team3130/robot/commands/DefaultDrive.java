@@ -27,7 +27,7 @@ public class DefaultDrive extends Command {
   @Override
   protected void execute() {
 
-    double moveSpeed = -OI.stickL.getY(); //joystick's y axis is inverted
+    double moveSpeed = OI.stickL.getY(); //joystick's y axis is inverted
     double turnSpeed = OI.stickR.getX(); //arcade drive has left as positive, but we want right to be positive
 
     

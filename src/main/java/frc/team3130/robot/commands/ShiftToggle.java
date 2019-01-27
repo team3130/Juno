@@ -32,7 +32,9 @@ public class ShiftToggle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//Execute the shift only once, and only at a certain time after the motors have been stopped
+        System.out.println("UH");
     	if(!hasShifted && timer.get() > 0.1){
+    	    System.out.println("shifting");
             currentShift = Chassis.isLowGear();
 
     		Chassis.shift(!currentShift); //toggle the gear to what it isn't currently

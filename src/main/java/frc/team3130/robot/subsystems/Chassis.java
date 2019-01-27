@@ -101,9 +101,9 @@ public class Chassis extends Subsystem{
      */
     public static void shift(boolean shiftVal)
     {
-        if(shiftVal != m_shifter.get()){
-            m_shifter.set(shiftVal);
-        }
+
+        m_shifter.set(shiftVal);
+
     }
 
     /**

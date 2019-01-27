@@ -103,7 +103,7 @@ public class OI {
 
         toggleClimber = new JoystickButton(stickL, 4);
 
-        shift.whenPressed(new ShiftToggle());
+        shift.whileHeld(new ShiftToggle());
 
         runHatchIn.whileHeld(new HatchIn());
 
