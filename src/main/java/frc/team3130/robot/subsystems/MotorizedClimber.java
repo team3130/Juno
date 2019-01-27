@@ -14,7 +14,7 @@ public class MotorizedClimber extends Subsystem {
         return m_pInstance;
     }
 
-
+    //Create necessary objects
     private static WPI_TalonSRX m_motorOne;
     private static WPI_TalonSRX m_motorTwo;
     private static WPI_TalonSRX m_motorThree;

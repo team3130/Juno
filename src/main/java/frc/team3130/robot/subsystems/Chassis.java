@@ -7,7 +7,6 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
@@ -25,21 +24,23 @@ public class Chassis extends Subsystem{
         return m_pInstance;
     }
 
+    //Create necessary objects
     private static DifferentialDrive m_drive;
 
     private static WPI_TalonSRX m_leftMotorFront;
     private static WPI_TalonSRX m_leftMotorRear;
     private static WPI_TalonSRX m_rightMotorFront;
     private static WPI_TalonSRX m_rightMotorRear;
+
     private static Solenoid m_shifter;
+
     private static AHRS m_navX;
 
     //Create and define all standard data types needed
-
     private static boolean m_bNavXPresent;
 
-
     public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
+
 
     private Chassis() {
         
@@ -56,13 +57,12 @@ public class Chassis extends Subsystem{
         
         m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
         m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
+
         m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
         m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
         
         m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
         m_drive.setSafetyEnabled(false);
-
-
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
         //robot init should start robot in high gear (disabled also should be high gear)
@@ -96,14 +96,12 @@ public class Chassis extends Subsystem{
     }
 
     /**
-     * Shifts the drivetrain gear box into absolute gear
+     * Shifts the drivetrain gear box into an absolute gear
      * @param shiftVal false is high gear, true is low gear
      */
     public static void shift(boolean shiftVal)
     {
-
         m_shifter.set(shiftVal);
-
     }
 
     /**
@@ -118,7 +116,7 @@ public class Chassis extends Subsystem{
      * Gets absolute distance traveled by the left side of the robot
      * @return The absolute distance of the left side in inches
      */
-    public static double GetDistanceL()
+    public static double getDistanceL()
     {
         return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
     }
@@ -128,7 +126,7 @@ public class Chassis extends Subsystem{
      * Gets absolute distance traveled by the right side of the robot
      * @return The absolute distance of the right side in inches
      */
-    public static double GetDistanceR()
+    public static double getDistanceR()
     {
         return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
     }
@@ -137,9 +135,9 @@ public class Chassis extends Subsystem{
      * Gets the absolute distance traveled by the robot
      * @return The absolute distance traveled of robot in inches
      */
-    public static double GetDistance()
+    public static double getDistance()
     {
-        return (GetDistanceL() + GetDistanceR()) / 2.0; //the average of the left and right distances
+        return (getDistanceL() + getDistanceR()) / 2.0; //the average of the left and right distances
     }
 
 
@@ -170,7 +168,7 @@ public class Chassis extends Subsystem{
             return m_navX.getAngle();
         }else {
             //Means that angle use wants a driftless angle measure that lasts.
-            return ( GetDistanceR() - GetDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
+            return ( getDistanceR() - getDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
             /* Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
              * Made from geometry and relation between angle fraction and arc fraction with semicircles.
              */
@@ -180,12 +178,12 @@ public class Chassis extends Subsystem{
     /**
      * Returns the current rate of change of the robots heading
      *
-     * <p> GetRate() returns the rate of change of the angle the robot is facing,
+     * <p> getRate() returns the rate of change of the angle the robot is facing,
      * with a return of negative one if the gyro isn't present on the robot,
      * as calculating the rate of change of the angle using encoders is not currently being done.
      * @return the rate of change of the heading of the robot.
      */
-    public static double GetRate()
+    public static double getRate()
     {
         if(m_bNavXPresent) return m_navX.getRate();
         return -1;
@@ -193,21 +191,21 @@ public class Chassis extends Subsystem{
 
     /**
      * Returns the current speed of the front left motor
-     * @return Current speed of the front left motor (RPS)
+     * @return Current speed of the front left motor (inches per second)
      */
-    public static double GetSpeedL()
+    public static double getSpeedL()
     {
-        // The speed units will be in the sensor's native ticks per 100ms.
+        // The raw speed units will be in the sensor's native ticks per 100ms.
         return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
     }
 
     /**
      * Returns the current speed of the front right motor
-     * @return Current speed of the front right motor (RPS)
+     * @return Current speed of the front right motor (inches per second)
      */
-    public static double GetSpeedR()
+    public static double getSpeedR()
     {
-        // The speed units will be in the sensor's native ticks per 100ms.
+        // The raw speed units will be in the sensor's native ticks per 100ms.
         return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
     }
 
@@ -215,9 +213,9 @@ public class Chassis extends Subsystem{
      * Returns the current speed of the robot by averaging the front left and right motors
      * @return Current speed of the robot
      */
-    public static double GetSpeed()
+    public static double getSpeed()
     {
-        return 0.5 * (GetSpeedL() + GetSpeedR());
+        return 0.5 * (getSpeedL() + getSpeedR());
     }
 
     /**

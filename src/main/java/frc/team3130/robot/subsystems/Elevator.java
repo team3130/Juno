@@ -59,6 +59,10 @@ public class Elevator extends Subsystem {
         return m_elevatorMaster.getSelectedSensorPosition(0) / RobotMap.kElevatorTicksPerInch; //Returns height in inches
     }
 
+    /**
+     * Run elevator manually using percent values. Performs gravity compensation and elevator down protection
+     * @param percent
+     */
     public static void runElevator(double percent){
         boolean isGoingDown = percent < 0;
 
