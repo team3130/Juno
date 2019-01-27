@@ -33,16 +33,13 @@ public class Chassis extends Subsystem{
     private static WPI_TalonSRX m_rightMotorRear;
     private static Solenoid m_shifter;
     private static AHRS m_navX;
-    private static boolean arcadeDrive;
 
     //Create and define all standard data types needed
-    private static boolean m_bShiftedHigh;
+
     private static boolean m_bNavXPresent;
 
-    private static double prevSpeedLimit;
 
     public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
-    public static double moveSpeed;
 
     private Chassis() {
         
@@ -65,20 +62,19 @@ public class Chassis extends Subsystem{
         m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
         m_drive.setSafetyEnabled(false);
 
-        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
-        m_bShiftedHigh = true;
 
-        moveSpeed = 0;
+
+        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
+        //robot init should start robot in high gear (disabled also should be high gear)
+
 
         try{
             //Connect to navX Gyro on MXP port.
             m_navX = new AHRS(SPI.Port.kMXP);
             m_bNavXPresent = true;
-            //navX.setName("Chassis", "NavX");
         } catch(Exception ex){
             //If connection fails log the error and fall back to encoder based angles.
-            String str_error = "Error instantiating navX from MXP: ";
-            str_error += ex.getLocalizedMessage();
+            String str_error = "Error instantiating navX from MXP: " + ex.getLocalizedMessage();
             DriverStation.reportError(str_error, true);
             m_bNavXPresent = false;
         }
@@ -88,7 +84,6 @@ public class Chassis extends Subsystem{
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
     	setDefaultCommand(new DefaultDrive());
-        //setDefaultCommand(new MySpecialCommand());
     }
 
     public static void DriveTank(double moveL, double moveR)
@@ -100,36 +95,51 @@ public class Chassis extends Subsystem{
         m_drive.arcadeDrive(moveThrottle, turnThrottle, squaredinputs);
     }
 
-    public static WPI_TalonSRX getFrontL(){
-        return m_leftMotorFront;
-    }
-
-    public static WPI_TalonSRX getFrontR(){
-        return m_rightMotorFront;
-    }
-
-    //shifts the robot either into high or low gear
-    public static void ShiftDown(boolean shiftDown)
+    /**
+     * Shifts the drivetrain gear box into absolute gear
+     * @param shiftVal false is high gear, true is low gear
+     */
+    public static void shift(boolean shiftVal)
     {
-        m_shifter.set(shiftDown);
-        m_bShiftedHigh = !shiftDown;
+        if(shiftVal != m_shifter.get()){
+            m_shifter.set(shiftVal);
+        }
     }
 
     /**
-     * Returns the current shift of the robot
-     * @return Current shift of the robot
+     * Returns if robot is in low gear
+     * @return true means robot is in low gear, false if it's in high gear
      */
-    public static boolean GetShiftedUp(){return m_bShiftedHigh;}
+    public static boolean isLowGear(){
+        return m_shifter.get();
+    }
 
-    protected void usePIDOutput(double bias) {
-        //Chassis ramp rate is the limit on the voltage change per cycle to prevent skidding.
-        final double speedLimit = prevSpeedLimit + Preferences.getInstance().getDouble("ChassisRampRate", 0.25);
-        if (bias >  speedLimit) bias = speedLimit;
-        if (bias < -speedLimit) bias = -speedLimit;
-        double speed_L = moveSpeed+bias;
-        double speed_R = moveSpeed-bias;
-        DriveTank(speed_L, speed_R);
-        prevSpeedLimit = Math.abs(speedLimit);
+    /**
+     * Gets absolute distance traveled by the left side of the robot
+     * @return The absolute distance of the left side in inches
+     */
+    public static double GetDistanceL()
+    {
+        return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
+    }
+
+
+    /**
+     * Gets absolute distance traveled by the right side of the robot
+     * @return The absolute distance of the right side in inches
+     */
+    public static double GetDistanceR()
+    {
+        return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
+    }
+
+    /**
+     * Gets the absolute distance traveled by the robot
+     * @return The absolute distance traveled of robot in inches
+     */
+    public static double GetDistance()
+    {
+        return (GetDistanceL() + GetDistanceR()) / 2.0; //the average of the left and right distances
     }
 
 
@@ -149,12 +159,36 @@ public class Chassis extends Subsystem{
         }
     }
 
-    public static boolean getArcade(){
-        return arcadeDrive;
+
+    public static double getAngle()
+    {
+
+        if(m_bNavXPresent)
+        {
+            //Angle use wants a faster, more accurate, but drifting angle, for quick use.
+            //System.out.println(m_navX.getAngle());
+            return m_navX.getAngle();
+        }else {
+            //Means that angle use wants a driftless angle measure that lasts.
+            return ( GetDistanceR() - GetDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
+            /* Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
+             * Made from geometry and relation between angle fraction and arc fraction with semicircles.
+             */
+        }
     }
 
-    public static void setArcade(boolean a){
-        arcadeDrive = a;
+    /**
+     * Returns the current rate of change of the robots heading
+     *
+     * <p> GetRate() returns the rate of change of the angle the robot is facing,
+     * with a return of negative one if the gyro isn't present on the robot,
+     * as calculating the rate of change of the angle using encoders is not currently being done.
+     * @return the rate of change of the heading of the robot.
+     */
+    public static double GetRate()
+    {
+        if(m_bNavXPresent) return m_navX.getRate();
+        return -1;
     }
 
     /**
@@ -183,78 +217,38 @@ public class Chassis extends Subsystem{
      */
     public static double GetSpeed()
     {
-        //The right encoder is nonfunctional, just use the left speed.
-        //return (GetSpeedL() + GetSpeedR())/2.0;
         return 0.5 * (GetSpeedL() + GetSpeedR());
     }
 
-
-    public static double GetAngle()
-
-    {
-        //System.out.println("navx "+m_bNavXPresent);
-        if(m_bNavXPresent)
-        {
-            //Angle use wants a faster, more accurate, but drifting angle, for quick use.
-            //System.out.println(m_navX.getAngle());
-            return m_navX.getAngle();
-        }else {
-            //Means that angle use wants a driftless angle measure that lasts.
-            return ( GetDistanceR() - GetDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
-            /*
-             *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
-             *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
-             */
-        }
-    }
-
-    /**
-     * Returns the current rate of change of the robots heading
-     *
-     * <p> GetRate() returns the rate of change of the angle the robot is facing,
-     * with a return of negative one if the gyro isn't present on the robot,
-     * as calculating the rate of change of the angle using encoders is not currently being done.
-     * @return the rate of change of the heading of the robot.
-     */
-    public static double GetRate()
-    {
-        if(m_bNavXPresent) return m_navX.getRate();
-        return -1;
-    }
-    
-
-    public static double GetDistanceL()
-    {
-        return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
-    }
-
     /**
      *
-     * @return Current distance of the front left motor in inches
-     *
-     *
+     * @return Raw absolute encoder ticks of the left side of the robot
      */
     public static double GetRawL(){
         return m_leftMotorFront.getSelectedSensorPosition(0);
-    }public static double GetRawR(){
+    }
+
+    /**
+     *
+     * @return Raw absolute encoder ticks of the right side of the robot
+     */
+    public static double GetRawR(){
         return m_rightMotorFront.getSelectedSensorPosition(0);
     }
 
     /**
      *
-     * @return Current distance of the front right motor in inches
+     * @return Returns the left main drive Talon
      */
-    public static double GetDistanceR()
-    {
-        return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
+    public static WPI_TalonSRX getFrontL(){
+        return m_leftMotorFront;
     }
 
-    public static double GetDistance()
-    {
-        //Returns the average of the left and right distances
-        return (GetDistanceL() + GetDistanceR()) / 2.0;
-    }
-
+    /**
+     *
+     * @return Returns the right main drive Talon
+     */
+    public static WPI_TalonSRX getFrontR(){ return m_rightMotorFront; }
 
 
 
