@@ -32,8 +32,8 @@ public class ShiftToggle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//Execute the shift only once, and only at a certain time after the motors have been stopped
-        System.out.println("UH");
-    	if(!hasShifted && timer.get() > 0.1){
+
+    	if(!hasShifted && timer.get() > 0.07){
     	    System.out.println("shifting");
             currentShift = Chassis.isLowGear();
 
@@ -49,7 +49,7 @@ public class ShiftToggle extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         //End the command after the robot has shifted or after timeout period
-        return (hasShifted || timer.get() > 0.2);
+        return (hasShifted && timer.get() > 0.1);
     }
 
     // Called once after isFinished returns true
