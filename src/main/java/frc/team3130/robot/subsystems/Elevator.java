@@ -86,7 +86,7 @@ public class Elevator extends Subsystem {
      */
     public synchronized static void setHeight(double height){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-
+        //TODO: create elevator setpoint control code
     }
 
 
