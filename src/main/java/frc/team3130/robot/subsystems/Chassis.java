@@ -34,11 +34,7 @@ public class Chassis extends Subsystem{
 
     private static Solenoid m_shifter;
 
-    private static AHRS m_navX;
-
     //Create and define all standard data types needed
-    private static boolean m_bNavXPresent;
-
     public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
 
 
