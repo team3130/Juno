@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3130.robot.RobotMap;
 
-public class TestIntake extends Subsystem {
+public class Intake extends Subsystem {
     //Instance Handling
-    private static TestIntake m_pInstance;
+    private static Intake m_pInstance;
 
-    public static TestIntake GetInstance() {
-        if (m_pInstance == null) m_pInstance = new TestIntake();
+    public static Intake GetInstance() {
+        if (m_pInstance == null) m_pInstance = new Intake();
         return m_pInstance;
     }
 
@@ -22,7 +22,7 @@ public class TestIntake extends Subsystem {
     private static WPI_TalonSRX m_hatchMotor;
 
 
-    private TestIntake(){
+    private Intake(){
         m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE1);
         m_hatchMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE2);
 

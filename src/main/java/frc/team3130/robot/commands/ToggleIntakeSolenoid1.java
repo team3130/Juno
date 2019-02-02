@@ -1,23 +1,23 @@
 package frc.team3130.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.TestIntake;
+import frc.team3130.robot.subsystems.Intake;
 
 public class ToggleIntakeSolenoid1 extends Command {
     public ToggleIntakeSolenoid1() {
         //Put in the instance of whatever command u need here
         //requires();
-        requires(TestIntake.GetInstance());
+        requires(Intake.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        TestIntake.toggleSolenoid1();
+        Intake.toggleSolenoid1();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        TestIntake.toggleSolenoid1();
+        Intake.toggleSolenoid1();
     }
 
     // Make this return true when this Command no longer needs to run execute()

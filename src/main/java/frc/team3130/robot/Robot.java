@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.subsystems.MotorizedClimber;
 import frc.team3130.robot.subsystems.PistonClimber;
-import frc.team3130.robot.subsystems.TestIntake;
+import frc.team3130.robot.subsystems.Intake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
     OI.GetInstance();
   
     Chassis.GetInstance();
-    TestIntake.GetInstance();
+    Intake.GetInstance();
     PistonClimber.GetInstance();
     MotorizedClimber.GetInstance();
 
