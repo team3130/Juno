@@ -10,6 +10,7 @@ import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.subsystems.MotorizedClimber;
 import frc.team3130.robot.subsystems.PistonClimber;
 import frc.team3130.robot.subsystems.Intake;
+import frc.team3130.robot.vision.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,13 +38,17 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
+    //Instantiate driver station input interface
     OI.GetInstance();
-  
+
+    //Instantiate subsystems
     Chassis.GetInstance();
     Intake.GetInstance();
     PistonClimber.GetInstance();
     MotorizedClimber.GetInstance();
 
+    //Instantiate sensors
+    Limelight.GetInstance();
     CameraServer.getInstance().addAxisCamera("10.31.30.12");
   }
 
@@ -57,19 +62,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  }/*
-  //Getters
-        SmartDashboard.putBoolean("Target Found", _limelight.getIsTargetFound());
-        SmartDashboard.putNumber("Deg Rotation to Target", _limelight.getdegRotationToTarget());
-  //.....and MORE
+    Limelight.updateData();
+    
+    outputToSmartDashboard();
+  }
 
-  //Setters
-        _limelight.setPipeline(1);
-        _limelight.setLEDMode(LedMode.kforceOff);
-        _limelight.setCamMode(CamMode.kdriver);
-        _limelight.setSnapshot(LocatorEx.Snapshot.kon);
-        _limelight.setStream(StreamType.kPiPMain);
-        */
+
   /**
    * This autonomous (along with the chooser code above) shows how to select
    * between different autonomous modes using the dashboard. The sendable
@@ -104,16 +102,19 @@ public class Robot extends TimedRobot {
     }
   }
 
+
+  /**
+   * This function is run once when teleop is first started.
+   */
   @Override
   public void teleopInit() {
     
   }
 
+
   /**
    * This function is called periodically during operator control.
    */
-
-  
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
@@ -125,5 +126,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+
+  public void outputToSmartDashboard(){
+    Limelight.outputToSmartDashboard();
   }
 }
