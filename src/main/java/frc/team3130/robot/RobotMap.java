@@ -7,8 +7,6 @@
 
 package frc.team3130.robot;
 
-import edu.wpi.first.wpilibj.Preferences;
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -18,7 +16,9 @@ import edu.wpi.first.wpilibj.Preferences;
 public class RobotMap {
 
 
-    //Constants
+	/**
+	 * Constants
+	 */
 
 	//Chassis
 	//TODO: Get the actual values, using janky values bots right now
@@ -39,9 +39,19 @@ public class RobotMap {
 
 	public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI); //1024 ticks per revolution of shaft
 
+	//Limelight
+	//TODO: Figure this out with CAD
+	public static double kLimelightTiltAngle = 82.0;
+	public static double kLimelightHeight = 0.0; //Height of Limelight's camera aperture from the ground
 
-
-	//CAN IDs
+	/**
+	 * Field parameters
+	 */
+	public static final double HATCHHEIGHT = 28.5;
+	public static final double PORTHEIGHT = 36.125;
+	/**
+	 * CAN IDs
+	 */
 	public static final int CAN_PNMMODULE = 1;
 
     public static final int CAN_LEFTMOTORFRONT = 2;
@@ -60,7 +70,9 @@ public class RobotMap {
 	public static final int CAN_ELEVATOR2 = 12;
 
 
-	//Pneumatics ports
+	/**
+	 * Pneumatics ports
+	 */
 	public static final int PNM_SHIFT = 0;
 	public static final int PNM_CLIMBPISTON1 = 1;
 	public static final int PNM_CLIMBPISTON2 = 2;
