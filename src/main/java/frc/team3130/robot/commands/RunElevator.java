@@ -1,4 +1,4 @@
-package org.usfirst.frc.team3130.robot.commands;
+package frc.team3130.robot.commands;
 
 import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;
