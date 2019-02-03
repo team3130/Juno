@@ -15,40 +15,37 @@ package frc.team3130.robot;
  */
 public class RobotMap {
 
+	//Constants
+		//Chassis
+		//TODO: Get the actual values, using janky values bots right now
+		public static double kChassisWidth = 23.25; //Distance between the left and right middle wheels
+		public static double kLWheelDiameter = 3.0; //Center wheel
+		public static double kRWheelDiameter = 3.0;	//Center wheel
+		public static double kDriveCodesPerRev = 2048.0;
 
-	/**
-	 * Constants
-	 */
+		//Elevator
+		//TODO: Actually find these values
+		public static double kElevatorBias = 0.0;
+		public static double kElevatorSlowZone = 0.0;
 
-	//Chassis
-	//TODO: Get the actual values, using janky values bots right now
-	public static double kChassisWidth = 23.25; //Distance between the left and right middle wheels
-	public static double kLWheelDiameter = 3.0; //Center wheel
-	public static double kRWheelDiameter = 3.0;	//Center wheel
-	public static double kDriveCodesPerRev = 2048.0;
+		public static double kElevatorP = 0.0;
+		public static double kElevatorI = 0.0;
+		public static double kElevatorD = 0.0;
+		public static double kElevatorF = 0.0;
 
-	//Elevator
-	//TODO: Actually find these values
-	public static double kElevatorBias = 0.0;
-	public static double kElevatorSlowZone = 0.0;
+		public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI); //1024 ticks per revolution of shaft
 
-	public static double kElevatorP = 0.0;
-	public static double kElevatorI = 0.0;
-	public static double kElevatorD = 0.0;
-	public static double kElevatorF = 0.0;
-
-	public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI); //1024 ticks per revolution of shaft
-
-	//Limelight
-	//TODO: Figure this out with CAD
-	public static double kLimelightTiltAngle = 82.0;
-	public static double kLimelightHeight = 0.0; //Height of Limelight's camera aperture from the ground
+		//Limelight
+		//TODO: Figure this out with CAD
+		public static double kLimelightTiltAngle = 82.0;
+		public static double kLimelightHeight = 0.0; //Height of Limelight's camera aperture from the ground
 
 	/**
 	 * Field parameters
 	 */
 	public static final double HATCHHEIGHT = 28.5;
 	public static final double PORTHEIGHT = 36.125;
+
 	/**
 	 * CAN IDs
 	 */

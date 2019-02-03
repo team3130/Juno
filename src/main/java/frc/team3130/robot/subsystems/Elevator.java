@@ -75,7 +75,7 @@ public class Elevator extends Subsystem {
      * @param percent
      */
 
-    public static void RunElevator(double percent){
+    public static void runElevator(double percent){
 
         boolean isGoingDown = percent < 0;
 
