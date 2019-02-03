@@ -6,10 +6,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team3130.robot.subsystems.Chassis;
-import frc.team3130.robot.subsystems.MotorizedClimber;
-import frc.team3130.robot.subsystems.PistonClimber;
-import frc.team3130.robot.subsystems.Intake;
+import frc.team3130.robot.subsystems.*;
 import frc.team3130.robot.vision.Limelight;
 
 /**
@@ -46,6 +43,7 @@ public class Robot extends TimedRobot {
     Intake.GetInstance();
     PistonClimber.GetInstance();
     MotorizedClimber.GetInstance();
+    Elevator.GetInstance();
 
     //Instantiate sensors
     Limelight.GetInstance();
