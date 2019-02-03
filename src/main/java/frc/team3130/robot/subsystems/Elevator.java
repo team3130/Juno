@@ -74,7 +74,9 @@ public class Elevator extends Subsystem {
      * Run elevator manually using percent values. Performs gravity compensation and elevator down protection
      * @param percent
      */
-    public static void runElevator(double percent){
+
+    public static void RunElevator(double percent){
+
         boolean isGoingDown = percent < 0;
 
         //Offset the output using constant bias
