@@ -86,9 +86,37 @@ public class Elevator extends Subsystem {
      */
     public synchronized static void setHeight(double height){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-        //TODO: create elevator setpoint control code
+        if(m_elevatorMaster.getSelectedSensorPosition(0) >= RobotMap.kElevatorTicksPerInch * height_inches){
+            configMotionMagic(MAX_VELOCITY_DOWN, MAX_ACCELERATION_DOWN);
+        }else{
+            configMotionMagic(MAX_VELOCITY, MAX_ACCELERATION);
+        }
+        m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height_inches);
+
+    }
+    public static void configMotionMagic(int cruiseVelocity, int acceleration){
+        elevator.configMotionCruiseVelocity(cruiseVelocity, 0);
+        elevator.configMotionAcceleration(acceleration, 0);
     }
 
+    public synchronized static double getHeight(){
+        return elevator.getSelectedSensorPosition(0) / RobotMap.kElevatorTicksPerInch; //Returns height in inches
+    }
 
+    /**
+     * Move the elevator to a relative amount
+     * @param offset the offset in inches from the current height, positive is up
+     */
+    public static void addHeight(double offset) {
+        double newHeight = getHeight() + offset;
+        // If the elevator is (almost) at the bottom then just turn it off
+        if(newHeight < RobotMap.ElevatorBottom) {
+            elevator.set(ControlMode.PercentOutput, 0);
+        }
+        else {
+            setHeight(newHeight);
+        }
+    }
 
+    
 }
