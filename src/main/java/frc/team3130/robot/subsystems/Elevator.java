@@ -142,7 +142,7 @@ public class Elevator extends Subsystem {
     }
 
     public static void outputToSmartDashboard() {
-        //SmartDashboard.putNumber("elevator_velocity", elevator.getSelectedSensorVelocity(0));
+        SmartDashboard.putNumber("elevator_velocity", m_elevatorMaster.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("Elev_Height", getHeight());
         SmartDashboard.putNumber("elev_m1current", m_elevatorMaster.getOutputCurrent() );
         SmartDashboard.putNumber("elev_m2current", m_elevatorSlave.getOutputCurrent() );
@@ -154,7 +154,6 @@ public class Elevator extends Subsystem {
         if(m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed()){
             if(!zeroed){
                 m_elevatorMaster.setSelectedSensorPosition(0, 0, 0);
-                setHeight(0.0);
                 DriverStation.reportWarning("Elevator is Zero!", false);
                 zeroed = true;
             }

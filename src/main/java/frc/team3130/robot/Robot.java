@@ -128,5 +128,6 @@ public class Robot extends TimedRobot {
 
   public void outputToSmartDashboard(){
     Limelight.outputToSmartDashboard();
+    Elevator.outputToSmartDashboard();
   }
 }
