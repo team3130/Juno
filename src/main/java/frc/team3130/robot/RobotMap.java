@@ -33,7 +33,7 @@ public class RobotMap {
 		public static double kElevatorD = 0.0;
 		public static double kElevatorF = 0.0;
 
-		public static double kElevatorTicksPerInch = (4.0 * 1024.0) / (4.0 * Math.PI); //1024 ticks per revolution of shaft
+		public static double kElevatorTicksPerInch = (2.0 * 2.0 * 1024.0) / (2.0 * 2.0 * Math.PI); //1024 ticks per revolution of shaft
 
 		//Limelight
 		//TODO: Figure this out with CAD
