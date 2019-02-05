@@ -61,12 +61,9 @@ public class RobotMap {
 	public static final int CAN_TESTINTAKE1 = 6;
 	public static final int CAN_TESTINTAKE2 = 7;
 
-	public static final int CAN_CLIMBER1 = 8;
-	public static final int CAN_CLIMBER2 = 9;
-	public static final int CAN_CLIMBER3 = 10;
 
-	public static final int CAN_ELEVATOR1 = 11;
-	public static final int CAN_ELEVATOR2 = 12;
+	public static final int CAN_ELEVATOR1 = 8;
+	public static final int CAN_ELEVATOR2 = 9;
 
 
 	/**
