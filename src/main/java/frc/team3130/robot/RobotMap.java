@@ -45,9 +45,15 @@ public class RobotMap {
 	/**
 	 * Field parameters
 	 */
-	public static final double HATCHHEIGHT = 28.5;
-	public static final double PORTHEIGHT = 36.125;
-
+	public static final double HATCHVISIONTARGET = 28.5;
+	public static final double PORTVISIONTARGET = 36.125;
+	public static final double PORTBOTTOM = 27.5;
+	public static final double PORTMIDDLE = 55.5;
+	public static final double PORTTOP = 83.5;
+	public static final double HATCHBOTTOM = 19;
+	public static final double HATCHMIDDLE = 47;
+	public static final double HATCHTOP = 75;
+	
 	/**
 	 * CAN IDs
 	 */

@@ -60,9 +60,9 @@ public class Limelight {
 
         double hTarget;
         if(isHatch){
-            hTarget = RobotMap.HATCHHEIGHT;
+            hTarget = RobotMap.HATCHVISIONTARGET;
         }else{
-            hTarget = RobotMap.PORTHEIGHT;
+            hTarget = RobotMap.PORTVISIONTARGET;
         }
 
         return (hTarget - hLimelight) / Math.tan(angle);
