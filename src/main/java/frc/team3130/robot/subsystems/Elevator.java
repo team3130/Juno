@@ -75,7 +75,6 @@ public class Elevator extends Subsystem {
      * Run elevator manually using percent values. Performs gravity compensation and elevator down protection
      * @param percent
      */
-
     public static void runElevator(double percent){
 
         boolean isGoingDown = percent < 0;
@@ -139,6 +138,7 @@ public class Elevator extends Subsystem {
     public static void holdHeight() {
         setHeight(getHeight());
     }
+
     public static void resetElevator(){
 
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0);

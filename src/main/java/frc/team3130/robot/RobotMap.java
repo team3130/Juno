@@ -38,7 +38,7 @@ public class RobotMap {
 		public static double kElevatorD = 0.0;
 		public static double kElevatorF = 0.0;
 
-		public static double kElevatorTicksPerInch = (2.0 * 2.0 * 2.0 * 1024.0) / (2.0 * 2.0 * Math.PI); //1024 ticks per revolution of shaft
+		public static double kElevatorTicksPerInch = (1024.0) / (2.0 * 2.0 * Math.PI); //1024 ticks per revolution of shaft
 
 		//Limelight
 		//TODO: Figure this out with CAD
@@ -50,6 +50,7 @@ public class RobotMap {
 	 */
 	public static final double HATCHVISIONTARGET = 28.5;
 	public static final double PORTVISIONTARGET = 36.125;
+	
 	public static final double PORTBOTTOM = 27.5;
 	public static final double PORTMIDDLE = 55.5;
 	public static final double PORTTOP = 83.5;
