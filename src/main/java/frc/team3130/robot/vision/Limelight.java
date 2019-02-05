@@ -73,6 +73,12 @@ public class Limelight {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("<PUT VARIABLE NAME HERE>").setNumber(<TO SET VALUE>);
     */
 
+    public static void setMode(double Lmode){
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(Lmode);
+
+    }
+
+
     public static void outputToSmartDashboard(){
             SmartDashboard.putNumber("LimelightX", x_targetOffsetAngle);
             SmartDashboard.putNumber("LimelightY", y_targetOffsetAngle);
