@@ -25,6 +25,9 @@ public class RobotMap {
 		public static double kRWheelDiameter = 3.0;	//Center wheel
 		public static double kDriveCodesPerRev = 2048.0;
 
+		//Intake
+		public static double armLength = 7.70652; //Distance from centers of pivot points
+
 		//Elevator
 		//TODO: Actually find these values
 		public static double kElevatorBias = 0.0;
