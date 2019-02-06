@@ -2,7 +2,9 @@ package frc.team3130.robot;
 
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,6 +19,9 @@ import frc.team3130.robot.vision.Limelight;
  * project.
  */
 public class Robot extends TimedRobot {
+
+  Command autonomousCommand;
+  private SendableChooser<String> chooser  = new SendableChooser<String>();
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -108,7 +113,37 @@ public class Robot extends TimedRobot {
     
   }
 
+  private void determineAuton() {
+    autonomousCommand = null;
 
+    String chosenOne = chooser.getSelected();
+    if(chosenOne == null) {
+      DriverStation.reportError("Auton chooser returned NULL", false);
+      return;
+    }
+
+    switch(chosenOne){
+      case "Drive off Platform":
+        autonomousCommand = new DriveOffPlatform();
+        break;
+      case "Cargo Left":
+        autonomousCommand = new CargoLeft();
+        break;
+      case "Cargo Right":
+        autonomousCommand = new CargoRight();
+        break;
+      case "Rocket Left":
+        autonomousCommand = new RocketLeft();
+        break;
+      case "Rocket Right":
+        autonomousCommand = new RocketRight();
+        break;
+      case "No Auto":
+        autonomousCommand = null;
+        break;
+      default:
+        autonomousCommand = null;
+  }
   /**
    * This function is called periodically during operator control.
    */
