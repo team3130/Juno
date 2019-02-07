@@ -123,7 +123,7 @@ public class Robot extends TimedRobot {
       return;
     }
 
-    switch(chosenOne){
+    switch(chosenOne) {
       case "Drive off Platform":
         autonomousCommand = new DriveOffPlatform();
         break;
@@ -144,6 +144,7 @@ public class Robot extends TimedRobot {
         break;
       default:
         autonomousCommand = null;
+
   }
   /**
    * This function is called periodically during operator control.
