@@ -16,24 +16,25 @@ public class Arm extends Subsystem {
     }
 
     //Create necessary objects
-    private static WPI_TalonSRX m_Elbow;
-    private static WPI_TalonSRX m_Wrist;
+    private static WPI_TalonSRX m_elbow;
+    private static WPI_TalonSRX m_wrist;
 
+    
 
 
     private Arm() {
 
-        m_Elbow = new WPI_TalonSRX(RobotMap.CAN_ARMELBOW);
-        m_Wrist = new WPI_TalonSRX(RobotMap.CAN_ARMWRIST);
+        m_elbow = new WPI_TalonSRX(RobotMap.CAN_ARMELBOW);
+        m_wrist = new WPI_TalonSRX(RobotMap.CAN_ARMWRIST);
 
 
         //Talon reset for Intake motors
-        m_Elbow.configFactoryDefault();
-        m_Wrist.configFactoryDefault();
+        m_elbow.configFactoryDefault();
+        m_wrist.configFactoryDefault();
 
         //setNeutralMode for Talons
-        m_Elbow.setNeutralMode(NeutralMode.Brake);
-        m_Wrist.setNeutralMode(NeutralMode.Brake);
+        m_elbow.setNeutralMode(NeutralMode.Brake);
+        m_wrist.setNeutralMode(NeutralMode.Brake);
     }
 
     @Override
@@ -42,10 +43,10 @@ public class Arm extends Subsystem {
     }
 
     public static void runPivotMotor1(double speed){
-        m_Elbow.set(speed);
+        m_elbow.set(speed);
     }
 
     public static void runPivotMotor2(double speed){
-        m_Wrist.set(speed);
+        m_wrist.set(speed);
     }
 }
