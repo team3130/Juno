@@ -19,7 +19,7 @@ public class Arm extends Subsystem {
     private static WPI_TalonSRX m_elbow;
     private static WPI_TalonSRX m_wrist;
 
-    
+
 
 
     private Arm() {

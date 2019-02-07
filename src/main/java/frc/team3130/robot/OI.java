@@ -74,6 +74,8 @@ public class OI {
     public static JoystickButton toggleIntake1;
     public static JoystickButton toggleIntake2;
 
+    public static JoystickButton runPivotMotor1;
+    public static JoystickButton runPivotMotor2;
 
     public static JoystickButton toggleClimber;
 
@@ -93,8 +95,12 @@ public class OI {
         toggleIntake1 = new JoystickButton(stickR, 6);
         toggleIntake2 = new JoystickButton(stickR, 4);
 
+        runPivotMotor1 = new JoystickButton(stickL, 6);
+        runPivotMotor2 = new JoystickButton(stickL, 7);
 
-       //6, 7, and 8 buttons deleted because motorized climber existn't
+
+
+        //Button 8 deleted because motorized climber existn't
 
         toggleClimber = new JoystickButton(stickL, 4);
 
@@ -108,6 +114,8 @@ public class OI {
         toggleIntake1.whenPressed(new ToggleIntakeSolenoid1());
         toggleIntake2.whenPressed(new ToggleIntakeSolenoid2());
 
+        runPivotMotor1.whileHeld(new ArmDown());
+        runPivotMotor2.whileHeld(new ArmUp());
 
         toggleClimber.whenPressed(new ToggleClimber());
         
