@@ -15,6 +15,7 @@ public class Intake extends Subsystem {
         return m_pInstance;
     }
 
+    //Create necessary objects
     private static Solenoid pneumaticSolenoid1;
     private static Solenoid pneumaticSolenoid2;
 
@@ -51,6 +52,11 @@ public class Intake extends Subsystem {
     public static void runHatchIntake(double speed){
         m_hatchMotor.set(speed);
     }
+
+
+    /*
+    *TODO: check to see how many solenoids are needed for intake, might be one but code has 2
+     */
 
     public static void toggleSolenoid1(){
         pneumaticSolenoid1.set(!pneumaticSolenoid1.get());
