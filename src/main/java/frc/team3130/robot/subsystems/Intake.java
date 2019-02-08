@@ -22,9 +22,11 @@ public class Intake extends Subsystem {
     private static WPI_TalonSRX m_hatchMotor;
 
 
+
     private Intake(){
         m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE1);
         m_hatchMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE2);
+
 
         //talon reset for ball and hatch
         m_ballMotor.configFactoryDefault();
@@ -38,7 +40,7 @@ public class Intake extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
+        //Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
 
@@ -46,7 +48,9 @@ public class Intake extends Subsystem {
         m_ballMotor.set(speed);
     }
 
-    public static void runHatchIntake(double speed){ m_hatchMotor.set(speed); }
+    public static void runHatchIntake(double speed){
+        m_hatchMotor.set(speed);
+    }
 
     public static void toggleSolenoid1(){
         pneumaticSolenoid1.set(!pneumaticSolenoid1.get());

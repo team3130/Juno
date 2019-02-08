@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
 
   Command autonomousCommand;
   private SendableChooser<String> chooser  = new SendableChooser<String>();
+  public static SendableChooser<String> startPos = new SendableChooser<String>();
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -117,34 +118,44 @@ public class Robot extends TimedRobot {
   private void determineAuton() {
     autonomousCommand = null;
 
-    String chosenOne = chooser.getSelected();
-    if(chosenOne == null) {
+    String start = startPos.getSelected();
+    if(start == null) {
+      DriverStation.reportError("startPos selector returned NULL", false);
+      return;
+    }
+    String theChosenOne = chooser.getSelected();
+    if(theChosenOne == null) {
       DriverStation.reportError("Auton chooser returned NULL", false);
       return;
     }
 
-    switch(chosenOne){
+    switch(theChosenOne){
       case "Drive off Platform":
-        autonomousCommand = new DriveOffPlatform();
+          autonomousCommand = new DriveOffPlatform();
         break;
-      case "Cargo Left":
-        autonomousCommand = new CargoLeft();
+      case "Cargo":
+        if(start.equals("Left")) {
+          autonomousCommand = new CargoLeft();
+        }
+        else {
+          autonomousCommand = new CargoRight();
+        }
         break;
-      case "Cargo Right":
-        autonomousCommand = new CargoRight();
-        break;
-      case "Rocket Left":
-        autonomousCommand = new RocketLeft();
-        break;
-      case "Rocket Right":
-        autonomousCommand = new RocketRight();
-        break;
+      case "Rocket":
+        if(start.equals("Left")) {
+          autonomousCommand = new RocketLeft();
+        }
+        else{
+          autonomousCommand = new RocketRight();
+        }
       case "No Auto":
         autonomousCommand = null;
         break;
       default:
         autonomousCommand = null;
   }
+}
+*/
   /**
    * This function is called periodically during operator control.
    */
