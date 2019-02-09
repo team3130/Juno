@@ -107,7 +107,7 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height);
 
     }
-    public static void configMotionMagic(int cruiseVelocity, int acceleration){
+    private static void configMotionMagic(int cruiseVelocity, int acceleration){
         m_elevatorMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
         m_elevatorMaster.configMotionAcceleration(acceleration, 0);
     }

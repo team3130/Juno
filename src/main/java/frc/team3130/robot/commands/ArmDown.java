@@ -18,8 +18,8 @@ public class ArmDown extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Arm.runPivotMotor1(0);
-        Arm.runPivotMotor2(0);
+        Arm.runElbow(0);
+        Arm.runWrist(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -29,8 +29,8 @@ public class ArmDown extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Arm.runPivotMotor1(0);
-        Arm.runPivotMotor2(0);
+        Arm.runElbow(0);
+        Arm.runWrist(0);
     }
 
     // Called when another command which requires one or more of the same
