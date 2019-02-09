@@ -31,8 +31,7 @@ public class Intake extends Subsystem {
     }
 
     //Create necessary objects
-    private static Solenoid pneumaticSolenoid1;
-    private static Solenoid pneumaticSolenoid2;
+    private static Solenoid clamp;
 
     private static WPI_TalonSRX m_ballMotor;
     private static WPI_TalonSRX m_hatchMotor;
@@ -51,8 +50,7 @@ public class Intake extends Subsystem {
         m_ballMotor.configFactoryDefault();
         m_hatchMotor.configFactoryDefault();
 
-        pneumaticSolenoid1 = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON1);
-        pneumaticSolenoid2 = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON2);
+        clamp = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON);
 
         m_ballMotor.setNeutralMode(NeutralMode.Brake);
         m_hatchMotor.setNeutralMode(NeutralMode.Brake);
@@ -71,16 +69,7 @@ public class Intake extends Subsystem {
         m_hatchMotor.set(speed);
     }
 
-
-    /*
-    *TODO: check to see how many solenoids are needed for intake, might be one but code has 2
-     */
-
-    public static void toggleSolenoid1(){
-        pneumaticSolenoid1.set(!pneumaticSolenoid1.get());
+    public static void toggleClamp(){
+        clamp.set(!clamp.get());
     }
-
-	public static void toggleSolenoid2() {
-        pneumaticSolenoid2.set(!pneumaticSolenoid2.get());
-	}
 }

@@ -71,8 +71,7 @@ public class OI {
 
     public static JoystickButton runHatchIn;
 
-    public static JoystickButton toggleIntake1;
-    public static JoystickButton toggleIntake2;
+    public static JoystickButton toggleIntakeClamp;
 
     public static JoystickButton runPivotMotor1;
     public static JoystickButton runPivotMotor2;
@@ -92,8 +91,7 @@ public class OI {
         runBallIn = new JoystickButton(stickR, 1);
         runBallOut = new JoystickButton(stickL, 1);
 
-        toggleIntake1 = new JoystickButton(stickR, 6);
-        toggleIntake2 = new JoystickButton(stickR, 4);
+        toggleIntakeClamp = new JoystickButton(stickR, 6);
 
         runPivotMotor1 = new JoystickButton(stickL, 6);
         runPivotMotor2 = new JoystickButton(stickL, 7);
@@ -111,13 +109,12 @@ public class OI {
         runBallIn.whileHeld(new BallIn());
         runBallOut.whileHeld(new BallOut());
 
-        toggleIntake1.whenPressed(new ToggleIntakeSolenoid1());
-        toggleIntake2.whenPressed(new ToggleIntakeSolenoid2());
+        toggleIntakeClamp.whenPressed(new ClampToggle());
 
         runPivotMotor1.whileHeld(new ArmDown());
         runPivotMotor2.whileHeld(new ArmUp());
 
-        toggleClimber.whenPressed(new ToggleClimber());
+        toggleClimber.whenPressed(new ClimberToggle());
         
 
     }

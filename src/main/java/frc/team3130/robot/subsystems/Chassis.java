@@ -262,7 +262,6 @@ public class Chassis extends PIDSubsystem {
     public static WPI_TalonSRX getFrontR(){ return m_rightMotorFront; }
 
 
-
     @Override
     protected void usePIDOutput(double output) {
 
