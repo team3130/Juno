@@ -20,7 +20,6 @@ public class RunElevator extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        DriverStation.reportWarning("RunElevator.java command started", false);
         changeHeight = false;
     }
 

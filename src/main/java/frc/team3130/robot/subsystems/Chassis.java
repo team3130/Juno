@@ -97,6 +97,7 @@ public class Chassis extends PIDSubsystem {
     {
         m_shifter.set(shiftVal);
     }
+
     public static boolean getShift() {
         return m_shifter.get();
     }
@@ -116,7 +117,6 @@ public class Chassis extends PIDSubsystem {
     {
         return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
     }
-
 
     /**
      * Gets absolute distance traveled by the right side of the robot
@@ -153,42 +153,38 @@ public class Chassis extends PIDSubsystem {
         }
     }
 
-    protected double returnPIDInput() {
-        return getAngle();
-    }
+    protected double returnPIDInput() { return getAngle(); }
 
+    /**
+     * Returns the absolute angle of the drivetrain in relation to the robot's orientation upon last reset.
+     * @return angle in degrees
+     */
     public static double getAngle()
     {
-        //System.out.println("navx "+m_bNavXPresent);
         if(Navx.getNavxPresent())
         {
-            //Angle use wants a faster, more accurate, but drifting angle, for quick use.
-            //System.out.println(m_navX.getAngle());
+            //Gyro is present so use it's heading, has drift
             return Navx.getAngle();
         }else {
             //Means that angle use wants a driftless angle measure that lasts.
-            return ( getDistanceR() - getDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
+            return (getDistanceR() - getDistanceL()) * 180 / (RobotMap.kChassisWidth * Math.PI);
             /*
              *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
              *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
              */
         }
     }
+
     /**
-     *
-     * @param angle  in radians
+     * Tell the Chassis to hold a relative angle
+     * @param angle angle to hold in degrees
      */
     public static void holdAngle(double angle)
     {
-        double workingAngle = (180/Math.PI)*angle;
-        setPIDValues();
-        GetInstance().getPIDController().setSetpoint(getAngle() + workingAngle);
+        setPIDValues(); //set PID
+        GetInstance().getPIDController().setSetpoint(getAngle() + angle);
         GetInstance().getPIDController().enable();
-
-        //System.out.println("Holding Angle");
     }
-
-
 
     public static void talonsToCoast(boolean coast)
     {

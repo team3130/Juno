@@ -22,14 +22,6 @@ public class Navx {
     private static boolean m_bNavXPresent;
 
     private Navx(){
-        /**
-         * Constructor:
-         * Define and configure your defined objects (ie. talons, vars)
-         *
-         * _talon.configFactoryDefault();
-         * resets hardware defaults that could have been configured on talon before
-         *
-         */
         try{
             //Connect to navX Gyro on MXP port.
             m_navX = new AHRS(SPI.Port.kMXP);
@@ -40,23 +32,17 @@ public class Navx {
             DriverStation.reportError(str_error, true);
             m_bNavXPresent = false;
         }
-
     }
+
+    /**
+     * Returns the current angle of the Navx. If the Navx is not present, will return -1.
+     *
+     * @return  angle in degrees
+     */
     public static double getAngle()
     {
-
-        if(m_bNavXPresent)
-        {
-            //Angle use wants a faster, more accurate, but drifting angle, for quick use.
-            //System.out.println(m_navX.getAngle());
-            return m_navX.getAngle();
-        }else {
-            //Means that angle use wants a driftless angle measure that lasts.
-            return ( Chassis.getDistanceR() - Chassis.getDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
-            /* Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
-             * Made from geometry and relation between angle fraction and arc fraction with semicircles.
-             */
-        }
+        if(m_bNavXPresent) return m_navX.getAngle();
+        return -1;
     }
 
     /**
@@ -65,7 +51,7 @@ public class Navx {
      * <p> getRate() returns the rate of change of the angle the robot is facing,
      * with a return of negative one if the gyro isn't present on the robot,
      * as calculating the rate of change of the angle using encoders is not currently being done.
-     * @return the rate of change of the heading of the robot.
+     * @return the rate of change of the heading of the robot in degrees per second.
      */
     public static double getRate()
     {
