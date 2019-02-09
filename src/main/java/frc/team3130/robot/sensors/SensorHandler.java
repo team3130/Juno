@@ -13,6 +13,7 @@ public class SensorHandler {
 
     private static boolean lastHatch;
     private static boolean lastBall;
+
     public SensorHandler(){
         lastBall = false;
         lastHatch = false;

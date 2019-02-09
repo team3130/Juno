@@ -44,16 +44,40 @@ public class Arm extends Subsystem {
 
     }
 
+    /**
+     * Run Wrist motor manually
+     * @param speed percent value
+     */
     public static void runWrist(double speed){
         m_wrist.set(ControlMode.PercentOutput,speed);
     }
 
+    /**
+     * Run Elbow motor manually
+     * @param speed percent value
+     */
     public static void runElbow(double speed){
         m_elbow.set(ControlMode.PercentOutput, speed);
     }
 
     /**
-     *  Move the arm wrist motor to an absolute angle
+     * Gets the angle of the Wrist motor
+     * @return Angle of Wrist in degrees in relation to the arm (not relative the ground)
+     */
+    public static double getWristAngle(){
+        return m_wrist.getSelectedSensorPosition(0) / RobotMap.kWristTicksPerDeg;
+    }
+
+    /**
+     * Gets the angle of the Elbow motor
+     * @return Angle of Elbow in degrees in relation to the elevator (this should be absolute to the ground)
+     */
+    public static double getElbowAngle(){
+        return m_elbow.getSelectedSensorPosition(0) / RobotMap.kElbowTicksPerDeg;
+    }
+
+    /**
+     *  Move the arm Wrist motor to an angle relative to the arm
      * @param angle The angle setpoint to go to in degrees
      */
     public synchronized static void setAngleWrist(double angle) {
@@ -64,7 +88,7 @@ public class Arm extends Subsystem {
     }
 
     /**
-     *  Move the arm elbow motor to an absolute angle
+     *  Move the arm Elbow motor to an absolute angle
      * @param angle The angle setpoint to go to in degrees
      */
     public synchronized static void setAngleElbow(double angle) {
@@ -73,20 +97,24 @@ public class Arm extends Subsystem {
         m_elbow.set(ControlMode.MotionMagic, RobotMap.kElbowTicksPerDeg * angle);
     }
 
+    /**
+     *  Hold the Wrist's current angle by PID motion magic closed loop
+     */
+    public static void holdAngleWrist() {
+        setAngleWrist(getWristAngle());
+    }
+
+    /**
+     *  Hold the Elbow's current angle by PID motion magic closed loop
+     */
+    public static void holdAngleElbow() {
+        setAngleElbow(getElbowAngle());
+    }
+
     //C O N F I G M O T I O N M A G I C M E T H O D
     private static void configMotionMagic(WPI_TalonSRX yoskiTalon, int acceleration, int cruiseVelocity){
         yoskiTalon.configMotionCruiseVelocity(cruiseVelocity, 0);
         yoskiTalon.configMotionAcceleration(acceleration, 0);
     }
 
-    /**
-     * * Hold the current angle by PID closed loop
-     */
-    public static void holdHeight() {
-        setAngleElbow(getHeight());
-    }
-
-    public static void holdHeight() {
-        setAngleWrist(getHeight());
-    }
 }

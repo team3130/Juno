@@ -67,7 +67,7 @@ public class Elevator extends Subsystem {
         setDefaultCommand(new RunElevator());
     }
 
-    public synchronized static double getHeight(){
+    public static double getHeight(){
         return m_elevatorMaster.getSelectedSensorPosition(0) / RobotMap.kElevatorTicksPerInch; //Returns height in inches
     }
 
@@ -168,8 +168,6 @@ public class Elevator extends Subsystem {
 
         SmartDashboard.putBoolean("Elev_Rev_Switch",m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed());
         SmartDashboard.putBoolean("elev_Fwd_Switch", m_elevatorMaster.getSensorCollection().isFwdLimitSwitchClosed());
-
     }
-
 
 }
