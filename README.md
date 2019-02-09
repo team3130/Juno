@@ -1,4 +1,11 @@
-Java
+Juno
 ---
-
-This example involves building and deploying Java sources. This should be all you need to get started, however there are plenty of resources online for building more advanced java projects should you require.
+  _____________      _______   _______   _____   _______   
+ /            /     |  ___  \ |  ___  \ /  _  \ |  ___  \   
+ \  \\\\\\\\\\\\\\  | |___/ / | |___/ / | | | | | |___| /    
+  \           ////  | ____  \ |  ___  \ | |_| | |  ____ \    
+  /  \\\\\\\\\\\\\  |/    |_| |_|   |_| \_____/ |_|    \|    
+  \_           ///\  // ///// /////                 
+    \\\\\\\\\\\\\\/  //   =// // //    2019 Code
+                     // ///// /////      
+-------------------------------------------------------------------
