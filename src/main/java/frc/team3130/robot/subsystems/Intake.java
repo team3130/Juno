@@ -15,6 +15,21 @@ public class Intake extends Subsystem {
         return m_pInstance;
     }
 
+    //Intake state handler
+    public static enum IntakeState{
+        Empty,
+        HasBall,
+        HasHatch
+    }
+
+    public IntakeState getState(){
+        return state;
+    }
+
+    public void setState(IntakeState newState){
+        this.state = newState;
+    }
+
     //Create necessary objects
     private static Solenoid pneumaticSolenoid1;
     private static Solenoid pneumaticSolenoid2;
@@ -22,14 +37,17 @@ public class Intake extends Subsystem {
     private static WPI_TalonSRX m_ballMotor;
     private static WPI_TalonSRX m_hatchMotor;
 
+    private volatile IntakeState state;
 
 
     private Intake(){
         m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_BALLMOTOR);
         m_hatchMotor = new WPI_TalonSRX(RobotMap.CAN_HATCHMOTOR);
 
+        //set the intake state to empty on construction
+        state = IntakeState.Empty;
 
-        //talon reset for ball and hatch
+        //talon reset for ball and hatch motors
         m_ballMotor.configFactoryDefault();
         m_hatchMotor.configFactoryDefault();
 
