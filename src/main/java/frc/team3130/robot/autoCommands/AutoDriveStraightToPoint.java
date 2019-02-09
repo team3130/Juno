@@ -27,12 +27,11 @@ public class AutoDriveStraightToPoint extends PIDCommand {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        DriverStation.reportWarning("AutoDriveStraightToPoint.java command started", false);
         getPIDController().reset();
 
         Chassis.shift(m_shiftLow);
         Chassis.holdAngle(0);
-        getPIDController().setSetpoint(m_distance + Chassis.GetDistance());
+        getPIDController().setSetpoint(m_distance + Chassis.getDistance());
         getPIDController().setAbsoluteTolerance(m_threshold);
         setPID();
         Chassis.talonsToCoast(false);

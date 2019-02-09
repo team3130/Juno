@@ -24,10 +24,7 @@ public class Robot extends TimedRobot {
   Command autonomousCommand;
   private SendableChooser<String> chooser  = new SendableChooser<String>();
   public static SendableChooser<String> startPos = new SendableChooser<String>();
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
 
   //public static final LimeLight _limelight = new LimeLight();
   //public static final LimeLight _limelight = new LimeLight("NetworkTable Key");  //If you renamed your limelight ex: limelight-custome
@@ -38,10 +35,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-
     //Instantiate driver station input interface
     OI.GetInstance();
 
@@ -54,6 +47,20 @@ public class Robot extends TimedRobot {
     //Instantiate sensors
     Limelight.GetInstance();
     CameraServer.getInstance().addAxisCamera("10.31.30.12");
+
+    //Auton mode chooser
+    chooser.setDefaultOption("Default Auto", "Default Auto");
+    chooser.addOption("Drive Off Platform", "Drive Off Platform");
+    chooser.addOption("No Auton", "No Auton");
+
+    SmartDashboard.putData("Auto mode", chooser);
+
+    //Starting position of robot
+    //If hardcoding required, manually choose fieldSide below
+    startPos.setDefaultOption("Left Start Pos", "Left");
+    startPos.addOption("Right Start Pos", "Right");
+
+    SmartDashboard.putData("Starting position", startPos);
   }
 
   /**
@@ -85,9 +92,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    //determine the auton to run
+    determineAuton();
+    //start that command
+    if (autonomousCommand != null) {
+      autonomousCommand.start();
+    }
   }
 
   /**
@@ -96,15 +106,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
   }
 
 
@@ -113,7 +114,29 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-    
+    /* This makes sure that the autonomous stops running when teleop starts running. If you want the autonomous to
+       continue until interrupted by another command, remove this line or comment it out.
+    */
+    if (autonomousCommand != null) {
+      autonomousCommand.cancel();
+    }
+  }
+
+
+  /**
+   * This function is called periodically during operator control.
+   */
+  @Override
+  public void teleopPeriodic() {
+    Scheduler.getInstance().run();
+
+  }
+
+  /**
+   * This function is called periodically during test mode.
+   */
+  @Override
+  public void testPeriodic() {
   }
 
   private void determineAuton() {
@@ -131,9 +154,10 @@ public class Robot extends TimedRobot {
     }
 
     switch(theChosenOne){
-      case "Drive off Platform":
-          autonomousCommand = new DriveOffPlatform();
+      case "Drive Off Platform":
+        autonomousCommand = new DriveOffPlatform();
         break;
+        /*
       case "Cargo":
         if(start.equals("Left")) {
           autonomousCommand = new CargoLeft();
@@ -149,29 +173,15 @@ public class Robot extends TimedRobot {
         else{
           autonomousCommand = new RocketRight();
         }
+        */
       case "No Auto":
         autonomousCommand = null;
         break;
+
       default:
         autonomousCommand = null;
 
-  }
-}
-*/
-  /**
-   * This function is called periodically during operator control.
-   */
-  @Override
-  public void teleopPeriodic() {
-    Scheduler.getInstance().run();
-
-  }
-
-  /**
-   * This function is called periodically during test mode.
-   */
-  @Override
-  public void testPeriodic() {
+    }
   }
 
   public void outputToSmartDashboard(){
