@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.autoCommands.DriveOffPlatform;
+import frc.team3130.robot.sensors.SensorHandler;
 import frc.team3130.robot.subsystems.*;
 import frc.team3130.robot.vision.Limelight;
 
@@ -45,6 +46,7 @@ public class Robot extends TimedRobot {
     Elevator.GetInstance();
 
     //Instantiate sensors
+    SensorHandler.GetInstance();
     Limelight.GetInstance();
     CameraServer.getInstance().addAxisCamera("10.31.30.12");
 
@@ -74,7 +76,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     Limelight.updateData();
-    
+    SensorHandler.updateSensors();
     outputToSmartDashboard();
   }
 

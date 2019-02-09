@@ -140,8 +140,24 @@ public class Elevator extends Subsystem {
     }
 
     public static void resetElevator(){
-
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    public static synchronized void zeroSensors(){
+        m_elevatorMaster.setSelectedSensorPosition(0, 0, 0);
+        zeroed = true;
+    }
+
+    public static synchronized boolean hasBeenZeroed(){
+        return zeroed;
+    }
+
+    public static synchronized void setZeroedState(boolean isZeroed){
+        zeroed = isZeroed;
+    }
+
+    public static boolean isRevLimitClosed(){
+        return m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed();
     }
 
     public static void outputToSmartDashboard() {
@@ -153,18 +169,7 @@ public class Elevator extends Subsystem {
         SmartDashboard.putBoolean("Elev_Rev_Switch",m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed());
         SmartDashboard.putBoolean("elev_Fwd_Switch", m_elevatorMaster.getSensorCollection().isFwdLimitSwitchClosed());
 
-        //Zero Handling
-        if(m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed()){
-            if(!zeroed){
-                m_elevatorMaster.setSelectedSensorPosition(0, 0, 0);
-                DriverStation.reportWarning("Elevator is Zero!", false);
-                zeroed = true;
-            }
-        }
-        else{
-            if(zeroed)
-                zeroed = false;
-        }
+
     }
 
 

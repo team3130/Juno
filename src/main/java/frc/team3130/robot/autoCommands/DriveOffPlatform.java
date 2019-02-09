@@ -21,12 +21,11 @@ public class DriveOffPlatform extends CommandGroup {
         elevatorUp   = new ElevatorToHeight(4.0);
 
         addSequential(elevatorUp, 2);
-        addSequential(driveForward, 5);
+        addSequential(driveForward, 5); //TODO: tune auton routine
     }
 
     @Override
     protected void initialize() {
-        //System.out.println("Running PB");
         driveForward.SetParam(
                 Preferences.getInstance().getDouble("BaseDistance", 200.0),
                 20,
