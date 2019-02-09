@@ -25,8 +25,8 @@ public class Intake extends Subsystem {
 
 
     private Intake(){
-        m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE1);
-        m_hatchMotor = new WPI_TalonSRX(RobotMap.CAN_TESTINTAKE2);
+        m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_BALLMOTOR);
+        m_hatchMotor = new WPI_TalonSRX(RobotMap.CAN_HATCHMOTOR);
 
 
         //talon reset for ball and hatch
