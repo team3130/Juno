@@ -3,18 +3,19 @@ package frc.team3130.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.DefaultDrive;
-import edu.wpi.first.wpilibj.SPI;
+import frc.team3130.robot.sensors.Navx;
+
+import static frc.team3130.robot.sensors.Navx.getAngle;
 
 
-public class Chassis extends Subsystem{
+public class Chassis extends PIDSubsystem {
 
     //Instance Handling
     private static Chassis m_pInstance;
@@ -37,9 +38,17 @@ public class Chassis extends Subsystem{
     //Create and define all standard data types needed
     public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
 
+    //PID Preferences Defaults
+    private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.02; //0.018
+    private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0;
+    private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.09; //0.062
+
+    private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.03;
+    private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0;
+    private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.11;
 
     private Chassis() {
-        
+        super(1.0,0,0);
 
         m_leftMotorFront = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORFRONT);
         m_leftMotorRear = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORREAR);
@@ -62,8 +71,6 @@ public class Chassis extends Subsystem{
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
         //robot init should start robot in high gear (disabled also should be high gear)
-
-
 
 
     }
@@ -90,7 +97,9 @@ public class Chassis extends Subsystem{
     {
         m_shifter.set(shiftVal);
     }
-
+    public static boolean getShift() {
+        return m_shifter.get();
+    }
     /**
      * Returns if robot is in low gear
      * @return true means robot is in low gear, false if it's in high gear
@@ -127,9 +136,61 @@ public class Chassis extends Subsystem{
         return (getDistanceL() + getDistanceR()) / 2.0; //the average of the left and right distances
     }
 
+    public static void setPIDValues()
+    {
+        if(getShift()) {
+            GetInstance().getPIDController().setPID(
+                    Preferences.getInstance().getDouble("ChassisHighP",SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT),
+                    Preferences.getInstance().getDouble("ChassisHighI",SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT),
+                    Preferences.getInstance().getDouble("ChassisHighD",SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT)
+            );
+        }else{
+            GetInstance().getPIDController().setPID(
+                    Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT),
+                    Preferences.getInstance().getDouble("ChassisLowI",SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT),
+                    Preferences.getInstance().getDouble("ChassisLowD",SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT)
+            );
+        }
+    }
+
+    protected double returnPIDInput() {
+        return getAngle();
+    }
+
+    public static double getAngle()
+    {
+        //System.out.println("navx "+m_bNavXPresent);
+        if(Navx.getNavxPresent())
+        {
+            //Angle use wants a faster, more accurate, but drifting angle, for quick use.
+            //System.out.println(m_navX.getAngle());
+            return Navx.getAngle();
+        }else {
+            //Means that angle use wants a driftless angle measure that lasts.
+            return ( getDistanceR() - getDistanceL() ) * 180 / (RobotMap.kChassisWidth * Math.PI);
+            /*
+             *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
+             *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
+             */
+        }
+    }
+    /**
+     *
+     * @param angle  in radians
+     */
+    public static void holdAngle(double angle)
+    {
+        double workingAngle = (180/Math.PI)*angle;
+        setPIDValues();
+        GetInstance().getPIDController().setSetpoint(getAngle() + workingAngle);
+        GetInstance().getPIDController().enable();
+
+        //System.out.println("Holding Angle");
+    }
 
 
-    public static void TalonsToCoast(boolean coast)
+
+    public static void talonsToCoast(boolean coast)
     {
         if (coast){
             m_leftMotorFront.setNeutralMode(NeutralMode.Coast);
@@ -206,4 +267,8 @@ public class Chassis extends Subsystem{
 
 
 
+    @Override
+    protected void usePIDOutput(double output) {
+
+    }
 }

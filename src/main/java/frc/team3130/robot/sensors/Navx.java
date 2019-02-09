@@ -72,6 +72,10 @@ public class Navx {
         if(m_bNavXPresent) return m_navX.getRate();
         return -1;
     }
+
+    public static boolean getNavxPresent(){
+        return m_bNavXPresent;
+    }
 }
 
 

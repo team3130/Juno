@@ -24,7 +24,7 @@ public class ShiftToggle extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	timer.reset();
-    	Chassis.TalonsToCoast(true);
+    	Chassis.talonsToCoast(true);
     	Chassis.DriveTank(0, 0); 		//Cut all power to the motors so they aren't running during the shift
         timer.start();
     }
@@ -57,7 +57,7 @@ public class ShiftToggle extends Command {
     	//Set variables to default states for next execution of command
     	hasShifted = false;
     	timer.stop();
-    	Chassis.TalonsToCoast(false); //set talons back to brake mode
+    	Chassis.talonsToCoast(false); //set talons back to brake mode
     }
 
     // Called when another command which requires one or more of the same
