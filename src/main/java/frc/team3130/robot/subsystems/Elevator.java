@@ -9,7 +9,7 @@ import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.RunElevator;
 
 /**
- * This subsystem controls the power cube elevator of the robot
+ * This subsystem controls the elevator of the robot
  */
 
 public class Elevator extends Subsystem {
@@ -168,7 +168,6 @@ public class Elevator extends Subsystem {
 
         SmartDashboard.putBoolean("Elev_Rev_Switch",m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed());
         SmartDashboard.putBoolean("elev_Fwd_Switch", m_elevatorMaster.getSensorCollection().isFwdLimitSwitchClosed());
-
 
     }
 

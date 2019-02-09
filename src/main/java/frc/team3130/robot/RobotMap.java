@@ -26,7 +26,30 @@ public class RobotMap {
 		public static double kDriveCodesPerRev = 2048.0;
 
 		//Intake
-		public static double armLength = 7.70652; //Distance from centers of pivot points
+
+		//Arm
+		public static double kArmLength = 7.70652; //Distance from centers of pivot points
+
+			//Wrist
+			public static double kWristP = 0.0;
+			public static double kWristI = 0.0;
+			public static double kWristD = 0.0;
+			public static double kWristF = 0.0;
+			public static int kWristMaxAcc = 0; // 1024
+			public static int kWristMaxVel = 0; // 1024
+
+			public static double kWristTicksPerDeg = (1024.0) / (2.0*Math.PI * 1.0); //1024 ticks per revolution of gearbox output shaft
+
+			//Elbow
+			public static double kElbowP = 0.0;
+			public static double kElbowI = 0.0;
+			public static double kElbowD = 0.0;
+			public static double kElbowF = 0.0;
+			public static int kElbowMaxAcc = 0; // 1024
+			public static int kElbowMaxVel = 0; // 1024
+
+			public static double kElbowTicksPerDeg = (1024.0) / (2.0*Math.PI * 1.0); //1024 ticks per revolution of gearbox output shaft
+
 
 		//Elevator
 		//TODO: Actually find these values
@@ -38,7 +61,7 @@ public class RobotMap {
 		public static double kElevatorD = 0.0;
 		public static double kElevatorF = 0.0;
 
-		public static double kElevatorTicksPerInch = (1024.0) / (2.0 * 2.0 * Math.PI); //1024 ticks per revolution of shaft
+		public static double kElevatorTicksPerInch = (1024.0) / (2.0 * 2.0 * Math.PI); //1024 ticks per revolution of gearbox output shaft
 
 		//Limelight
 		//TODO: Figure this out with CAD
@@ -54,9 +77,9 @@ public class RobotMap {
 	public static final double PORTBOTTOM = 27.5;
 	public static final double PORTMIDDLE = 55.5;
 	public static final double PORTTOP = 83.5;
-	public static final double HATCHBOTTOM = 19;
-	public static final double HATCHMIDDLE = 47;
-	public static final double HATCHTOP = 75;
+	public static final double HATCHBOTTOM = 19.0;
+	public static final double HATCHMIDDLE = 47.0;
+	public static final double HATCHTOP = 75.0;
 	
 	/**
 	 * CAN IDs
@@ -89,7 +112,7 @@ public class RobotMap {
 
 	/**
 	 * Gamepad Button List
-	 * TODO: Figure out which buttons should do what and code for them
+	 *
 	 */
 	public static final int LST_BTN_A = 1;
 	public static final int LST_BTN_B = 2;
