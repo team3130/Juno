@@ -51,10 +51,7 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
         m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
-        m_elevatorMaster.config_kP(0, RobotMap.kElevatorP, 0);
-        m_elevatorMaster.config_kI(0, RobotMap.kElevatorI, 0);
-        m_elevatorMaster.config_kD(0, RobotMap.kElevatorD, 0);
-        m_elevatorMaster.config_kF(0, RobotMap.kElevatorF, 0);
+        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
 
         m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR2);
 
@@ -100,6 +97,7 @@ public class Elevator extends Subsystem {
      */
     public synchronized static void setHeight(double height){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
+        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
         configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
         m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height);
 
@@ -107,6 +105,20 @@ public class Elevator extends Subsystem {
     private static void configMotionMagic(int acceleration, int cruiseVelocity){
         m_elevatorMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
         m_elevatorMaster.configMotionAcceleration(acceleration, 0);
+    }
+
+    /**
+     * Configure the PID values of eleveator
+     * @param kP
+     * @param kI
+     * @param kD
+     * @param kF
+     */
+    public static void configPIDF(double kP, double kI, double kD, double kF) {
+        m_elevatorMaster.config_kP(0, kP, 0);
+        m_elevatorMaster.config_kI(0, kI, 0);
+        m_elevatorMaster.config_kD(0, kD, 0);
+        m_elevatorMaster.config_kF(0, kF, 0);
     }
 
     /**
@@ -140,6 +152,9 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0);
     }
 
+    /**
+     * Reset the elevator encoder
+     */
     public static synchronized void zeroSensors(){
         m_elevatorMaster.setSelectedSensorPosition(0, 0, 0);
         zeroed = true;
