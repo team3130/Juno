@@ -91,14 +91,14 @@ public class RobotMap {
 	public static final int CAN_RIGHTMOTORFRONT = 4;
 	public static final int CAN_RIGHTMOTORREAR = 5;
 
-	public static final int CAN_BALLMOTOR = 6;
-	public static final int CAN_HATCHMOTOR = 7;
+	public static final int CAN_BALLMOTOR = 9;
+	public static final int CAN_HATCHMOTOR = 10;
 
-	public static final int CAN_ARMELBOW = 8;
-	public static final int CAN_ARMWRIST =	 9;
+	public static final int CAN_ARMELBOW = 6;
+	public static final int CAN_ARMWRIST =	 7;
 
-	public static final int CAN_ELEVATOR1 = 10;
-	public static final int CAN_ELEVATOR2 = 11;
+	public static final int CAN_ELEVATOR1 = 11;
+	public static final int CAN_ELEVATOR2 = 12;
 
 
 	/**
