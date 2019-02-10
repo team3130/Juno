@@ -1,6 +1,6 @@
 package frc.team3130.robot.autoCommands;
 
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.team3130.robot.subsystems.Chassis;
 
@@ -31,10 +31,10 @@ public class AutoDriveStraightToPoint extends PIDCommand {
 
         Chassis.shift(m_shiftLow);
         Chassis.holdAngle(0);
+        Chassis.talonsToCoast(false);
+        setPID();
         getPIDController().setSetpoint(m_distance + Chassis.getDistance());
         getPIDController().setAbsoluteTolerance(m_threshold);
-        setPID();
-        Chassis.talonsToCoast(false);
 
         getPIDController().enable();
     }
@@ -46,7 +46,10 @@ public class AutoDriveStraightToPoint extends PIDCommand {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        if (getPIDController().onTarget()){
+            return true;
+        }
+        return false;
     }
 
     // Called once after isFinished returns true
@@ -56,5 +59,28 @@ public class AutoDriveStraightToPoint extends PIDCommand {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
+
+    @Override
+    protected double returnPIDInput() {
+        return Chassis.getDistance();
+    }
+
+    @Override
+    protected void usePIDOutput(double output) {
+        if(output > m_speed) output = m_speed;
+        else if(output < -m_speed) output = -m_speed;
+
+    }
+
+    private void setPID()
+    {
+        getPIDController().setPID(
+                Preferences.getInstance().getDouble("DriveStraightP", 0.02),
+                Preferences.getInstance().getDouble("DriveStraightI", 0),
+                Preferences.getInstance().getDouble("DriveStraightD", 0.07)
+        );
+    }
+
 }
