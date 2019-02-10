@@ -21,8 +21,8 @@ public class RobotMap {
 		//Chassis
 		//TODO: Get the actual values, using janky values bots right now
 		public static double kChassisWidth = 23.25; //Distance between the left and right middle wheels
-		public static double kLWheelDiameter = 3.0; //Center wheel
-		public static double kRWheelDiameter = 3.0;	//Center wheel
+		public static double kLWheelDiameter = 6.0; //Center wheel
+		public static double kRWheelDiameter = 6.0;	//Center wheel
 		public static double kDriveCodesPerRev = 2048.0;
 
 		//Intake
@@ -60,8 +60,10 @@ public class RobotMap {
 		public static double kElevatorI = 0.0;
 		public static double kElevatorD = 0.0;
 		public static double kElevatorF = 0.0;
+		public static int kElevatorMaxAcc = 0;
+		public static int kElevatorMaxVel = 0;
 
-		public static double kElevatorTicksPerInch = (1024.0) / (2.0 * 2.0 * Math.PI); //1024 ticks per revolution of gearbox output shaft
+		public static double kElevatorTicksPerInch = (1024.0 / 3.0) / (2.0*Math.PI * 0.65); //1024 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
 		//Limelight
 		//TODO: Figure this out with CAD

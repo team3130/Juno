@@ -28,11 +28,6 @@ public class Elevator extends Subsystem {
 
     //Create and define all standard data types needed
 
-    private static final int MAX_VELOCITY = 6300; // 1024
-    private static final int MAX_ACCELERATION = 6100; // 1024
-    private static final int MAX_VELOCITY_DOWN = (int) (MAX_VELOCITY * 0.45); // 1024
-    private static final int MAX_ACCELERATION_DOWN = (int) (MAX_ACCELERATION * 0.4); // 1024
-
 
     private Elevator(){
 
@@ -50,6 +45,9 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.overrideLimitSwitchesEnable(true);
         m_elevatorMaster.overrideSoftLimitsEnable(false);
 
+        m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
+        m_elevatorMaster.enableVoltageCompensation(true);
+
         m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
         m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
@@ -64,13 +62,16 @@ public class Elevator extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new RunElevator());
+        //setDefaultCommand(new RunElevator());
     }
 
     public static double getHeight(){
         return m_elevatorMaster.getSelectedSensorPosition(0) / RobotMap.kElevatorTicksPerInch; //Returns height in inches
     }
 
+    public static void rawElevator(double percent){
+        m_elevatorMaster.set(ControlMode.PercentOutput, percent);
+    }
     /**
      * Run elevator manually using percent values. Performs gravity compensation and elevator down protection
      * @param percent
@@ -99,15 +100,11 @@ public class Elevator extends Subsystem {
      */
     public synchronized static void setHeight(double height){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-        if(m_elevatorMaster.getSelectedSensorPosition(0) >= RobotMap.kElevatorTicksPerInch * height){
-            configMotionMagic(MAX_VELOCITY_DOWN, MAX_ACCELERATION_DOWN);
-        }else{
-            configMotionMagic(MAX_VELOCITY, MAX_ACCELERATION);
-        }
+        configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
         m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height);
 
     }
-    private static void configMotionMagic(int cruiseVelocity, int acceleration){
+    private static void configMotionMagic(int acceleration, int cruiseVelocity){
         m_elevatorMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
         m_elevatorMaster.configMotionAcceleration(acceleration, 0);
     }

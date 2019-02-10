@@ -66,6 +66,16 @@ public class Robot extends TimedRobot {
   }
 
   /**
+   * This function is called once each time the robot enters Disabled mode.
+   * You can use it to reset any subsystem information you want to clear when
+   * the robot is disabled.
+   */
+  @Override
+  public void disabledInit() {
+    Elevator.resetElevator();
+  }
+
+  /**
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.
@@ -94,6 +104,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Elevator.resetElevator();
     //determine the auton to run
     determineAuton();
     //start that command
@@ -122,6 +133,7 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
+    Elevator.resetElevator();
   }
 
 
