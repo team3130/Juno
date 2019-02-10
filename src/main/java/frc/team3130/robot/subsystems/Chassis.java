@@ -140,15 +140,15 @@ public class Chassis extends PIDSubsystem {
     {
         if(getShift()) {
             GetInstance().getPIDController().setPID(
-                    Preferences.getInstance().getDouble("ChassisHighP",SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT),
-                    Preferences.getInstance().getDouble("ChassisHighI",SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT),
-                    Preferences.getInstance().getDouble("ChassisHighD",SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT)
+                    RobotMap.kChassisHighP,
+                    RobotMap.kChassisHighI,
+                    RobotMap.kChassisHighD
             );
         }else{
             GetInstance().getPIDController().setPID(
-                    Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT),
-                    Preferences.getInstance().getDouble("ChassisLowI",SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT),
-                    Preferences.getInstance().getDouble("ChassisLowD",SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT)
+                    RobotMap.kChassisLowP,
+                    RobotMap.kChassisLowI,
+                    RobotMap.kChassisLowD
             );
         }
     }

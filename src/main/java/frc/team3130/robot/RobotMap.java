@@ -25,6 +25,17 @@ public class RobotMap {
 		public static double kRWheelDiameter = 3.0;	//Center wheel
 		public static double kDriveCodesPerRev = 2048.0;
 
+		//PID Preferences Defaults
+		public static double kChassisHighP = 0.02; //0.018
+		public static double kChassisHighI = 0;
+		public static double kChassisHighD = 0.09; //0.062
+
+		public static double kChassisLowP = 0.03;
+		public static double kChassisLowI = 0;
+		public static double kChassisLowD = 0.11;
+
+
+
 		//Intake
 
 		//Arm
