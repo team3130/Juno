@@ -115,7 +115,7 @@ public class RobotMap {
 	public static final int CAN_ELEVATOR1 = 10;
 	public static final int CAN_ELEVATOR2 = 11;
 
-	public static final int CAN_Piston = 12;
+	public static final int CAN_PISTON = 12;
 
 
 	/**

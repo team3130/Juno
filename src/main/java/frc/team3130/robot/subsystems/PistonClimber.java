@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 
 public class PistonClimber extends Subsystem {
@@ -32,7 +31,8 @@ public class PistonClimber extends Subsystem {
          */
         pistons = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON1);
 
-        m_Pistons = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR1);
+        m_Pistons = new WPI_TalonSRX(RobotMap.CAN_PISTON);
+
 
     }
 
@@ -44,6 +44,7 @@ public class PistonClimber extends Subsystem {
     public static void rawPiston(double percent){ m_Pistons.set(ControlMode.PercentOutput, percent); }
 
     public static void toggleClimbPistons() {
+        pistons.set(!pistons.get());
     }
 
 }
