@@ -100,15 +100,15 @@ public class Elevator extends Subsystem {
         configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
         configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
         m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height);
-
     }
+
     private static void configMotionMagic(int acceleration, int cruiseVelocity){
         m_elevatorMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
         m_elevatorMaster.configMotionAcceleration(acceleration, 0);
     }
 
     /**
-     * Configure the PID values of eleveator
+     * Configure the PID values of elevator
      * @param kP
      * @param kI
      * @param kD
