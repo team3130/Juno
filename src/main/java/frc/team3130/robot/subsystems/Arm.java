@@ -117,4 +117,19 @@ public class Arm extends Subsystem {
         yoskiTalon.configMotionAcceleration(acceleration, 0);
     }
 
+    /**
+     * Configure the PIDF values of an arm motor
+     * @param _talon which talon to use
+     * @param kP
+     * @param kI
+     * @param kD
+     * @param kF
+     */
+    public static void configPIDF(WPI_TalonSRX _talon, double kP, double kI, double kD, double kF) {
+        _talon.config_kP(0, kP, 0);
+        _talon.config_kI(0, kI, 0);
+        _talon.config_kD(0, kD, 0);
+        _talon.config_kF(0, kF, 0);
+    }
+
 }
