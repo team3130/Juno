@@ -25,7 +25,7 @@ public class ElevatorToHeight extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	DriverStation.reportWarning("ElevatorToHeight.java command started", false);
-    	Elevator.setHeight(dist); //distance to travel in inches
+    	Elevator.setSimpleMotionMagic(dist); //distance to travel in inches
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -34,7 +34,7 @@ public class ElevatorToHeight extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Elevator.getHeight()-dist)<12 || 
+        return Math.abs(Elevator.getHeightOffGround()-dist)<12 ||
         	   Math.abs(OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY)) > 0.1;
     }
 

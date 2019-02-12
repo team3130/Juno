@@ -34,6 +34,12 @@ public class Arm extends Subsystem {
         m_elbow.configFactoryDefault();
         m_wrist.configFactoryDefault();
 
+        m_elbow.configVoltageCompSaturation(12.0, 0);
+        m_elbow.enableVoltageCompensation(true);
+
+        m_wrist.configVoltageCompSaturation(12.0, 0);
+        m_wrist.enableVoltageCompensation(true);
+
         //setNeutralMode for Talons
         m_elbow.setNeutralMode(NeutralMode.Brake);
         m_wrist.setNeutralMode(NeutralMode.Brake);
