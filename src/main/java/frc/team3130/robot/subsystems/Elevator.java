@@ -17,15 +17,28 @@ import frc.team3130.robot.util.Epsilon;
 public class Elevator extends Subsystem {
     //Instance Handling
     private static Elevator m_pInstance;
-
     public static Elevator GetInstance() {
         if (m_pInstance == null) m_pInstance = new Elevator();
         return m_pInstance;
     }
 
+    public static enum ElevatorState{
+        Manual,
+        MotionMagic,
+    }
+
+    public ElevatorState getState(){
+        return state;
+    }
+
+    public void setState(ElevatorState newState){
+        this.state = newState;
+    }
+
     //Create necessary objects
     private static WPI_TalonSRX m_elevatorMaster;
     private static WPI_TalonSRX m_elevatorSlave;
+    private volatile ElevatorState state;
 
     private static Solenoid m_shifter;
 
