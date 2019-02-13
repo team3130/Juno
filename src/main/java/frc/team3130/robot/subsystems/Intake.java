@@ -16,7 +16,7 @@ public class Intake extends Subsystem {
     }
 
     //Intake state handler
-    public static enum IntakeState{
+    public enum IntakeState{
         Empty,
         HasBall,
         HasHatch
@@ -37,7 +37,6 @@ public class Intake extends Subsystem {
     private static WPI_TalonSRX m_hatchMotor;
 
     private volatile IntakeState state;
-
 
     private Intake(){
         m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_BALLMOTOR);

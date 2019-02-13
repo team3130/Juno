@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.util.Epsilon;
 
@@ -70,7 +69,7 @@ public class Elevator extends Subsystem {
         //setDefaultCommand(new RunElevator());
     }
 
-
+    //For testing
     public static void rawElevator(double percent){
         m_elevatorMaster.set(ControlMode.PercentOutput, percent);
     }
@@ -125,6 +124,10 @@ public class Elevator extends Subsystem {
         m_shifter.set(shiftVal);
     }
 
+    public static synchronized void resetElevator(){
+        m_elevatorMaster.set(ControlMode.PercentOutput, 0.0);
+    }
+
     /**
      * Periodically read in the physical inputs to calculate variables
      */
@@ -177,15 +180,24 @@ public class Elevator extends Subsystem {
         mPeriodicIO.t = t;
 
         //Calculate the feed forward necessary this loop
-        if (getHeightOffGround() > RobotMap.kElevatorHeightEpsilon && !getShift()) { //above epsilon and in high gear
-            //TODO: implement this
+        double currHeight = getHeightOffGround();
+        if (currHeight > RobotMap.kElevatorHeightEpsilon && !getShift()) { //above epsilon and in high gear
+            if(Intake.GetInstance().getState() == Intake.IntakeState.Empty){
+                mPeriodicIO.feedforward = RobotMap.kElevatorFFEmpty;
+            }else if(Intake.GetInstance().getState() == Intake.IntakeState.HasBall){
+                mPeriodicIO.feedforward = RobotMap.kElevatorFFWithBall;
+            }else{
+                mPeriodicIO.feedforward = RobotMap.kElevatorFFWithHatch;
+            }
+            if(currHeight > RobotMap.kElevatorStagePickup1){
+                mPeriodicIO.feedforward += RobotMap.kElevatorFFAddition1;
+                if(currHeight > RobotMap.kElevatorStagePickup2){
+                    mPeriodicIO.feedforward += RobotMap.kElevatorFFAddition2;
+                }
+            }
         } else {
             mPeriodicIO.feedforward = 0.0;
         }
-    }
-
-    public static synchronized void resetElevator(){
-        m_elevatorMaster.set(ControlMode.PercentOutput, 0.0);
     }
 
     //Sensor Related
@@ -279,7 +291,6 @@ public class Elevator extends Subsystem {
         public double t;
 
         // OUTPUTS
-        public double demand;
     }
 
 }

@@ -20,9 +20,9 @@ public class RobotMap {
 	 */
 		//Chassis
 		//TODO: Get the actual values, using janky values bots right now
-		public static double kChassisWidth = 23.25; //Distance between the left and right middle wheels
+		public static double kChassisWidth = 23.5; //Checked 2/12 Distance between the left and right middle wheels
 		public static double kLWheelDiameter = 6.0; //Center wheel
-		public static double kRWheelDiameter = 6.0;	//Center wheel
+		public static double kRWheelDiameter = 6.0; //Center wheel
 		public static double kDriveCodesPerRev = 2048.0;
 
 		//PID Preferences Defaults
@@ -66,6 +66,12 @@ public class RobotMap {
 		//TODO: Actually find these values
 		public static double kElevatorSlowZone = 0.0;
 
+		public static double kElevatorStagePickup1 = 14.75;
+		public static double kElevatorFFAddition1 = 0.0;
+
+		public static double kElevatorStagePickup2 = 42.25;
+		public static double kElevatorFFAddition2 = 0.0;
+
 		public static double kElevatorP = 0.0;
 		public static double kElevatorI = 0.0;
 		public static double kElevatorD = 0.0;
@@ -74,11 +80,12 @@ public class RobotMap {
 		public static int kElevatorMaxVel = 0;
 
 		public static double kElevatorFFEmpty = 0.0;
-		public static double kElevatorFFWIthHatch = 0.0;
+		public static double kElevatorFFWithHatch = 0.0;
 		public static double kElevatorFFWithBall = 0.0;
 
-		public static double kElevatorHeightEpsilon = 1.0; //min height is 1 inch off ground
+		public static double kElevatorHeightEpsilon = 1.0; //min height is 1 inch off ground TODO: check me
 		public static double kElevatorHomingHeight = 0.0; //height of elevator off ground when at home position
+		public static double kElevatorMaxHeight = 69.75;
 
 		public static double kElevatorTicksPerInch = (4096.0 / 3.0) / (2.0*Math.PI * 0.65); //1024 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 

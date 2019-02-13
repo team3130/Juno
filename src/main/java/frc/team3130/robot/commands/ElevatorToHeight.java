@@ -19,7 +19,7 @@ public class ElevatorToHeight extends Command {
     }
 
     public void setParam(double dist){
-    	this.dist=dist;
+    	this.dist = dist;
     }
     
     // Called just before this Command runs the first time
