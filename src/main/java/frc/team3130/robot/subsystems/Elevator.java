@@ -92,7 +92,6 @@ public class Elevator extends Subsystem {
      * @param percent
      */
     public static void runElevator(double percent){
-
         boolean isGoingDown = percent < 0;
 
         //Offset the output using feed forward
@@ -137,6 +136,9 @@ public class Elevator extends Subsystem {
         m_shifter.set(shiftVal);
     }
 
+    /**
+     * Reset the elevator by putting it in percent output mode at 0%
+     */
     public static synchronized void resetElevator(){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0);
     }

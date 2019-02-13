@@ -75,6 +75,11 @@ public class Robot extends TimedRobot {
     Elevator.resetElevator();
   }
 
+  @Override
+  public void disabledPeriodic() {
+    SensorHandler.updateSensors();
+  }
+
   /**
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,
@@ -86,7 +91,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     Limelight.updateData();
-    SensorHandler.updateSensors();
     outputToSmartDashboard();
   }
 
@@ -119,6 +123,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+    SensorHandler.updateSensors();
   }
 
 
@@ -143,7 +148,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-
+    SensorHandler.updateSensors();
   }
 
   /**
