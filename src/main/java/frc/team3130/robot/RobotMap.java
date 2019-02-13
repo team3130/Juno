@@ -53,7 +53,7 @@ public class RobotMap {
 			public static double kWristFFBall = 0.0;
 			public static double kWristFFHatch = 0.0;
 
-			public static double kWristTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft
+			public static double kWristTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
 
 			//Elbow
 			public static double kElbowP = 0.0;
@@ -67,17 +67,17 @@ public class RobotMap {
 			public static double kElbowFFBall = 0.0;
 			public static double kElbowFFHatch = 0.0;
 
-			public static double kElbowTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft
+			public static double kElbowTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
 
 
 		//Elevator
 		//TODO: Actually find these values
 		public static double kElevatorSlowZone = 0.0;
 
-		public static double kElevatorStagePickup1 = 14.75; //Checked 2/12
+		public static double kElevatorStagePickup1 = 21.75; //Checked 2/12
 		public static double kElevatorFFAddition1 = 0.0;
 
-		public static double kElevatorStagePickup2 = 42.25; //Checked 2/12
+		public static double kElevatorStagePickup2 = 49.25; //Checked 2/12
 		public static double kElevatorFFAddition2 = 0.0;
 
 		public static double kElevatorP = 0.0;
@@ -92,8 +92,8 @@ public class RobotMap {
 		public static double kElevatorFFWithBall = 0.0;
 
 		public static double kElevatorHeightEpsilon = 1.0; //min height is 1 inch off ground TODO: check me
-		public static double kElevatorHomingHeight = 0.0; //height of elevator off ground when at home position
-		public static double kElevatorMaxHeight = 69.75; //Checked 2/12
+		public static double kElevatorHomingHeight = 7.0; //height of elevator off ground when at home position
+		public static double kElevatorMaxHeight = 76.75; //Checked 2/12
 
 		public static double kElevatorTicksPerInch = (4096.0 / 3.0) / (2.0*Math.PI * 0.65); //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
