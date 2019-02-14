@@ -72,7 +72,9 @@ public class Elevator extends Subsystem {
 
         m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR2);
 
-        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
+        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_ELEVATORSHIFT);
+        //https://www.chiefdelphi.com/t/shuffleboard-robot-preferences-widget/344376/3
+
         m_shifter.set(false); //false should be high gear or normal running mode
 
         /**
