@@ -21,7 +21,7 @@ public class Elevator extends Subsystem {
         return m_pInstance;
     }
 
-    public static enum ElevatorState{
+    public enum ElevatorState{
         Manual,
         MotionMagic,
     }
@@ -35,12 +35,12 @@ public class Elevator extends Subsystem {
     }
 
     //Create necessary objects
-    private static WPI_TalonSRX m_elevatorMaster;
-    private static WPI_TalonSRX m_elevatorSlave;
-    private volatile ElevatorState state;
-
     private static Solenoid m_shifter;
 
+    private static WPI_TalonSRX m_elevatorMaster;
+    private static WPI_TalonSRX m_elevatorSlave;
+
+    private volatile ElevatorState state;
     private static PeriodicIO mPeriodicIO = new PeriodicIO();
 
     //Create and define all standard data types needed
@@ -74,6 +74,12 @@ public class Elevator extends Subsystem {
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
         m_shifter.set(false); //false should be high gear or normal running mode
+
+        /**
+         * Upward is positive motor direction
+         *
+         * Upward is positive encoder direction
+         */
 
     }
 
@@ -231,6 +237,11 @@ public class Elevator extends Subsystem {
     public static boolean getShift(){
         return m_shifter.get();
     }
+
+    /**
+     * Gets the acceleration of the elevator
+     * @return Acceleration of the elevator in inches per second^2
+     */
     public static synchronized double getActiveTrajectoryAccelG() {
         return mPeriodicIO.active_trajectory_accel_g;
     }
@@ -255,8 +266,12 @@ public class Elevator extends Subsystem {
         return m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed();
     }
 
-    //configs
-
+    //Configs
+    /**
+     * Configure motion magic parameters
+     * @param acceleration maximum/target acceleration
+     * @param cruiseVelocity cruise velocity
+     */
     private static synchronized void configMotionMagic(int acceleration, int cruiseVelocity){
         m_elevatorMaster.configMotionCruiseVelocity(cruiseVelocity, 0);
         m_elevatorMaster.configMotionAcceleration(acceleration, 0);
@@ -289,6 +304,8 @@ public class Elevator extends Subsystem {
         SmartDashboard.putNumber("Elevator Current Trajectory Point", mPeriodicIO.active_trajectory_position);
         SmartDashboard.putNumber("Elevator Traj Vel", mPeriodicIO.active_trajectory_velocity);
         SmartDashboard.putNumber("Elevator Traj Accel", mPeriodicIO.active_trajectory_accel_g);
+
+        SmartDashboard.putNumber("Elevator Feed Forward", mPeriodicIO.feedforward);
 
         SmartDashboard.putBoolean("Elevator Rev_Switch",m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed());
         SmartDashboard.putBoolean("Elevator Fwd_Switch", m_elevatorMaster.getSensorCollection().isFwdLimitSwitchClosed());

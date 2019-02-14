@@ -72,7 +72,7 @@ public class RobotMap {
 
 		//Elevator
 		//TODO: Actually find these values
-		public static double kElevatorSlowZone = 0.0;
+		public static double kElevatorSlowZone = 11.0;
 
 		public static double kElevatorStagePickup1 = 21.75; //Checked 2/12
 		public static double kElevatorFFAddition1 = 0.0;
@@ -163,7 +163,7 @@ public class RobotMap {
 
 	/**
 	 * Gamepad Axis List
-	 * TODO: 0-4 are to be coded for
+	 *
 	 */
 	public static final int LST_AXS_LJOYSTICKX = 0;
 	public static final int LST_AXS_LJOYSTICKY = 1;

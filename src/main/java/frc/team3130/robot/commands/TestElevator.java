@@ -12,12 +12,12 @@ public class TestElevator extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Elevator.rawElevator(Preferences.getInstance().getDouble("ElevTest", 0.0));
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
+        Elevator.rawElevator(Preferences.getInstance().getDouble("Elevator Test", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()

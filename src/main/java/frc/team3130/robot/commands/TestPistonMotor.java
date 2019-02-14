@@ -13,12 +13,12 @@ public class TestPistonMotor extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        PistonClimber.rawPiston(Preferences.getInstance().getDouble("PisTest", 0.0));
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
+        PistonClimber.rawPiston(Preferences.getInstance().getDouble("Climb Motor Test", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()
