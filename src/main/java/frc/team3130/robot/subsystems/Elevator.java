@@ -55,20 +55,22 @@ public class Elevator extends Subsystem {
         m_elevatorSlave.configFactoryDefault();
 
         m_elevatorMaster.setNeutralMode(NeutralMode.Brake);
-        m_elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
+        m_elevatorSlave.setNeutralMode(NeutralMode.Brake);
+
+        //m_elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
-        m_elevatorMaster.overrideLimitSwitchesEnable(true);
-        m_elevatorMaster.overrideSoftLimitsEnable(false);
+        //m_elevatorMaster.overrideLimitSwitchesEnable(true);
+        //m_elevatorMaster.overrideSoftLimitsEnable(false);
 
-        m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
-        m_elevatorMaster.enableVoltageCompensation(true);
+        //m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
+        //m_elevatorMaster.enableVoltageCompensation(true);
 
-        m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-        m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        //m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        //m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
-        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
+        //configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
 
         m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR2);
 

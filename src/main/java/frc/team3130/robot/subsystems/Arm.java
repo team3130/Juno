@@ -52,6 +52,7 @@ public class Arm extends Subsystem {
          * Relative: Wrist angle is relative to the arm, elbow is technically relative
          * to the elevator and thus, the ground.
          */
+        m_wrist.setInverted(true);
     }
 
     @Override

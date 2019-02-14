@@ -49,7 +49,7 @@ public class RobotMap {
 			public static int kWristMaxAcc = 0; // 1024
 			public static int kWristMaxVel = 0; // 1024
 
-			public static double kWristFFEmpty = 0.0;
+			public static double kWristFFEmpty = 0.2; //checked
 			public static double kWristFFBall = 0.0;
 			public static double kWristFFHatch = 0.0;
 
@@ -63,7 +63,7 @@ public class RobotMap {
 			public static int kElbowMaxAcc = 0; // 1024
 			public static int kElbowMaxVel = 0; // 1024
 
-			public static double kElbowFFEmpty = 0.0;
+			public static double kElbowFFEmpty = 0.22;
 			public static double kElbowFFBall = 0.0;
 			public static double kElbowFFHatch = 0.0;
 
