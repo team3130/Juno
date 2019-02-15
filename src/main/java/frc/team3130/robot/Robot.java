@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto mode", chooser);
 
     //Starting position of robot
-    //If hardcoding required, manually choose fieldSide below
+    //      NOTE: If hardcoding required, manually choose fieldSide below
     startPos.setDefaultOption("Left Start Pos", "Left");
     startPos.addOption("Right Start Pos", "Right");
 

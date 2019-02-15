@@ -1,6 +1,5 @@
 package frc.team3130.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;
@@ -24,8 +23,7 @@ public class ElevatorToHeight extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
-    	DriverStation.reportWarning("ElevatorToHeight.java command started", false);
-    	Elevator.setHeight(dist-3.0); //distance to travel in inches
+    	Elevator.setHeight(dist); //distance to travel in inches
     }
 
     // Called repeatedly when this Command is scheduled to run
