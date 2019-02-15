@@ -52,7 +52,8 @@ public class Arm extends Subsystem {
          * Relative: Wrist angle is relative to the arm, elbow is technically relative
          * to the elevator and thus, the ground.
          */
-        m_wrist.setInverted(true);
+        m_wrist.setInverted(false);
+        m_elbow.setInverted(true);
     }
 
     @Override
@@ -125,7 +126,6 @@ public class Arm extends Subsystem {
         m_wrist.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
-
     }
 
     /**

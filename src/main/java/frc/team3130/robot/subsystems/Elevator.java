@@ -57,25 +57,24 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.setNeutralMode(NeutralMode.Brake);
         m_elevatorSlave.setNeutralMode(NeutralMode.Brake);
 
-        //m_elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
+        m_elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
-        //m_elevatorMaster.overrideLimitSwitchesEnable(true);
-        //m_elevatorMaster.overrideSoftLimitsEnable(false);
+        m_elevatorMaster.overrideLimitSwitchesEnable(true);
+        m_elevatorMaster.overrideSoftLimitsEnable(false);
 
-        //m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
-        //m_elevatorMaster.enableVoltageCompensation(true);
+        m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
+        m_elevatorMaster.enableVoltageCompensation(true);
 
-        //m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-        //m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
         //configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
 
         m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR2);
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_ELEVATORSHIFT);
-        //https://www.chiefdelphi.com/t/shuffleboard-robot-preferences-widget/344376/3
 
         m_shifter.set(false); //false should be high gear or normal running mode
 
