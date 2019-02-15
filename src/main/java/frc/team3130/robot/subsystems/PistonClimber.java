@@ -1,8 +1,9 @@
 package frc.team3130.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 
 public class PistonClimber extends Subsystem {
@@ -16,8 +17,9 @@ public class PistonClimber extends Subsystem {
 
     //Create necessary objects
 
-    private static Solenoid piston1;
-    private static Solenoid piston2;
+    private static Solenoid pistons;
+
+    private static WPI_TalonSRX m_Pistons;
 
     //Create and define all standard data types needed
 
@@ -27,8 +29,10 @@ public class PistonClimber extends Subsystem {
          * Constructor:
          * Define and configure your defined objects (ie. talons, vars)
          */
-        piston1 = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON1);
-        piston2 = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_CLIMBPISTON2);
+        pistons = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON1);
+
+        m_Pistons = new WPI_TalonSRX(RobotMap.CAN_PISTON);
+
 
     }
 
@@ -37,10 +41,12 @@ public class PistonClimber extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 
+    public static void rawPiston(double percent){ m_Pistons.set(ControlMode.PercentOutput, percent); }
 
     public static void toggleClimbPistons() {
-        piston1.set(!piston1.get());
-        piston2.set(!piston2.get());
+        pistons.set(!pistons.get());
     }
 
 }
+
+

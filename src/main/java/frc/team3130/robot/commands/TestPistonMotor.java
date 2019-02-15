@@ -1,47 +1,39 @@
 package frc.team3130.robot.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.OI;
-import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Elevator;
+import frc.team3130.robot.subsystems.PistonClimber;
 
-/**
- *
- */
-public class ElevatorToHeight extends Command {
-
-	private double dist;
-	
-    public ElevatorToHeight(double dist) {
-    	this.dist = dist;
-        requires(Elevator.GetInstance());
+public class TestPistonMotor extends Command {
+    public TestPistonMotor() {
+        //Put in the instance of whatever subsystem u need here
+        requires(PistonClimber.GetInstance());
     }
 
-    public void setParam(double dist){
-    	this.dist = dist;
-    }
-    
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Elevator.setSimpleMotionMagic(dist); //distance to travel in inches
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        PistonClimber.rawPiston(Preferences.getInstance().getDouble("Climb Motor Test", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Elevator.getHeightOffGround()-dist)<12 ||
-        	   Math.abs(OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY)) > 0.1;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        PistonClimber.rawPiston(0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
 }

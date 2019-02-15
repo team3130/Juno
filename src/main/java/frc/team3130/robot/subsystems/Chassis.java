@@ -38,15 +38,6 @@ public class Chassis extends PIDSubsystem {
     //Create and define all standard data types needed
     public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
 
-    //PID Preferences Defaults
-    private static final double SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT = 0.02; //0.018
-    private static final double SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT = 0;
-    private static final double SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT = 0.09; //0.062
-
-    private static final double SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT = 0.03;
-    private static final double SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT = 0;
-    private static final double SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT = 0.11;
-
     private Chassis() {
         super(1.0,0,0);
 
@@ -140,15 +131,15 @@ public class Chassis extends PIDSubsystem {
     {
         if(getShift()) {
             GetInstance().getPIDController().setPID(
-                    Preferences.getInstance().getDouble("ChassisHighP",SUBSYSTEM_STRAIGHT_HIGH_P_DEFAULT),
-                    Preferences.getInstance().getDouble("ChassisHighI",SUBSYSTEM_STRAIGHT_HIGH_I_DEFAULT),
-                    Preferences.getInstance().getDouble("ChassisHighD",SUBSYSTEM_STRAIGHT_HIGH_D_DEFAULT)
+                    RobotMap.kChassisHighP,
+                    RobotMap.kChassisHighI,
+                    RobotMap.kChassisHighD
             );
         }else{
             GetInstance().getPIDController().setPID(
-                    Preferences.getInstance().getDouble("ChassisLowP",SUBSYSTEM_STRAIGHT_LOW_P_DEFAULT),
-                    Preferences.getInstance().getDouble("ChassisLowI",SUBSYSTEM_STRAIGHT_LOW_I_DEFAULT),
-                    Preferences.getInstance().getDouble("ChassisLowD",SUBSYSTEM_STRAIGHT_LOW_D_DEFAULT)
+                    RobotMap.kChassisLowP,
+                    RobotMap.kChassisLowI,
+                    RobotMap.kChassisLowD
             );
         }
     }

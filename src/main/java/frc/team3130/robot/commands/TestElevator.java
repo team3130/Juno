@@ -1,14 +1,13 @@
 package frc.team3130.robot.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.Arm;
+import frc.team3130.robot.subsystems.Elevator;
 
-
-public class ArmDown extends Command {
-    public ArmDown() {
+public class TestElevator extends Command {
+    public TestElevator() {
         //Put in the instance of whatever subsystem u need here
-        //requires();
-        requires(Arm.GetInstance());
+        requires(Elevator.GetInstance());
     }
 
     // Called just before this Command runs the first time
@@ -18,8 +17,7 @@ public class ArmDown extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Arm.runElbow(0);
-        Arm.runWrist(0);
+        Elevator.rawElevator(Preferences.getInstance().getDouble("Elevator Test", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -29,12 +27,12 @@ public class ArmDown extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Arm.runElbow(0);
-        Arm.runWrist(0);
+        Elevator.rawElevator(0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
 }

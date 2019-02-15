@@ -16,7 +16,7 @@ public class Intake extends Subsystem {
     }
 
     //Intake state handler
-    public static enum IntakeState{
+    public enum IntakeState{
         Empty,
         HasBall,
         HasHatch
@@ -38,7 +38,6 @@ public class Intake extends Subsystem {
 
     private volatile IntakeState state;
 
-
     private Intake(){
         m_ballMotor = new WPI_TalonSRX(RobotMap.CAN_BALLMOTOR);
         m_hatchMotor = new WPI_TalonSRX(RobotMap.CAN_HATCHMOTOR);
@@ -50,10 +49,10 @@ public class Intake extends Subsystem {
         m_ballMotor.configFactoryDefault();
         m_hatchMotor.configFactoryDefault();
 
-        clamp = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON);
-
         m_ballMotor.setNeutralMode(NeutralMode.Brake);
         m_hatchMotor.setNeutralMode(NeutralMode.Brake);
+
+        clamp = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON);
     }
 
     public void initDefaultCommand() {

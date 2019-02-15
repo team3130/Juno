@@ -73,10 +73,9 @@ public class OI {
 
     public static JoystickButton toggleIntakeClamp;
 
-    public static JoystickButton runPivotMotor1;
-    public static JoystickButton runPivotMotor2;
-
     public static JoystickButton toggleClimber;
+
+    public static JoystickButton testElevator;
 
 
 
@@ -93,14 +92,10 @@ public class OI {
 
         toggleIntakeClamp = new JoystickButton(stickR, 6);
 
-        runPivotMotor1 = new JoystickButton(stickL, 6);
-        runPivotMotor2 = new JoystickButton(stickL, 7);
-
-
-
-        //Button 8 deleted because motorized climber existn't
-
         toggleClimber = new JoystickButton(stickL, 4);
+
+        testElevator = new JoystickButton(stickR, 2);
+
 
         shift.whenPressed(new ShiftToggle());
 
@@ -111,10 +106,9 @@ public class OI {
 
         toggleIntakeClamp.whenPressed(new ClampToggle());
 
-        runPivotMotor1.whileHeld(new ArmDown());
-        runPivotMotor2.whileHeld(new ArmUp());
-
         toggleClimber.whenPressed(new ClimberToggle());
+
+        testElevator.whileHeld(new TestElevator());
         
 
     }

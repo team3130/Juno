@@ -20,10 +20,21 @@ public class RobotMap {
 	 */
 		//Chassis
 		//TODO: Get the actual values, using janky values bots right now
-		public static double kChassisWidth = 23.25; //Distance between the left and right middle wheels
-		public static double kLWheelDiameter = 3.0; //Center wheel
-		public static double kRWheelDiameter = 3.0;	//Center wheel
+		public static double kChassisWidth = 23.5; //Checked 2/12 Distance between the left and right middle wheels
+		public static double kLWheelDiameter = 6.0; //Center wheel
+		public static double kRWheelDiameter = 6.0; //Center wheel
 		public static double kDriveCodesPerRev = 2048.0;
+
+		//PID Preferences Defaults
+		public static double kChassisHighP = 0.02; //0.018
+		public static double kChassisHighI = 0;
+		public static double kChassisHighD = 0.09; //0.062
+
+		public static double kChassisLowP = 0.03;
+		public static double kChassisLowI = 0;
+		public static double kChassisLowD = 0.11;
+
+
 
 		//Intake
 
@@ -38,7 +49,11 @@ public class RobotMap {
 			public static int kWristMaxAcc = 0; // 1024
 			public static int kWristMaxVel = 0; // 1024
 
-			public static double kWristTicksPerDeg = (1024.0) / (2.0*Math.PI * 1.0); //1024 ticks per revolution of gearbox output shaft
+			public static double kWristFFEmpty = 0.2; //checked
+			public static double kWristFFBall = 0.0;
+			public static double kWristFFHatch = 0.0;
+
+			public static double kWristTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
 
 			//Elbow
 			public static double kElbowP = 0.0;
@@ -48,20 +63,39 @@ public class RobotMap {
 			public static int kElbowMaxAcc = 0; // 1024
 			public static int kElbowMaxVel = 0; // 1024
 
-			public static double kElbowTicksPerDeg = (1024.0) / (2.0*Math.PI * 1.0); //1024 ticks per revolution of gearbox output shaft
+			public static double kElbowFFEmpty = 0.22;
+			public static double kElbowFFBall = 0.0;
+			public static double kElbowFFHatch = 0.0;
+
+			public static double kElbowTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
 
 
 		//Elevator
 		//TODO: Actually find these values
-		public static double kElevatorBias = 0.0;
-		public static double kElevatorSlowZone = 0.0;
+		public static double kElevatorSlowZone = 11.0;
+
+		public static double kElevatorStagePickup1 = 21.75; //Checked 2/12
+		public static double kElevatorFFAddition1 = 0.0;
+
+		public static double kElevatorStagePickup2 = 49.25; //Checked 2/12
+		public static double kElevatorFFAddition2 = 0.0;
 
 		public static double kElevatorP = 0.0;
 		public static double kElevatorI = 0.0;
 		public static double kElevatorD = 0.0;
 		public static double kElevatorF = 0.0;
+		public static int kElevatorMaxAcc = 0;
+		public static int kElevatorMaxVel = 0;
 
-		public static double kElevatorTicksPerInch = (1024.0) / (2.0 * 2.0 * Math.PI); //1024 ticks per revolution of gearbox output shaft
+		public static double kElevatorFFEmpty = 0.0;
+		public static double kElevatorFFWithHatch = 0.0;
+		public static double kElevatorFFWithBall = 0.0;
+
+		public static double kElevatorHeightEpsilon = 1.0; //min height is 1 inch off ground TODO: check me
+		public static double kElevatorHomingHeight = 7.0; //height of elevator off ground when at home position
+		public static double kElevatorMaxHeight = 76.75; //Checked 2/12
+
+		public static double kElevatorTicksPerInch = (4096.0 / 3.0) / (2.0*Math.PI * 0.65); //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
 		//Limelight
 		//TODO: Figure this out with CAD
@@ -86,27 +120,30 @@ public class RobotMap {
 	 */
 	public static final int CAN_PNMMODULE = 1;
 
-    public static final int CAN_LEFTMOTORFRONT = 2;
-	public static final int CAN_LEFTMOTORREAR = 3;
-	public static final int CAN_RIGHTMOTORFRONT = 4;
-	public static final int CAN_RIGHTMOTORREAR = 5;
+	public static final int CAN_RIGHTMOTORFRONT = 2;
+	public static final int CAN_RIGHTMOTORREAR = 3;
 
-	public static final int CAN_BALLMOTOR = 9;
-	public static final int CAN_HATCHMOTOR = 10;
+    public static final int CAN_LEFTMOTORFRONT = 4;
+	public static final int CAN_LEFTMOTORREAR = 5;
 
 	public static final int CAN_ARMELBOW = 6;
 	public static final int CAN_ARMWRIST =	 7;
 
-	public static final int CAN_ELEVATOR1 = 11;
-	public static final int CAN_ELEVATOR2 = 12;
+	public static final int CAN_BALLMOTOR = 8;
+	public static final int CAN_HATCHMOTOR = 9;
+
+	public static final int CAN_ELEVATOR1 = 10;
+	public static final int CAN_ELEVATOR2 = 11;
+
+	public static final int CAN_PISTON = 12;
 
 
 	/**
 	 * Pneumatics ports
 	 */
 	public static final int PNM_SHIFT = 0;
-	public static final int PNM_CLIMBPISTON1 = 1;
-	public static final int PNM_CLIMBPISTON2 = 2;
+	public static final int PNM_ELEVATORSHIFT = 1;
+	public static final int PNM_CLIMBPISTON1 = 2;
 	public static final int PNM_INTAKEPISTON = 3;
 
 	/**
@@ -126,7 +163,7 @@ public class RobotMap {
 
 	/**
 	 * Gamepad Axis List
-	 * TODO: 0-4 are to be coded for
+	 *
 	 */
 	public static final int LST_AXS_LJOYSTICKX = 0;
 	public static final int LST_AXS_LJOYSTICKY = 1;

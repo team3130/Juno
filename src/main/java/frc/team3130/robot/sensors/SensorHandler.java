@@ -46,5 +46,6 @@ public class SensorHandler {
             if(Elevator.hasBeenZeroed())
                 Elevator.setZeroedState(false);
         }
+        Elevator.GetInstance().readPeriodicInputs();
     }
 }
