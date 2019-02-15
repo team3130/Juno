@@ -210,8 +210,10 @@ public class Elevator extends Subsystem {
                 mPeriodicIO.feedforward = RobotMap.kElevatorFFEmpty;
             }else if(Intake.GetInstance().getState() == Intake.IntakeState.HasBall){
                 mPeriodicIO.feedforward = RobotMap.kElevatorFFWithBall;
-            }else{
+            }else if(Intake.GetInstance().getState() == Intake.IntakeState.HasHatch){
                 mPeriodicIO.feedforward = RobotMap.kElevatorFFWithHatch;
+            }else{
+                mPeriodicIO.feedforward = RobotMap.kElevatorFFEmpty;
             }
             if(currHeight > RobotMap.kElevatorStagePickup1){
                 mPeriodicIO.feedforward += RobotMap.kElevatorFFAddition1;

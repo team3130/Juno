@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.Arm;
 
-public class TestWrist extends Command {
-    public TestWrist() {
+public class TestArm extends Command {
+    public TestArm() {
         //Put in the instance of whatever subsystem u need here
         requires(Arm.GetInstance());
     }
@@ -17,6 +17,7 @@ public class TestWrist extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        Arm.runElbow(Preferences.getInstance().getDouble("Elbow Test", 0.0));
         Arm.runWrist(Preferences.getInstance().getDouble("Wrist Test", 0.0));
     }
 
@@ -27,6 +28,7 @@ public class TestWrist extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+        Arm.runElbow(0.0);
         Arm.runWrist(0.0);
     }
 

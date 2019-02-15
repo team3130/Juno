@@ -108,7 +108,7 @@ public class OI {
 
         toggleClimber.whenPressed(new ClimberToggle());
 
-        testElevator.whileHeld(new TestElbow());
+        testElevator.whileHeld(new TestElevator());
         
 
     }

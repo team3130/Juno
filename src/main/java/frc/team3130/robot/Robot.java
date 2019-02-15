@@ -112,9 +112,10 @@ public class Robot extends TimedRobot {
     //determine the auton to run
     determineAuton();
     //start that command
+    /*
     if (autonomousCommand != null) {
       autonomousCommand.start();
-    }
+    }*/
   }
 
   /**
