@@ -1,39 +1,28 @@
 package frc.team3130.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.OI;
-import frc.team3130.robot.RobotMap;
-import frc.team3130.robot.subsystems.Elevator;
+import frc.team3130.robot.subsystems.PistonClimber;
 
-/**
- *
- */
-public class ElevatorToHeight extends Command {
-
-	private double dist;
-	
-    public ElevatorToHeight(double dist) {
-    	this.dist = dist;
-        requires(Elevator.GetInstance());
+public class ClimberToggle2 extends Command {
+    public ClimberToggle2() {
+        //Put in the instance of whatever command u need here
+        requires(PistonClimber.GetInstance());
     }
 
-    public void setParam(double dist){
-    	this.dist = dist;
-    }
-    
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Elevator.setSimpleMotionMagic(dist); //distance to travel in inches
+        PistonClimber.toggleClimbPistons2();
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Elevator.getHeightOffGround()-dist)<12 ||
-        	   Math.abs(OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY)) > 0.1;
+        return true;
     }
 
     // Called once after isFinished returns true

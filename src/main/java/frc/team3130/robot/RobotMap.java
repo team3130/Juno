@@ -142,14 +142,16 @@ public class RobotMap {
 	public static final int CAN_PISTON = 12;
 
 
+
+
 	/**
 	 * Pneumatics ports
 	 */
 	public static final int PNM_SHIFT = 0;
 	public static final int PNM_ELEVATORSHIFT = 1;
-	public static final int PNM_CLIMBPISTON1 = 2;
-	public static final int PNM_INTAKEPISTON = 3;
-
+	public static final int PNM_INTAKEPISTON = 2;
+	public static final int PNM_CLIMBPISTON1 = 3;
+	public static final int PNM_CLIMBPISTON2 = 4;
 	/**
 	 * Gamepad Button List
 	 *

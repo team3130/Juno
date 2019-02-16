@@ -3,15 +3,16 @@ package frc.team3130.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.PistonClimber;
 
-public class ClimberToggle extends Command {
-    public ClimberToggle() {
+public class ClimberToggle1 extends Command {
+    public ClimberToggle1() {
         //Put in the instance of whatever command u need here
         requires(PistonClimber.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        PistonClimber.toggleClimbPistons();
+        PistonClimber.toggleClimbPistons1();
+
     }
 
     // Called repeatedly when this Command is scheduled to run

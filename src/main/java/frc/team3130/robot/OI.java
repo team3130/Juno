@@ -60,9 +60,8 @@ public class OI {
      * Definitions for joystick buttons start
      */
     //Joystick
-    public static Joystick stickL;
-    public static Joystick stickR;
-    public static Joystick gamepad;
+    public static Joystick driverGamepad;
+    public static Joystick WeaponsGamepad;
 
     public static JoystickButton shift;
 
@@ -73,7 +72,55 @@ public class OI {
 
     public static JoystickButton toggleIntakeClamp;
 
-    public static JoystickButton toggleClimber;
+    public static JoystickButton deployClimber;
+    public static JoystickButton testElevator;
+
+    //Settings for gamepad
+    private OI(){
+        driverGamepad = new Joystick(0);
+        WeaponsGamepad = new Joystick(1);
+
+        shift = new JoystickButton(driverGamepad, 9);
+
+
+        runBallIn = new JoystickButton(driverGamepad, 6);
+        runBallOut = new JoystickButton(driverGamepad, 5);
+
+        toggleIntakeClamp = new JoystickButton(driverGamepad, 2);
+
+        deployClimber = new JoystickButton(WeaponsGamepad, 8);
+
+        testElevator = new JoystickButton(WeaponsGamepad, 2);
+
+
+        shift.whenPressed(new ShiftToggle());
+
+        runBallIn.whileHeld(new BallIn());
+        runBallOut.whileHeld(new BallOut());
+
+        toggleIntakeClamp.whenPressed(new ClampToggle());
+
+        deployClimber.whenPressed(new DeployClimber());
+
+        testElevator.whileHeld(new TestElevator());
+
+    }
+
+
+
+
+    //Settings for Joysticks
+    /** public static JoystickButton shift;
+
+    public static JoystickButton runBallOut;
+    public static JoystickButton runBallIn;
+
+    public static JoystickButton runHatchIn;
+
+    public static JoystickButton toggleIntakeClamp;
+
+    public static JoystickButton deployClimber;
+    public static JoystickButton toggleClimber2;
 
     public static JoystickButton testElevator;
 
@@ -92,7 +139,8 @@ public class OI {
 
         toggleIntakeClamp = new JoystickButton(stickR, 6);
 
-        toggleClimber = new JoystickButton(stickL, 4);
+        deployClimber = new JoystickButton(stickL, 4);
+        toggleClimber2 = new JoystickButton(stickL, 7);
 
         testElevator = new JoystickButton(stickR, 2);
 
@@ -106,10 +154,11 @@ public class OI {
 
         toggleIntakeClamp.whenPressed(new ClampToggle());
 
-        toggleClimber.whenPressed(new ClimberToggle());
+        deployClimber.whenPressed(new ClimberToggle1());
+        toggleClimber2.whenPressed(new ClimberToggle2());
 
         testElevator.whileHeld(new TestElevator());
-        
+        **/
 
     }
 
