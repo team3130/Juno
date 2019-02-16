@@ -17,7 +17,9 @@ public class PistonClimber extends Subsystem {
 
     //Create necessary objects
 
-    private static Solenoid pistons;
+    private static Solenoid pistons1;
+
+    private static Solenoid pistons2;
 
     private static WPI_TalonSRX m_Pistons;
 
@@ -29,7 +31,9 @@ public class PistonClimber extends Subsystem {
          * Constructor:
          * Define and configure your defined objects (ie. talons, vars)
          */
-        pistons = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON1);
+        pistons1 = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON1);
+
+        pistons2 = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON2);
 
         m_Pistons = new WPI_TalonSRX(RobotMap.CAN_PISTON);
 
@@ -43,8 +47,12 @@ public class PistonClimber extends Subsystem {
 
     public static void rawPiston(double percent){ m_Pistons.set(ControlMode.PercentOutput, percent); }
 
-    public static void toggleClimbPistons() {
-        pistons.set(!pistons.get());
+    public static void toggleClimbPistons1() {
+        pistons1.set(!pistons1.get());
+    }
+
+    public static void toggleClimbPistons2() {
+        pistons2.set(!pistons2.get());
     }
 
 }

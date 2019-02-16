@@ -73,7 +73,8 @@ public class OI {
 
     public static JoystickButton toggleIntakeClamp;
 
-    public static JoystickButton toggleClimber;
+    public static JoystickButton toggleClimber1;
+    public static JoystickButton toggleClimber2;
 
     public static JoystickButton testElevator;
 
@@ -92,7 +93,8 @@ public class OI {
 
         toggleIntakeClamp = new JoystickButton(stickR, 6);
 
-        toggleClimber = new JoystickButton(stickL, 4);
+        toggleClimber1 = new JoystickButton(stickL, 4);
+        toggleClimber2 = new JoystickButton(stickL, 7);
 
         testElevator = new JoystickButton(stickR, 2);
 
@@ -106,7 +108,8 @@ public class OI {
 
         toggleIntakeClamp.whenPressed(new ClampToggle());
 
-        toggleClimber.whenPressed(new ClimberToggle());
+        toggleClimber1.whenPressed(new ClimberToggle1());
+        toggleClimber2.whenPressed(new ClimberToggle2());
 
         testElevator.whileHeld(new TestElevator());
         
