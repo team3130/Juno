@@ -81,6 +81,8 @@ public class RobotMap {
 		//Elevator
 		//TODO: Actually find these values
 		public static double kElevatorSlowZone = 11.0;
+		public static double kElevatorThreshold = 0.05;
+		public static double kElevatorMoveMultiplier = 0.8;
 
 		public static double kElevatorStagePickup1 = 21.75; //Checked 2/12
 		public static double kElevatorFFAddition1 = 0.0;

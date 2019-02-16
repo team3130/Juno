@@ -68,12 +68,10 @@ public class OI {
     public static JoystickButton runBallOut;
     public static JoystickButton runBallIn;
 
-    public static JoystickButton runHatchIn;
-
     public static JoystickButton toggleIntakeClamp;
 
     public static JoystickButton deployClimber;
-    public static JoystickButton testElevator;
+    public static JoystickButton testButton;
 
     //Settings for gamepad
     private OI(){
@@ -89,7 +87,7 @@ public class OI {
 
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
-        testElevator = new JoystickButton(weaponsGamepad, 2);
+        testButton = new JoystickButton(weaponsGamepad, 2);
 
 
         shift.whenPressed(new ShiftToggle());
@@ -101,7 +99,7 @@ public class OI {
 
         //deployClimber.whenPressed(new DeployClimber());
 
-        testElevator.whileHeld(new TestArm());
+        testButton.whileHeld(new TestArm());
 
     }
 
@@ -121,7 +119,7 @@ public class OI {
     public static JoystickButton deployClimber;
     public static JoystickButton toggleClimber2;
 
-    public static JoystickButton testElevator;
+    public static JoystickButton testButton;
 
 
 
@@ -141,7 +139,7 @@ public class OI {
         deployClimber = new JoystickButton(stickL, 4);
         toggleClimber2 = new JoystickButton(stickL, 7);
 
-        testElevator = new JoystickButton(stickR, 2);
+        testButton = new JoystickButton(stickR, 2);
 
 
         shift.whenPressed(new ShiftToggle());
@@ -156,7 +154,7 @@ public class OI {
         deployClimber.whenPressed(new ClimberToggle1());
         toggleClimber2.whenPressed(new ClimberToggle2());
 
-        testElevator.whileHeld(new TestElevator());
+        testButton.whileHeld(new TestElevator());
 
 
     }
