@@ -171,7 +171,18 @@ public class Elevator extends Subsystem {
                     Epsilon.epsilonEquals(newVel, mPeriodicIO.active_trajectory_velocity, 5)) {
                 // Elevator is at almost constant velocity.
                 mPeriodicIO.active_trajectory_accel_g = 0.0;
-            } else if (newPos >= mPeriodicIO.active_trajectory_position){ //elevator is moving up
+            }else{
+                if(newVel > mPeriodicIO.active_trajectory_velocity) { //TODO: check if velocities are negative in MP
+                    //elevator is accelerating upward
+                    mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
+                            (RobotMap.kElevatorTicksPerInch * 386.09);
+                }else{
+                    //elevator is accelerating downward
+                    mPeriodicIO.active_trajectory_accel_g = -RobotMap.kElevatorMaxAcc * 10.0 /
+                            (RobotMap.kElevatorTicksPerInch * 386.09);
+                }
+            }
+            /*} else if (newPos >= mPeriodicIO.active_trajectory_position){ //elevator is moving up
                 if(newVel > mPeriodicIO.active_trajectory_velocity) {
                     //elevator is accelerating upward
                     mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
@@ -181,7 +192,7 @@ public class Elevator extends Subsystem {
                     mPeriodicIO.active_trajectory_accel_g = -RobotMap.kElevatorMaxAcc * 10.0 /
                             (RobotMap.kElevatorTicksPerInch * 386.09);
                 }
-            }else { //elevator is moving downward //TODO: check if velocities are negative in MP
+            }else { //elevator is moving downward
                 if (newVel > mPeriodicIO.active_trajectory_velocity) {
                     //elevator is accelerating downward
                     mPeriodicIO.active_trajectory_accel_g = -RobotMap.kElevatorMaxAcc * 10.0 /
@@ -191,7 +202,7 @@ public class Elevator extends Subsystem {
                     mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
                             (RobotMap.kElevatorTicksPerInch * 386.09);
                 }
-            }
+            }*/
             //set values for next run
             mPeriodicIO.active_trajectory_velocity = newVel;
             mPeriodicIO.active_trajectory_position = newPos;

@@ -22,7 +22,7 @@ import frc.team3130.robot.vision.Limelight;
  */
 public class Robot extends TimedRobot {
 
-  Command autonomousCommand;
+  Command autonomousCommand = null;
   private SendableChooser<String> chooser  = new SendableChooser<String>();
   public static SendableChooser<String> startPos = new SendableChooser<String>();
 
@@ -48,7 +48,6 @@ public class Robot extends TimedRobot {
     //Instantiate sensors
     SensorHandler.GetInstance();
     Limelight.GetInstance();
-    CameraServer.getInstance().addAxisCamera("10.31.30.12");
 
     //Auton mode chooser
     chooser.setDefaultOption("Default Auto", "Default Auto");
@@ -110,7 +109,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     Elevator.resetElevator();
     //determine the auton to run
-    determineAuton();
+    //determineAuton();
     //start that command
     /*
     if (autonomousCommand != null) {

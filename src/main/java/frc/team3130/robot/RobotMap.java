@@ -53,6 +53,10 @@ public class RobotMap {
 			public static double kWristFFBall = 0.0;
 			public static double kWristFFHatch = 0.0;
 
+			public static double kWristKaWithBall = 0.01;
+			public static double kWristKaEmpty = 0.006;
+			public static double kWristKaWithHatch = 0.015;
+
 			public static double kWristTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
 
 			//Elbow

@@ -2,9 +2,12 @@ package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3130.robot.RobotMap;
+import frc.team3130.robot.util.Epsilon;
 
 
 public class Arm extends Subsystem {
@@ -111,12 +114,22 @@ public class Arm extends Subsystem {
 
 
     /**
-     * Gets the angle of the Wrist motor
+     * Gets the angle of the Wrist motor in relation to the arm
      * @return Angle of Wrist in degrees in relation to the arm (not relative the ground)
      */
-    public static double getWristAngle(){
+    public static double getRelativeWristAngle(){
         return m_wrist.getSelectedSensorPosition(0) / RobotMap.kWristTicksPerDeg;
     }
+
+    /**
+     * Gets the absolute angle of the Wrist motor
+     * @return Angle of Wrist in degrees relative the ground
+     */
+    public static double getAbsoluteWristAngle(){
+        return getRelativeWristAngle() - (180 - getElbowAngle());
+    }
+
+
 
     /**
      *  Move the arm Wrist motor to an angle relative to the arm
@@ -129,14 +142,89 @@ public class Arm extends Subsystem {
     }
 
     /**
-     *  Hold the Wrist's current angle by PID motion magic closed loop
+     *  Move the arm Wrist motor to an angle relative to the ground
+     * @param angle The angle setpoint to go to in degrees
      */
-    public static void holdAngleWrist() {
-        setWristSimpleRelativeAngle(getWristAngle());
+    public synchronized static void setWristSimpleAbsoluteAngle(double angle) {
+        m_wrist.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
+        configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
+        m_wrist.set(ControlMode.MotionMagic, (RobotMap.kWristTicksPerDeg * angle) + (180.0 - getElbowAngle()));
     }
 
 
 
+    /**
+     *  Hold the Wrist's current angle by PID motion magic closed loop
+     */
+    public static void holdAngleWrist() {
+        setWristSimpleRelativeAngle(getRelativeWristAngle());
+    }
+
+
+
+    public synchronized void readPeriodicInputs() {
+
+        StickyFaults faults = new StickyFaults();
+        m_elbow.getStickyFaults(faults);
+        if (faults.hasAnyFault()) {
+            m_elbow.clearStickyFaults(0);
+        }
+        m_wrist.getStickyFaults(faults);
+        if (faults.hasAnyFault()) {
+            m_wrist.clearStickyFaults(0);
+        }
+
+
+        if (m_wrist.getControlMode() == ControlMode.MotionMagic) {
+            //read in current trajectory position
+            wristPeriodicIO.active_trajectory_position = m_wrist.getActiveTrajectoryPosition();
+
+            final int newVel = m_wrist.getActiveTrajectoryVelocity();
+            if (Epsilon.epsilonEquals(newVel, RobotMap.kWristMaxVel, 5) ||
+                    Epsilon.epsilonEquals(newVel, wristPeriodicIO.active_trajectory_velocity, 5)) {
+                // Wrist is ~constant velocity.
+                wristPeriodicIO.active_trajectory_acceleration_rad_per_s2 = 0.0;
+            } else {
+                // Wrist is accelerating so find which way it's accelerating
+                wristPeriodicIO.active_trajectory_acceleration_rad_per_s2 = Math.signum(wristPeriodicIO
+                        .active_trajectory_velocity - newVel) * RobotMap.kWristMaxAcc * 20.0 * Math.PI / 4096;
+            }
+            wristPeriodicIO.active_trajectory_velocity = newVel;
+        } else {
+            wristPeriodicIO.active_trajectory_position = Integer.MIN_VALUE;
+            wristPeriodicIO.active_trajectory_velocity = 0;
+            wristPeriodicIO.active_trajectory_acceleration_rad_per_s2 = 0.0;
+        }
+        //wristPeriodicIO.limit_switch = m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
+        wristPeriodicIO.output_voltage = m_wrist.getMotorOutputVoltage();
+        wristPeriodicIO.output_percent = m_wrist.getMotorOutputPercent();
+        wristPeriodicIO.position_ticks = m_wrist.getSelectedSensorPosition(0);
+        wristPeriodicIO.velocity_ticks_per_100ms = m_wrist.getSelectedSensorVelocity(0);
+
+        /*
+        if (getAbsoluteWristAngle() > Robotmap.kWristEpsilon ||
+                wristPeriodicIO.active_trajectory_position / RobotMap.kWristTicksPerDeg > RobotMap.kWristEpsilon) {*/
+        if(m_wrist.isAlive()){
+            double ka = RobotMap.kWristKaEmpty;
+            double ff = RobotMap.kWristFFEmpty;
+            if(Intake.GetInstance().getState() == Intake.IntakeState.HasBall){
+                ff = RobotMap.kWristFFBall;
+                ka = RobotMap.kWristKaWithBall;
+            }
+            if(Intake.GetInstance().getState() == Intake.IntakeState.HasHatch){
+                ff = RobotMap.kWristFFHatch;
+                ka = RobotMap.kWristKaWithHatch;
+            }
+
+            double wristGravityComponent = Math.cos(Math.toRadians(getAbsoluteWristAngle())) * ff;
+            double elevatorAccelerationComponent = Elevator.getActiveTrajectoryAccelG();
+            double wristAccelerationComponent = wristPeriodicIO.active_trajectory_acceleration_rad_per_s2 * ka;
+
+            wristPeriodicIO.feedforward = wristGravityComponent + elevatorAccelerationComponent * wristGravityComponent + wristAccelerationComponent;
+        } else {
+            wristPeriodicIO.feedforward = 0.0;
+        }
+    }
 
     //Configs
     /**
@@ -175,7 +263,7 @@ public class Arm extends Subsystem {
         public double output_percent;
         public double output_voltage;
         public double feedforward;
-        public boolean limit_switch;
+        //public boolean limit_switch;
 
         // OUTPUTS
     }
