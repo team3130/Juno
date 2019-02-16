@@ -61,7 +61,7 @@ public class OI {
      */
     //Joystick
     public static Joystick driverGamepad;
-    public static Joystick WeaponsGamepad;
+    public static Joystick weaponsGamepad;
 
     public static JoystickButton shift;
 
@@ -78,19 +78,18 @@ public class OI {
     //Settings for gamepad
     private OI(){
         driverGamepad = new Joystick(0);
-        WeaponsGamepad = new Joystick(1);
+        weaponsGamepad = new Joystick(1);
 
         shift = new JoystickButton(driverGamepad, 9);
-
 
         runBallIn = new JoystickButton(driverGamepad, 6);
         runBallOut = new JoystickButton(driverGamepad, 5);
 
         toggleIntakeClamp = new JoystickButton(driverGamepad, 2);
 
-        deployClimber = new JoystickButton(WeaponsGamepad, 8);
+        deployClimber = new JoystickButton(weaponsGamepad, 8);
 
-        testElevator = new JoystickButton(WeaponsGamepad, 2);
+        testElevator = new JoystickButton(weaponsGamepad, 2);
 
 
         shift.whenPressed(new ShiftToggle());
@@ -100,7 +99,7 @@ public class OI {
 
         toggleIntakeClamp.whenPressed(new ClampToggle());
 
-        deployClimber.whenPressed(new DeployClimber());
+        //deployClimber.whenPressed(new DeployClimber());
 
         testElevator.whileHeld(new TestElevator());
 
