@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
@@ -58,6 +59,8 @@ public class Arm extends Subsystem {
          */
         m_wrist.setInverted(false);
         m_elbow.setInverted(true);
+
+        m_wrist.setSensorPhase(true);
 
         m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
         m_elbow.setSelectedSensorPosition((int) (180.0 * RobotMap.kElbowTicksPerDeg));
@@ -142,6 +145,11 @@ public class Arm extends Subsystem {
     public synchronized static void setWristSimpleRelativeAngle(double angle) {
         m_wrist.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
+        configPIDF(m_wrist,
+                RobotMap.kWristP,
+                RobotMap.kWristI,
+                RobotMap.kWristD,
+                RobotMap.kWristF);
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
 
@@ -152,7 +160,12 @@ public class Arm extends Subsystem {
     public synchronized static void setWristSimpleAbsoluteAngle(double angle) {
         m_wrist.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
-        m_wrist.set(ControlMode.MotionMagic, (RobotMap.kWristTicksPerDeg * angle) + (180.0 - getElbowAngle()));
+        configPIDF(m_wrist,
+                RobotMap.kWristP,
+                RobotMap.kWristI,
+                RobotMap.kWristD,
+                RobotMap.kWristF);
+        m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * (angle + (180.0 - getElbowAngle())));
     }
 
 
@@ -164,7 +177,13 @@ public class Arm extends Subsystem {
         setWristSimpleRelativeAngle(getRelativeWristAngle());
     }
 
+    public static void resetArm(){
+        m_wrist.clearMotionProfileTrajectories();
+        m_wrist.set(ControlMode.PercentOutput, 0.0);
 
+        m_elbow.clearMotionProfileTrajectories();
+        m_elbow.set(ControlMode.PercentOutput, 0.0);
+    }
 
     public synchronized void readPeriodicInputs() {
 
@@ -316,6 +335,7 @@ public class Arm extends Subsystem {
 
         SmartDashboard.putNumber("Elbow Angle", getElbowAngle());
         SmartDashboard.putNumber("Wrist Angle", getAbsoluteWristAngle());
+        SmartDashboard.putNumber("Wrist RelAngle", getRelativeWristAngle());
 
         SmartDashboard.putNumber("Wrist Sensor Value", wristPeriodicIO.position_ticks);
         SmartDashboard.putNumber("Elbow Sensor Value", elbowPeriodicIO.position_ticks);

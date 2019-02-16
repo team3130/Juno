@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Elevator.resetElevator();
+    Arm.resetArm();
     //determine the auton to run
     //determineAuton();
     //start that command
@@ -139,6 +140,7 @@ public class Robot extends TimedRobot {
       autonomousCommand.cancel();
     }
     Elevator.resetElevator();
+    Arm.resetArm();
   }
 
 

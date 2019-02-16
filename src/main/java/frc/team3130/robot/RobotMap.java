@@ -42,14 +42,14 @@ public class RobotMap {
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
 
 			//Wrist
-			public static double kWristP = 0.0;
+			public static double kWristP = 1.0;
 			public static double kWristI = 0.0;
-			public static double kWristD = 0.0;
+			public static double kWristD = 20.0;
 			public static double kWristF = 0.0;
-			public static int kWristMaxAcc = 0; // 1024
-			public static int kWristMaxVel = 0; // 1024
+			public static int kWristMaxAcc = 4100; // 1024
+			public static int kWristMaxVel = 5000; // 1024
 
-			public static double kWristFFEmpty = 0.2; //checked
+			public static double kWristFFEmpty = 0.1; //checked
 			public static double kWristFFBall = 0.0;
 			public static double kWristFFHatch = 0.0;
 

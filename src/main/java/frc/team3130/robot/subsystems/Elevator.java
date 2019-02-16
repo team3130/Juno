@@ -51,8 +51,12 @@ public class Elevator extends Subsystem {
         m_elevatorMaster = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR1);
         m_elevatorSlave = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR2);
 
+
+
         m_elevatorMaster.configFactoryDefault();
         m_elevatorSlave.configFactoryDefault();
+
+        m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR1);
 
         m_elevatorMaster.setNeutralMode(NeutralMode.Brake);
         m_elevatorSlave.setNeutralMode(NeutralMode.Brake);
@@ -72,7 +76,7 @@ public class Elevator extends Subsystem {
 
         //configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
 
-        m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR2);
+
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_ELEVATORSHIFT);
 

@@ -73,6 +73,9 @@ public class OI {
     public static JoystickButton deployClimber;
     public static JoystickButton testButton;
 
+    public static JoystickButton intakeCargo;
+    public static JoystickButton intakePickup;
+
     //Settings for gamepad
     private OI(){
         driverGamepad = new Joystick(0);
@@ -83,11 +86,14 @@ public class OI {
         runBallIn = new JoystickButton(driverGamepad, 6);
         runBallOut = new JoystickButton(driverGamepad, 5);
 
-        toggleIntakeClamp = new JoystickButton(driverGamepad, 2);
+        toggleIntakeClamp = new JoystickButton(driverGamepad, 4);
 
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
         testButton = new JoystickButton(weaponsGamepad, 2);
+
+        intakeCargo = new JoystickButton(driverGamepad, 2);
+        intakePickup = new JoystickButton(driverGamepad, 1);
 
 
         shift.whenPressed(new ShiftToggle());
@@ -95,11 +101,13 @@ public class OI {
         runBallIn.whileHeld(new BallIn());
         runBallOut.whileHeld(new BallOut());
 
-        toggleIntakeClamp.whenPressed(new ClampToggle());
+        //toggleIntakeClamp.whenPressed(new ClampToggle());
 
         //deployClimber.whenPressed(new DeployClimber());
+        intakePickup.whenPressed(new WristPickup());
+        intakeCargo.whenPressed(new WristCargo());
 
-        testButton.whileHeld(new TestArm());
+        //testButton.whileHeld(new TestArm());
 
     }
 
