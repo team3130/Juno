@@ -53,11 +53,11 @@ public class RobotMap {
 			public static double kWristFFBall = 0.0;
 			public static double kWristFFHatch = 0.0;
 
-			public static double kWristKaWithBall = 0.01;
+			public static double kWristKaWithBall = 0.008;
 			public static double kWristKaEmpty = 0.006;
-			public static double kWristKaWithHatch = 0.015;
+			public static double kWristKaWithHatch = 0.013;
 
-			public static double kWristTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
+			public static double kWristTicksPerDeg = 4096.0 / 360.0 * 44.0 / 18.0 ; //4096 ticks per revolution of gearbox output shaft
 
 			//Elbow
 			public static double kElbowP = 0.0;
@@ -71,7 +71,11 @@ public class RobotMap {
 			public static double kElbowFFBall = 0.0;
 			public static double kElbowFFHatch = 0.0;
 
-			public static double kElbowTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
+			public static double kElbowKaWithBall = 0.01;
+			public static double kElbowKaEmpty = 0.008;
+			public static double kElbowKaWithHatch = 0.015;
+
+			public static double kElbowTicksPerDeg = 4096.0 / 360.0 * 34.0 / 16.0; //4096 ticks per revolution of gearbox output shaft
 
 
 		//Elevator

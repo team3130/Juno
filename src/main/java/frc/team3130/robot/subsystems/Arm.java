@@ -224,6 +224,56 @@ public class Arm extends Subsystem {
         } else {
             wristPeriodicIO.feedforward = 0.0;
         }
+
+        if (m_elbow.getControlMode() == ControlMode.MotionMagic) {
+            //read in current trajectory position
+            elbowPeriodicIO.active_trajectory_position = m_elbow.getActiveTrajectoryPosition();
+
+            final int newVel = m_elbow.getActiveTrajectoryVelocity();
+            if (Epsilon.epsilonEquals(newVel, RobotMap.kElbowMaxVel, 5) ||
+                    Epsilon.epsilonEquals(newVel, elbowPeriodicIO.active_trajectory_velocity, 5)) {
+                // elbow is ~constant velocity.
+                elbowPeriodicIO.active_trajectory_acceleration_rad_per_s2 = 0.0;
+            } else {
+                // elbow is accelerating so find which way it's accelerating
+                elbowPeriodicIO.active_trajectory_acceleration_rad_per_s2 = Math.signum(elbowPeriodicIO
+                        .active_trajectory_velocity - newVel) * RobotMap.kElbowMaxAcc * 20.0 * Math.PI / 4096;
+            }
+            elbowPeriodicIO.active_trajectory_velocity = newVel;
+        } else {
+            elbowPeriodicIO.active_trajectory_position = Integer.MIN_VALUE;
+            elbowPeriodicIO.active_trajectory_velocity = 0;
+            elbowPeriodicIO.active_trajectory_acceleration_rad_per_s2 = 0.0;
+        }
+        //elbowPeriodicIO.limit_switch = m_elbow.getSensorCollection().isFwdLimitSwitchClosed();
+        elbowPeriodicIO.output_voltage = m_elbow.getMotorOutputVoltage();
+        elbowPeriodicIO.output_percent = m_elbow.getMotorOutputPercent();
+        elbowPeriodicIO.position_ticks = m_elbow.getSelectedSensorPosition(0);
+        elbowPeriodicIO.velocity_ticks_per_100ms = m_elbow.getSelectedSensorVelocity(0);
+
+        /*
+        if (getElbowAngle() > Robotmap.kElbowEpsilon ||
+                elbowPeriodicIO.active_trajectory_position / RobotMap.kElbowTicksPerDeg > RobotMap.kElbowEpsilon) {*/
+        if(m_elbow.isAlive()){
+            double ka = RobotMap.kElbowKaEmpty;
+            double ff = RobotMap.kElbowFFEmpty;
+            if(Intake.GetInstance().getState() == Intake.IntakeState.HasBall){
+                ff = RobotMap.kElbowFFBall;
+                ka = RobotMap.kElbowKaWithBall;
+            }
+            if(Intake.GetInstance().getState() == Intake.IntakeState.HasHatch){
+                ff = RobotMap.kElbowFFHatch;
+                ka = RobotMap.kElbowKaWithHatch;
+            }
+
+            double elbowGravityComponent = Math.cos(Math.toRadians(getElbowAngle())) * (ff - Math.cos(Math.toRadians(getAbsoluteWristAngle())) * wristPeriodicIO.feedforward);
+            double elevatorAccelerationComponent = Elevator.getActiveTrajectoryAccelG();
+            double elbowAccelerationComponent = elbowPeriodicIO.active_trajectory_acceleration_rad_per_s2 * ka;
+
+            elbowPeriodicIO.feedforward = elbowGravityComponent + elevatorAccelerationComponent * elbowGravityComponent + elbowAccelerationComponent;
+        } else {
+            elbowPeriodicIO.feedforward = 0.0;
+        }
     }
 
     //Configs
