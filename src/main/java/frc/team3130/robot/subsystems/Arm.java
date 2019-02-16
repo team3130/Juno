@@ -165,7 +165,8 @@ public class Arm extends Subsystem {
                 RobotMap.kWristI,
                 RobotMap.kWristD,
                 RobotMap.kWristF);
-        m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * (angle + (180.0 - getElbowAngle())));
+        //edited function to see if it now compensates for motionMagic downwards
+        m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * (angle - (180.0 - getElbowAngle())));
     }
 
 
