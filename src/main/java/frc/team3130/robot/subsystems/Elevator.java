@@ -23,8 +23,6 @@ public class Elevator extends Subsystem {
 
     public enum ElevatorState{
         Manual,
-
-
         MotionMagic,
     }
 
@@ -86,6 +84,8 @@ public class Elevator extends Subsystem {
          * Upward is positive encoder direction
          */
 
+        //m_elevatorMaster.setInverted();
+
     }
 
     public void initDefaultCommand() {
@@ -105,9 +105,6 @@ public class Elevator extends Subsystem {
     public static void runElevator(double percent){
         boolean isGoingDown = percent < 0;
 
-        //Offset the output using feed forward
-        percent += mPeriodicIO.feedforward;
-
         //When the elevator is going down
         if(isGoingDown){
             percent *= 0.75; //set to 75% of actual input when going down
@@ -116,6 +113,9 @@ public class Elevator extends Subsystem {
                 percent *= Math.abs(getHeightOffGround()/RobotMap.kElevatorSlowZone);
             }
         }
+
+        //Offset the output using feed forward
+        percent += mPeriodicIO.feedforward;
         m_elevatorMaster.set(ControlMode.PercentOutput, percent);
     }
 
@@ -125,7 +125,7 @@ public class Elevator extends Subsystem {
      */
     public synchronized static void setSimpleMotionMagic(double height){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
+        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, mPeriodicIO.feedforward);
         configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
         m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height + RobotMap.kElevatorHomingHeight);
     }
@@ -318,6 +318,8 @@ public class Elevator extends Subsystem {
 
         SmartDashboard.putNumber("Elevator Sensor Value", mPeriodicIO.position_ticks);
         SmartDashboard.putNumber("Elevator Output %", mPeriodicIO.output_percent);
+
+        SmartDashboard.putNumber("Elevator Slave Output %", m_elevatorMaster.getMotorOutputPercent());
 
         SmartDashboard.putNumber("Elevator Current Trajectory Point", mPeriodicIO.active_trajectory_position);
         SmartDashboard.putNumber("Elevator Traj Vel", mPeriodicIO.active_trajectory_velocity);
