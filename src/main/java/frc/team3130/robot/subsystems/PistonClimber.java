@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
 
 public class PistonClimber extends Subsystem {
@@ -21,7 +22,7 @@ public class PistonClimber extends Subsystem {
 
     private static Solenoid pistons2;
 
-    private static WPI_TalonSRX m_Pistons;
+    private static WPI_TalonSRX m_LandingGear;
 
     //Create and define all standard data types needed
 
@@ -35,17 +36,24 @@ public class PistonClimber extends Subsystem {
 
         pistons2 = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON2);
 
-        m_Pistons = new WPI_TalonSRX(RobotMap.CAN_PISTON);
+        m_LandingGear = new WPI_TalonSRX(RobotMap.CAN_PISTON);
 
+        m_LandingGear.configFactoryDefault();
 
+        m_LandingGear.configVoltageCompSaturation(12.0, 0);
+        m_LandingGear.enableVoltageCompensation(true);
     }
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+
     }
 
-    public static void rawPiston(double percent){ m_Pistons.set(ControlMode.PercentOutput, percent); }
+    public static void rawLandingGear(double percent){
+        m_LandingGear.set(ControlMode.PercentOutput, percent);
+
+    }
 
     public static void toggleClimbPistons1() {
         pistons1.set(!pistons1.get());
@@ -53,6 +61,10 @@ public class PistonClimber extends Subsystem {
 
     public static void toggleClimbPistons2() {
         pistons2.set(!pistons2.get());
+    }
+
+    public static boolean getPiston1() {
+        return pistons1.get();
     }
 
 }

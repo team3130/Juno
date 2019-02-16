@@ -10,11 +10,13 @@ package frc.team3130.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.OI;
 import frc.team3130.robot.subsystems.Chassis;
+import frc.team3130.robot.subsystems.PistonClimber;
 
 public class DefaultDrive extends Command {
   public DefaultDrive() {
     // Use requires() here to declare subsystem dependencies
     requires(Chassis.GetInstance());
+    requires(PistonClimber.GetInstance());
     // eg. requires(chassis);
   }
 
@@ -33,6 +35,9 @@ public class DefaultDrive extends Command {
     
     double turnThrottle = (1.0);
     Chassis.DriveArcade(moveSpeed, turnSpeed * turnThrottle, true);
+    if(PistonClimber.getPiston1()) {
+      PistonClimber.rawLandingGear(moveSpeed);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
