@@ -23,6 +23,8 @@ public class Elevator extends Subsystem {
 
     public enum ElevatorState{
         Manual,
+
+
         MotionMagic,
     }
 
