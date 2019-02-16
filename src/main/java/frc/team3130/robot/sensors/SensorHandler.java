@@ -1,5 +1,6 @@
 package frc.team3130.robot.sensors;
 
+import frc.team3130.robot.subsystems.Arm;
 import frc.team3130.robot.subsystems.Elevator;
 import frc.team3130.robot.subsystems.Intake;
 
@@ -47,5 +48,6 @@ public class SensorHandler {
                 Elevator.setZeroedState(false);
         }
         Elevator.GetInstance().readPeriodicInputs();
+        Arm.GetInstance().readPeriodicInputs();
     }
 }

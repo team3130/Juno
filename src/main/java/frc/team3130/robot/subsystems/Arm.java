@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.util.Epsilon;
 
@@ -57,6 +58,9 @@ public class Arm extends Subsystem {
          */
         m_wrist.setInverted(false);
         m_elbow.setInverted(true);
+
+        m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
+        m_elbow.setSelectedSensorPosition((int) (180.0 * RobotMap.kElbowTicksPerDeg));
     }
 
     @Override
@@ -301,6 +305,29 @@ public class Arm extends Subsystem {
         _talon.config_kI(0, kI, 0);
         _talon.config_kD(0, kD, 0);
         _talon.config_kF(0, kF, 0);
+    }
+
+    public void outputToSmartDashboard() {
+        SmartDashboard.putNumber("Wrist Velocity", m_wrist.getSelectedSensorVelocity(0));
+        SmartDashboard.putNumber("Elbow Velocity", m_elbow.getSelectedSensorVelocity(0));
+
+        SmartDashboard.putNumber("Wrist current", m_wrist.getOutputCurrent() );
+        SmartDashboard.putNumber("Elbow current", m_elbow.getOutputCurrent() );
+
+        SmartDashboard.putNumber("Elbow Angle", getElbowAngle());
+        SmartDashboard.putNumber("Wrist Angle", getAbsoluteWristAngle());
+
+        SmartDashboard.putNumber("Wrist Sensor Value", wristPeriodicIO.position_ticks);
+        SmartDashboard.putNumber("Elbow Sensor Value", elbowPeriodicIO.position_ticks);
+
+        SmartDashboard.putNumber("Wrist Output %", m_wrist.getMotorOutputPercent());
+        SmartDashboard.putNumber("Elbow Output %", m_elbow.getMotorOutputPercent());
+
+        SmartDashboard.putNumber("Wrist Current Trajectory Point", wristPeriodicIO.active_trajectory_position);
+        SmartDashboard.putNumber("Elbow Current Trajectory Point", elbowPeriodicIO.active_trajectory_position);
+
+        SmartDashboard.putNumber("Wrist Feed Forward", wristPeriodicIO.feedforward);
+        SmartDashboard.putNumber("Elbow Feed Forward", elbowPeriodicIO.feedforward);
     }
 
     public class PeriodicIO {

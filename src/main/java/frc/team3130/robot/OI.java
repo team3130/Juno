@@ -101,7 +101,7 @@ public class OI {
 
         //deployClimber.whenPressed(new DeployClimber());
 
-        testElevator.whileHeld(new TestElevator());
+        testElevator.whileHeld(new TestArm());
 
     }
 
