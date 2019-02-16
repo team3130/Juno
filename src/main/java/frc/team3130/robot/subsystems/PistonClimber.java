@@ -39,6 +39,9 @@ public class PistonClimber extends Subsystem {
         m_LandingGear = new WPI_TalonSRX(RobotMap.CAN_PISTON);
 
         m_LandingGear.configFactoryDefault();
+
+        m_LandingGear.configVoltageCompSaturation(12.0, 0);
+        m_LandingGear.enableVoltageCompensation(true);
     }
 
     public void initDefaultCommand() {
