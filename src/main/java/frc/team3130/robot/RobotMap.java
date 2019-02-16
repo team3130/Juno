@@ -25,6 +25,8 @@ public class RobotMap {
 		public static double kRWheelDiameter = 6.0; //Center wheel
 		public static double kDriveCodesPerRev = 2048.0;
 
+		public static double kChassisShiftWait = 0.07;
+
 		//PID Preferences Defaults
 		public static double kChassisHighP = 0.02; //0.018
 		public static double kChassisHighI = 0;
@@ -79,6 +81,10 @@ public class RobotMap {
 
 		public static double kElevatorStagePickup2 = 49.25; //Checked 2/12
 		public static double kElevatorFFAddition2 = 0.0;
+
+		//Manual
+		public static double kElevatorManualDeadband = 0.06;
+		public static double kElevatorManualMultipler =0.8;
 
 		public static double kElevatorP = 0.0;
 		public static double kElevatorI = 0.0;

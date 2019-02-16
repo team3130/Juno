@@ -21,7 +21,7 @@ public class Elevator extends Subsystem {
         return m_pInstance;
     }
 
-    public enum ElevatorState{
+    private enum ElevatorState{
         Manual,
         MotionMagic,
     }
@@ -59,8 +59,6 @@ public class Elevator extends Subsystem {
 
         m_elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 
-        m_elevatorMaster.set(ControlMode.PercentOutput, 0);
-
         m_elevatorMaster.overrideLimitSwitchesEnable(true);
         m_elevatorMaster.overrideSoftLimitsEnable(false);
 
@@ -74,8 +72,9 @@ public class Elevator extends Subsystem {
 
         m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR2);
 
-        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_ELEVATORSHIFT);
+        m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
+        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_ELEVATORSHIFT);
         m_shifter.set(false); //false should be high gear or normal running mode
 
         /**
@@ -102,10 +101,6 @@ public class Elevator extends Subsystem {
      */
     public static void runElevator(double percent){
         boolean isGoingDown = percent < 0;
-
-        //Offset the output using feed forward
-        percent += mPeriodicIO.feedforward;
-
         //When the elevator is going down
         if(isGoingDown){
             percent *= 0.75; //set to 75% of actual input when going down
@@ -114,6 +109,8 @@ public class Elevator extends Subsystem {
                 percent *= Math.abs(getHeightOffGround()/RobotMap.kElevatorSlowZone);
             }
         }
+        //Offset the output using feed forward
+        percent += mPeriodicIO.feedforward;
         m_elevatorMaster.set(ControlMode.PercentOutput, percent);
     }
 
@@ -146,9 +143,10 @@ public class Elevator extends Subsystem {
     }
 
     /**
-     * Reset the elevator by putting it in percent output mode at 0%
+     * Reset the elevator by clearing the motion profile buffer and putting it in percent output mode at 0%
      */
     public static synchronized void resetElevator(){
+        m_elevatorMaster.clearMotionProfileTrajectories();
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0);
     }
 
