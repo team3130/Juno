@@ -2,7 +2,6 @@ package frc.team3130.robot.commands;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.Elevator;
 import frc.team3130.robot.subsystems.PistonClimber;
 
 public class TestPistonMotor extends Command {
@@ -18,7 +17,7 @@ public class TestPistonMotor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        PistonClimber.rawPiston(Preferences.getInstance().getDouble("Climb Motor Test", 0.0));
+        PistonClimber.rawLandingGear(Preferences.getInstance().getDouble("Climb Motor Test", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -28,7 +27,7 @@ public class TestPistonMotor extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        PistonClimber.rawPiston(0.0);
+        PistonClimber.rawLandingGear(0.0);
     }
 
     // Called when another command which requires one or more of the same

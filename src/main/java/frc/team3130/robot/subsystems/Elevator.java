@@ -51,8 +51,12 @@ public class Elevator extends Subsystem {
         m_elevatorMaster = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR1);
         m_elevatorSlave = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR2);
 
+
+
         m_elevatorMaster.configFactoryDefault();
         m_elevatorSlave.configFactoryDefault();
+
+        m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR1);
 
         m_elevatorMaster.setNeutralMode(NeutralMode.Brake);
         m_elevatorSlave.setNeutralMode(NeutralMode.Brake);
@@ -70,7 +74,7 @@ public class Elevator extends Subsystem {
 
         //configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
 
-        m_elevatorSlave.set(ControlMode.Follower, RobotMap.CAN_ELEVATOR2);
+
 
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
@@ -82,6 +86,8 @@ public class Elevator extends Subsystem {
          *
          * Upward is positive encoder direction
          */
+
+        //m_elevatorMaster.setInverted();
 
     }
 
@@ -120,7 +126,7 @@ public class Elevator extends Subsystem {
      */
     public synchronized static void setSimpleMotionMagic(double height){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
+        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, mPeriodicIO.feedforward);
         configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
         m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height + RobotMap.kElevatorHomingHeight);
     }
@@ -169,7 +175,18 @@ public class Elevator extends Subsystem {
                     Epsilon.epsilonEquals(newVel, mPeriodicIO.active_trajectory_velocity, 5)) {
                 // Elevator is at almost constant velocity.
                 mPeriodicIO.active_trajectory_accel_g = 0.0;
-            } else if (newPos >= mPeriodicIO.active_trajectory_position){ //elevator is moving up
+            }else{
+                if(newVel > mPeriodicIO.active_trajectory_velocity) { //TODO: check if velocities are negative in MP
+                    //elevator is accelerating upward
+                    mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
+                            (RobotMap.kElevatorTicksPerInch * 386.09);
+                }else{
+                    //elevator is accelerating downward
+                    mPeriodicIO.active_trajectory_accel_g = -RobotMap.kElevatorMaxAcc * 10.0 /
+                            (RobotMap.kElevatorTicksPerInch * 386.09);
+                }
+            }
+            /*} else if (newPos >= mPeriodicIO.active_trajectory_position){ //elevator is moving up
                 if(newVel > mPeriodicIO.active_trajectory_velocity) {
                     //elevator is accelerating upward
                     mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
@@ -179,7 +196,7 @@ public class Elevator extends Subsystem {
                     mPeriodicIO.active_trajectory_accel_g = -RobotMap.kElevatorMaxAcc * 10.0 /
                             (RobotMap.kElevatorTicksPerInch * 386.09);
                 }
-            }else { //elevator is moving downward //TODO: check if velocities are negative in MP
+            }else { //elevator is moving downward
                 if (newVel > mPeriodicIO.active_trajectory_velocity) {
                     //elevator is accelerating downward
                     mPeriodicIO.active_trajectory_accel_g = -RobotMap.kElevatorMaxAcc * 10.0 /
@@ -189,7 +206,7 @@ public class Elevator extends Subsystem {
                     mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
                             (RobotMap.kElevatorTicksPerInch * 386.09);
                 }
-            }
+            }*/
             //set values for next run
             mPeriodicIO.active_trajectory_velocity = newVel;
             mPeriodicIO.active_trajectory_position = newPos;
@@ -303,6 +320,8 @@ public class Elevator extends Subsystem {
 
         SmartDashboard.putNumber("Elevator Sensor Value", mPeriodicIO.position_ticks);
         SmartDashboard.putNumber("Elevator Output %", mPeriodicIO.output_percent);
+
+        SmartDashboard.putNumber("Elevator Slave Output %", m_elevatorMaster.getMotorOutputPercent());
 
         SmartDashboard.putNumber("Elevator Current Trajectory Point", mPeriodicIO.active_trajectory_position);
         SmartDashboard.putNumber("Elevator Traj Vel", mPeriodicIO.active_trajectory_velocity);

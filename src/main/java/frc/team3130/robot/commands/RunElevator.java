@@ -25,7 +25,7 @@ public class RunElevator extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        double stick = -OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
+        double stick = -OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
         if (Math.abs(stick) >= RobotMap.kElevatorManualDeadband ){
             double moveSpeed = RobotMap.kElevatorManualMultipler * stick;
             Elevator.runElevator(moveSpeed);

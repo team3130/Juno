@@ -44,18 +44,22 @@ public class RobotMap {
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
 
 			//Wrist
-			public static double kWristP = 0.0;
+			public static double kWristP = 1.0;
 			public static double kWristI = 0.0;
-			public static double kWristD = 0.0;
+			public static double kWristD = 20.0;
 			public static double kWristF = 0.0;
-			public static int kWristMaxAcc = 0; // 1024
-			public static int kWristMaxVel = 0; // 1024
+			public static int kWristMaxAcc = 4100; // 1024
+			public static int kWristMaxVel = 5000; // 1024
 
-			public static double kWristFFEmpty = 0.2; //checked
+			public static double kWristFFEmpty = 0.1; //checked
 			public static double kWristFFBall = 0.0;
 			public static double kWristFFHatch = 0.0;
 
-			public static double kWristTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
+			public static double kWristKaWithBall = 0.008;
+			public static double kWristKaEmpty = 0.006;
+			public static double kWristKaWithHatch = 0.013;
+
+			public static double kWristTicksPerDeg = 4096.0 / 360.0 * 44.0 / 18.0 ; //4096 ticks per revolution of gearbox output shaft
 
 			//Elbow
 			public static double kElbowP = 0.0;
@@ -69,12 +73,18 @@ public class RobotMap {
 			public static double kElbowFFBall = 0.0;
 			public static double kElbowFFHatch = 0.0;
 
-			public static double kElbowTicksPerDeg = (4096.0) / (2.0*Math.PI * 1.0); //4096 ticks per revolution of gearbox output shaft TODO: Gear ratio check
+			public static double kElbowKaWithBall = 0.01;
+			public static double kElbowKaEmpty = 0.008;
+			public static double kElbowKaWithHatch = 0.015;
+
+			public static double kElbowTicksPerDeg = 4096.0 / 360.0 * 34.0 / 16.0; //4096 ticks per revolution of gearbox output shaft
 
 
 		//Elevator
 		//TODO: Actually find these values
 		public static double kElevatorSlowZone = 11.0;
+		public static double kElevatorThreshold = 0.05;
+		public static double kElevatorMoveMultiplier = 0.8;
 
 		public static double kElevatorStagePickup1 = 21.75; //Checked 2/12
 		public static double kElevatorFFAddition1 = 0.0;
@@ -144,14 +154,16 @@ public class RobotMap {
 	public static final int CAN_PISTON = 12;
 
 
+
+
 	/**
 	 * Pneumatics ports
 	 */
 	public static final int PNM_SHIFT = 0;
 	public static final int PNM_ELEVATORSHIFT = 1;
-	public static final int PNM_CLIMBPISTON1 = 2;
-	public static final int PNM_INTAKEPISTON = 3;
-
+	public static final int PNM_INTAKEPISTON = 2;
+	public static final int PNM_CLIMBPISTON1 = 3;
+	public static final int PNM_CLIMBPISTON2 = 4;
 	/**
 	 * Gamepad Button List
 	 *

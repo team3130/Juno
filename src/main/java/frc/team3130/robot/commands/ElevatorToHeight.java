@@ -32,8 +32,7 @@ public class ElevatorToHeight extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Elevator.getHeightOffGround()-dist)<12 ||
-        	   Math.abs(OI.gamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY)) > 0.1;
+        return Math.abs(Elevator.getHeightOffGround()-dist)<12;
     }
 
     // Called once after isFinished returns true

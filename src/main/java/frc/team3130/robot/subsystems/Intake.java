@@ -53,6 +53,7 @@ public class Intake extends Subsystem {
         m_hatchMotor.setNeutralMode(NeutralMode.Brake);
 
         clamp = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON);
+        //m_ballMotor.setInverted(true);
     }
 
     public void initDefaultCommand() {
