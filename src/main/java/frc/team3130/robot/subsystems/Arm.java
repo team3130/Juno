@@ -22,32 +22,27 @@ public class Arm extends Subsystem {
     }
 
     //Create necessary objects
-    private static WPI_TalonSRX m_elbow;
+    // RIP "WPI_TalonSRX m_elbow"
     private static WPI_TalonSRX m_wrist;
 
-    private PeriodicIO elbowPeriodicIO = new PeriodicIO();
     private PeriodicIO wristPeriodicIO = new PeriodicIO();
     //Create and define all standard data types needed
     
 
     private Arm() {
 
-        m_elbow = new WPI_TalonSRX(RobotMap.CAN_ARMELBOW);
+
         m_wrist = new WPI_TalonSRX(RobotMap.CAN_ARMWRIST);
 
 
-        //Talon reset for Intake motors
-        m_elbow.configFactoryDefault();
-        m_wrist.configFactoryDefault();
+        //Talon reset for Intake motor
 
-        m_elbow.configVoltageCompSaturation(12.0, 0);
-        m_elbow.enableVoltageCompensation(true);
+        m_wrist.configFactoryDefault();
 
         m_wrist.configVoltageCompSaturation(12.0, 0);
         m_wrist.enableVoltageCompensation(true);
 
-        //setNeutralMode for Talons
-        m_elbow.setNeutralMode(NeutralMode.Brake);
+        //setNeutralMode for Talon
         m_wrist.setNeutralMode(NeutralMode.Brake);
 
         /**
@@ -58,12 +53,10 @@ public class Arm extends Subsystem {
          * to the elevator and thus, the ground.
          */
         m_wrist.setInverted(false);
-        m_elbow.setInverted(true);
 
         m_wrist.setSensorPhase(true);
 
         m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
-        m_elbow.setSelectedSensorPosition((int) (180.0 * RobotMap.kElbowTicksPerDeg));
     }
 
     @Override
@@ -72,40 +65,8 @@ public class Arm extends Subsystem {
     }
 
     /*
-        Elbow
+        Elbow (Motor removed, that's why nothing is here)
      */
-    /**
-     * Run Elbow motor manually
-     * @param speed percent value
-     */
-    public static void runElbow(double speed){
-        m_elbow.set(ControlMode.PercentOutput, speed);
-    }
-
-    /**
-     * Gets the angle of the Elbow motor
-     * @return Angle of Elbow in degrees in relation to the elevator (this should be absolute to the ground)
-     */
-    public static double getElbowAngle(){
-        return m_elbow.getSelectedSensorPosition(0) / RobotMap.kElbowTicksPerDeg;
-    }
-
-    /**
-     *  Move the arm Elbow motor to an absolute angle
-     * @param angle The angle setpoint to go to in degrees
-     */
-    public synchronized static void setElbowSimpleAngle(double angle) {
-        m_elbow.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-        configMotionMagic(m_elbow, RobotMap.kElbowMaxAcc, RobotMap.kElbowMaxVel);
-        m_elbow.set(ControlMode.MotionMagic, RobotMap.kElbowTicksPerDeg * angle);
-    }
-
-    /**
-     *  Hold the Elbow's current angle by PID motion magic closed loop
-     */
-    public static void holdAngleElbow() {
-        setElbowSimpleAngle(getElbowAngle());
-    }
 
 
     /*
@@ -132,10 +93,6 @@ public class Arm extends Subsystem {
      * Gets the absolute angle of the Wrist motor
      * @return Angle of Wrist in degrees relative the ground
      */
-    public static double getAbsoluteWristAngle(){
-        return getRelativeWristAngle() - (180 - getElbowAngle());
-    }
-
 
 
     /**
@@ -153,10 +110,12 @@ public class Arm extends Subsystem {
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
 
+
     /**
      *  Move the arm Wrist motor to an angle relative to the ground
      * @param angle The angle setpoint to go to in degrees
      */
+    /*
     public synchronized static void setWristSimpleAbsoluteAngle(double angle) {
         m_wrist.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
@@ -166,33 +125,26 @@ public class Arm extends Subsystem {
                 RobotMap.kWristD,
                 RobotMap.kWristF);
         //edited function to see if it now compensates for motionMagic downwards
-        m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * (angle - (180.0 - getElbowAngle())));
+
     }
+    */
 
 
 
     /**
      *  Hold the Wrist's current angle by PID motion magic closed loop
      */
-    public static void holdAngleWrist() {
-        setWristSimpleRelativeAngle(getRelativeWristAngle());
-    }
 
     public static void resetArm(){
         m_wrist.clearMotionProfileTrajectories();
         m_wrist.set(ControlMode.PercentOutput, 0.0);
 
-        m_elbow.clearMotionProfileTrajectories();
-        m_elbow.set(ControlMode.PercentOutput, 0.0);
     }
 
     public synchronized void readPeriodicInputs() {
 
         StickyFaults faults = new StickyFaults();
-        m_elbow.getStickyFaults(faults);
-        if (faults.hasAnyFault()) {
-            m_elbow.clearStickyFaults(0);
-        }
+
         m_wrist.getStickyFaults(faults);
         if (faults.hasAnyFault()) {
             m_wrist.clearStickyFaults(0);
@@ -240,64 +192,11 @@ public class Arm extends Subsystem {
                 ka = RobotMap.kWristKaWithHatch;
             }
 
-            double wristGravityComponent = Math.cos(Math.toRadians(getAbsoluteWristAngle())) * ff;
-            double elevatorAccelerationComponent = Elevator.getActiveTrajectoryAccelG();
-            double wristAccelerationComponent = wristPeriodicIO.active_trajectory_acceleration_rad_per_s2 * ka;
 
-            wristPeriodicIO.feedforward = wristGravityComponent + elevatorAccelerationComponent * wristGravityComponent + wristAccelerationComponent;
-        } else {
             wristPeriodicIO.feedforward = 0.0;
         }
 
-        if (m_elbow.getControlMode() == ControlMode.MotionMagic) {
-            //read in current trajectory position
-            elbowPeriodicIO.active_trajectory_position = m_elbow.getActiveTrajectoryPosition();
 
-            final int newVel = m_elbow.getActiveTrajectoryVelocity();
-            if (Epsilon.epsilonEquals(newVel, RobotMap.kElbowMaxVel, 5) ||
-                    Epsilon.epsilonEquals(newVel, elbowPeriodicIO.active_trajectory_velocity, 5)) {
-                // elbow is ~constant velocity.
-                elbowPeriodicIO.active_trajectory_acceleration_rad_per_s2 = 0.0;
-            } else {
-                // elbow is accelerating so find which way it's accelerating
-                elbowPeriodicIO.active_trajectory_acceleration_rad_per_s2 = Math.signum(elbowPeriodicIO
-                        .active_trajectory_velocity - newVel) * RobotMap.kElbowMaxAcc * 20.0 * Math.PI / 4096;
-            }
-            elbowPeriodicIO.active_trajectory_velocity = newVel;
-        } else {
-            elbowPeriodicIO.active_trajectory_position = Integer.MIN_VALUE;
-            elbowPeriodicIO.active_trajectory_velocity = 0;
-            elbowPeriodicIO.active_trajectory_acceleration_rad_per_s2 = 0.0;
-        }
-        //elbowPeriodicIO.limit_switch = m_elbow.getSensorCollection().isFwdLimitSwitchClosed();
-        elbowPeriodicIO.output_voltage = m_elbow.getMotorOutputVoltage();
-        elbowPeriodicIO.output_percent = m_elbow.getMotorOutputPercent();
-        elbowPeriodicIO.position_ticks = m_elbow.getSelectedSensorPosition(0);
-        elbowPeriodicIO.velocity_ticks_per_100ms = m_elbow.getSelectedSensorVelocity(0);
-
-        /*
-        if (getElbowAngle() > Robotmap.kElbowEpsilon ||
-                elbowPeriodicIO.active_trajectory_position / RobotMap.kElbowTicksPerDeg > RobotMap.kElbowEpsilon) {*/
-        if(m_elbow.isAlive()){
-            double ka = RobotMap.kElbowKaEmpty;
-            double ff = RobotMap.kElbowFFEmpty;
-            if(Intake.GetInstance().getState() == Intake.IntakeState.HasBall){
-                ff = RobotMap.kElbowFFBall;
-                ka = RobotMap.kElbowKaWithBall;
-            }
-            if(Intake.GetInstance().getState() == Intake.IntakeState.HasHatch){
-                ff = RobotMap.kElbowFFHatch;
-                ka = RobotMap.kElbowKaWithHatch;
-            }
-
-            double elbowGravityComponent = Math.cos(Math.toRadians(getElbowAngle())) * (ff - Math.cos(Math.toRadians(getAbsoluteWristAngle())) * wristPeriodicIO.feedforward);
-            double elevatorAccelerationComponent = Elevator.getActiveTrajectoryAccelG();
-            double elbowAccelerationComponent = elbowPeriodicIO.active_trajectory_acceleration_rad_per_s2 * ka;
-
-            elbowPeriodicIO.feedforward = elbowGravityComponent + elevatorAccelerationComponent * elbowGravityComponent + elbowAccelerationComponent;
-        } else {
-            elbowPeriodicIO.feedforward = 0.0;
-        }
     }
 
     //Configs
@@ -329,26 +228,18 @@ public class Arm extends Subsystem {
 
     public void outputToSmartDashboard() {
         SmartDashboard.putNumber("Wrist Velocity", m_wrist.getSelectedSensorVelocity(0));
-        SmartDashboard.putNumber("Elbow Velocity", m_elbow.getSelectedSensorVelocity(0));
 
         SmartDashboard.putNumber("Wrist current", m_wrist.getOutputCurrent() );
-        SmartDashboard.putNumber("Elbow current", m_elbow.getOutputCurrent() );
 
-        SmartDashboard.putNumber("Elbow Angle", getElbowAngle());
-        SmartDashboard.putNumber("Wrist Angle", getAbsoluteWristAngle());
         SmartDashboard.putNumber("Wrist RelAngle", getRelativeWristAngle());
 
         SmartDashboard.putNumber("Wrist Sensor Value", wristPeriodicIO.position_ticks);
-        SmartDashboard.putNumber("Elbow Sensor Value", elbowPeriodicIO.position_ticks);
 
         SmartDashboard.putNumber("Wrist Output %", m_wrist.getMotorOutputPercent());
-        SmartDashboard.putNumber("Elbow Output %", m_elbow.getMotorOutputPercent());
 
         SmartDashboard.putNumber("Wrist Current Trajectory Point", wristPeriodicIO.active_trajectory_position);
-        SmartDashboard.putNumber("Elbow Current Trajectory Point", elbowPeriodicIO.active_trajectory_position);
 
         SmartDashboard.putNumber("Wrist Feed Forward", wristPeriodicIO.feedforward);
-        SmartDashboard.putNumber("Elbow Feed Forward", elbowPeriodicIO.feedforward);
     }
 
     public class PeriodicIO {

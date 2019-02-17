@@ -61,23 +61,6 @@ public class RobotMap {
 
 			public static double kWristTicksPerDeg = 4096.0 / 360.0 * 44.0 / 18.0 ; //4096 ticks per revolution of gearbox output shaft
 
-			//Elbow
-			public static double kElbowP = 0.0;
-			public static double kElbowI = 0.0;
-			public static double kElbowD = 0.0;
-			public static double kElbowF = 0.0;
-			public static int kElbowMaxAcc = 0; // 1024
-			public static int kElbowMaxVel = 0; // 1024
-
-			public static double kElbowFFEmpty = 0.22;
-			public static double kElbowFFBall = 0.0;
-			public static double kElbowFFHatch = 0.0;
-
-			public static double kElbowKaWithBall = 0.01;
-			public static double kElbowKaEmpty = 0.008;
-			public static double kElbowKaWithHatch = 0.015;
-
-			public static double kElbowTicksPerDeg = 4096.0 / 360.0 * 34.0 / 16.0; //4096 ticks per revolution of gearbox output shaft
 
 
 		//Elevator
@@ -142,7 +125,7 @@ public class RobotMap {
     public static final int CAN_LEFTMOTORFRONT = 4;
 	public static final int CAN_LEFTMOTORREAR = 5;
 
-	public static final int CAN_ARMELBOW = 6;
+	//public static final int (nada yet) = 6
 	public static final int CAN_ARMWRIST =	 7;
 
 	public static final int CAN_BALLMOTOR = 8;

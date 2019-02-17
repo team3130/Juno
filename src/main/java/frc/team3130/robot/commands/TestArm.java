@@ -12,7 +12,7 @@ public class TestArm extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristSimpleAbsoluteAngle(Preferences.getInstance().getDouble("Wrist Test", 180.0));
+        Arm.setWristSimpleRelativeAngle(Preferences.getInstance().getDouble("Wrist Test", 180.0));
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -29,7 +29,7 @@ public class TestArm extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Arm.runElbow(0.0);
+
         Arm.runWrist(0.0);
     }
 
