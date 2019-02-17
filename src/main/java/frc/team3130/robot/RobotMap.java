@@ -42,12 +42,12 @@ public class RobotMap {
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
 
 			//Wrist
-			public static double kWristP = 1.0;
+			public static double kWristP = 0.7;
 			public static double kWristI = 0.0;
-			public static double kWristD = 20.0;
+			public static double kWristD = 15.0;
 			public static double kWristF = 0.0;
-			public static int kWristMaxAcc = 4100; // 1024
-			public static int kWristMaxVel = 5000; // 1024
+			public static int kWristMaxAcc = 2000; // 1024
+			public static int kWristMaxVel = 4100; // 1024
 
 			public static double kWristFFEmpty = 0.1; //checked
 			public static double kWristFFBall = 0.0;
@@ -64,8 +64,8 @@ public class RobotMap {
 			public static double kElbowI = 0.0;
 			public static double kElbowD = 0.0;
 			public static double kElbowF = 0.0;
-			public static int kElbowMaxAcc = 0; // 1024
-			public static int kElbowMaxVel = 0; // 1024
+			public static int kElbowMaxAcc = 1500; // 1024
+			public static int kElbowMaxVel = 4100; // 1024
 
 			public static double kElbowFFEmpty = 0.22;
 			public static double kElbowFFBall = 0.0;
@@ -105,7 +105,7 @@ public class RobotMap {
 		public static double kElevatorHomingHeight = 7.0; //height of elevator off ground when at home position
 		public static double kElevatorMaxHeight = 76.75; //Checked 2/12
 
-		public static double kElevatorTicksPerInch = (4096.0 / 3.0) / (2.0*Math.PI * 0.65); //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
+		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.65); //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
 		//Limelight
 		//TODO: Figure this out with CAD

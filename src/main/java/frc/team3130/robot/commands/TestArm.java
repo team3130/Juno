@@ -12,14 +12,15 @@ public class TestArm extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristSimpleAbsoluteAngle(Preferences.getInstance().getDouble("Wrist Test", 180.0));
+        //Arm.setWristSimpleAbsoluteAngle(Preferences.getInstance().getDouble("Wrist Test", 180.0));
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
-        //Arm.runElbow(Preferences.getInstance().getDouble("Elbow Test", 0.0));
         //Arm.runWrist(Preferences.getInstance().getDouble("Wrist Test", 0.0));
+        Arm.runElbow(Preferences.getInstance().getDouble("Elbow Test", 0.0));
+        Arm.runWrist(Preferences.getInstance().getDouble("Wrist Test", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()

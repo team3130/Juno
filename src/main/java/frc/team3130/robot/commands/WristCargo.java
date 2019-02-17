@@ -12,7 +12,8 @@ public class WristCargo extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristSimpleRelativeAngle(110.0);
+        Arm.setWristSimpleRelativeAngle(90.0);
+        Arm.setElbowSimpleAngle(180.0);
     }
 
     // Called repeatedly when this Command is scheduled to run

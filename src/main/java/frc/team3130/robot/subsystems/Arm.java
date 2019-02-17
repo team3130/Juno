@@ -46,6 +46,12 @@ public class Arm extends Subsystem {
         m_wrist.configVoltageCompSaturation(12.0, 0);
         m_wrist.enableVoltageCompensation(true);
 
+        m_wrist.overrideLimitSwitchesEnable(false);
+        m_wrist.overrideSoftLimitsEnable(false);
+
+        m_elbow.overrideLimitSwitchesEnable(false);
+        m_elbow.overrideSoftLimitsEnable(false);
+
         //setNeutralMode for Talons
         m_elbow.setNeutralMode(NeutralMode.Brake);
         m_wrist.setNeutralMode(NeutralMode.Brake);
@@ -97,6 +103,12 @@ public class Arm extends Subsystem {
     public synchronized static void setElbowSimpleAngle(double angle) {
         m_elbow.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
         configMotionMagic(m_elbow, RobotMap.kElbowMaxAcc, RobotMap.kElbowMaxVel);
+        configPIDF(m_elbow,
+                Preferences.getInstance().getDouble("testP",0.0),
+                Preferences.getInstance().getDouble("testI",0.0),
+                Preferences.getInstance().getDouble("testD",0.0),
+                0.0);
+
         m_elbow.set(ControlMode.MotionMagic, RobotMap.kElbowTicksPerDeg * angle);
     }
 
@@ -165,8 +177,7 @@ public class Arm extends Subsystem {
                 RobotMap.kWristI,
                 RobotMap.kWristD,
                 RobotMap.kWristF);
-        //edited function to see if it now compensates for motionMagic downwards
-        m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * (angle - (180.0 - getElbowAngle())));
+        m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * (angle + (180.0 - getElbowAngle())));
     }
 
 

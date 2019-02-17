@@ -107,7 +107,7 @@ public class OI {
         intakePickup.whenPressed(new WristPickup());
         intakeCargo.whenPressed(new WristCargo());
 
-        //testButton.whileHeld(new TestArm());
+        testButton.whileHeld(new TestElevator());
 
     }
 
