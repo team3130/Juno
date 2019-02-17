@@ -42,6 +42,10 @@ public class Arm extends Subsystem {
         m_wrist.configVoltageCompSaturation(12.0, 0);
         m_wrist.enableVoltageCompensation(true);
 
+
+        m_wrist.overrideLimitSwitchesEnable(false);
+        m_wrist.overrideSoftLimitsEnable(false);
+
         //setNeutralMode for Talon
         m_wrist.setNeutralMode(NeutralMode.Brake);
 
@@ -67,7 +71,6 @@ public class Arm extends Subsystem {
     /*
         Elbow (Motor removed, that's why nothing is here)
      */
-
 
     /*
         Wrist
@@ -124,8 +127,6 @@ public class Arm extends Subsystem {
                 RobotMap.kWristI,
                 RobotMap.kWristD,
                 RobotMap.kWristF);
-        //edited function to see if it now compensates for motionMagic downwards
-
     }
     */
 
