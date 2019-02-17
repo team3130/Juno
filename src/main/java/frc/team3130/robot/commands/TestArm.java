@@ -19,7 +19,7 @@ public class TestArm extends Command {
     protected void execute() {
 
         //Arm.runWrist(Preferences.getInstance().getDouble("Wrist Test", 0.0));
-        Arm.runElbow(Preferences.getInstance().getDouble("Elbow Test", 0.0));
+
         Arm.runWrist(Preferences.getInstance().getDouble("Wrist Test", 0.0));
     }
 
