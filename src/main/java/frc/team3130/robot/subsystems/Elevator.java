@@ -63,7 +63,7 @@ public class Elevator extends Subsystem {
 
         m_elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 
-        m_elevatorMaster.overrideLimitSwitchesEnable(true);
+        m_elevatorMaster.overrideLimitSwitchesEnable(false);
         m_elevatorMaster.overrideSoftLimitsEnable(false);
 
         m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
