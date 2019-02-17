@@ -2,6 +2,7 @@ package frc.team3130.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Chassis;
 
 /**
@@ -33,7 +34,7 @@ public class ShiftToggle extends Command {
     protected void execute() {
     	//Execute the shift only once, and only at a certain time after the motors have been stopped
 
-    	if(!hasShifted && timer.get() > 0.07){
+    	if(!hasShifted && timer.get() > RobotMap.kChassisShiftWait){
     	    System.out.println("shifting");
             currentShift = Chassis.isLowGear();
 
@@ -48,8 +49,8 @@ public class ShiftToggle extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        //End the command after the robot has shifted or after timeout period
-        return (hasShifted && timer.get() > 0.1);
+        //End the command after the robot has shifted and after shift wait period
+        return (hasShifted && timer.get() > RobotMap.kChassisShiftWait);
     }
 
     // Called once after isFinished returns true
