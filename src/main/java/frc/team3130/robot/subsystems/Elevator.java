@@ -2,6 +2,7 @@ package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -86,8 +87,6 @@ public class Elevator extends Subsystem {
          * Upward is positive encoder direction
          */
 
-        //m_elevatorMaster.setInverted();
-
     }
 
     public void initDefaultCommand() {
@@ -125,9 +124,13 @@ public class Elevator extends Subsystem {
      */
     public synchronized static void setSimpleMotionMagic(double height){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, mPeriodicIO.feedforward);
+        configPIDF(
+                Preferences.getInstance().getDouble("testP" , RobotMap.kElevatorP),
+                Preferences.getInstance().getDouble("testI" , RobotMap.kElevatorI),
+                Preferences.getInstance().getDouble("testD" , RobotMap.kElevatorD),
+                mPeriodicIO.feedforward);
         configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
-        m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * height + RobotMap.kElevatorHomingHeight);
+        m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * (height - RobotMap.kElevatorHomingHeight) );
     }
 
 
@@ -219,7 +222,7 @@ public class Elevator extends Subsystem {
 
         //Calculate the feed forward necessary this loop
         double currHeight = getHeightOffGround();
-        if (currHeight > RobotMap.kElevatorHeightEpsilon && !getShift()) { //above epsilon and in high gear
+        if (currHeight > RobotMap.kElevatorHeightEpsilon /*&& !getShift()*/) { //above epsilon and in high gear
             if(Intake.GetInstance().getState() == Intake.IntakeState.Empty){
                 mPeriodicIO.feedforward = RobotMap.kElevatorFFEmpty;
             }else if(Intake.GetInstance().getState() == Intake.IntakeState.HasBall){

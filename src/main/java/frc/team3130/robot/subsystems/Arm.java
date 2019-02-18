@@ -1,6 +1,7 @@
 package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -25,7 +26,7 @@ public class Arm extends Subsystem {
     // RIP "WPI_TalonSRX m_elbow"
     private static WPI_TalonSRX m_wrist;
 
-    private PeriodicIO wristPeriodicIO = new PeriodicIO();
+    private static PeriodicIO wristPeriodicIO = new PeriodicIO();
     //Create and define all standard data types needed
     
 
@@ -83,7 +84,6 @@ public class Arm extends Subsystem {
         m_wrist.set(ControlMode.PercentOutput,speed);
     }
 
-
     /**
      * Gets the angle of the Wrist motor in relation to the arm
      * @return Angle of Wrist in degrees in relation to the arm (not relative the ground)
@@ -93,42 +93,19 @@ public class Arm extends Subsystem {
     }
 
     /**
-     * Gets the absolute angle of the Wrist motor
-     * @return Angle of Wrist in degrees relative the ground
-     */
-
-
-    /**
      *  Move the arm Wrist motor to an angle relative to the arm
      * @param angle The angle setpoint to go to in degrees
      */
-    public synchronized static void setWristSimpleRelativeAngle(double angle) {
+    public synchronized static void setWristRelativeAngle(double angle) {
         m_wrist.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
         configPIDF(m_wrist,
                 RobotMap.kWristP,
-                RobotMap.kWristI,
-                RobotMap.kWristD,
-                RobotMap.kWristF);
+                Preferences.getInstance().getDouble("testI" ,RobotMap.kWristI),
+                        Preferences.getInstance().getDouble("testD" ,RobotMap.kWristD),
+                0.0);
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
-
-
-    /**
-     *  Move the arm Wrist motor to an angle relative to the ground
-     * @param angle The angle setpoint to go to in degrees
-     */
-    /*
-    public synchronized static void setWristSimpleAbsoluteAngle(double angle) {
-        m_wrist.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-        configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
-        configPIDF(m_wrist,
-                RobotMap.kWristP,
-                RobotMap.kWristI,
-                RobotMap.kWristD,
-                RobotMap.kWristF);
-    }
-    */
 
 
 
@@ -178,9 +155,6 @@ public class Arm extends Subsystem {
         wristPeriodicIO.position_ticks = m_wrist.getSelectedSensorPosition(0);
         wristPeriodicIO.velocity_ticks_per_100ms = m_wrist.getSelectedSensorVelocity(0);
 
-        /*
-        if (getAbsoluteWristAngle() > Robotmap.kWristEpsilon ||
-                wristPeriodicIO.active_trajectory_position / RobotMap.kWristTicksPerDeg > RobotMap.kWristEpsilon) {*/
         if(m_wrist.isAlive()){
             double ka = RobotMap.kWristKaEmpty;
             double ff = RobotMap.kWristFFEmpty;
@@ -193,7 +167,14 @@ public class Arm extends Subsystem {
                 ka = RobotMap.kWristKaWithHatch;
             }
 
+            double wristGravityComponent = Math.cos(Math.toRadians(getRelativeWristAngle())) * ff;
+            double elevatorAccelerationComponent = Elevator.getActiveTrajectoryAccelG();
+            double wristAccelerationComponent = wristPeriodicIO.active_trajectory_acceleration_rad_per_s2 * ka;
 
+            wristPeriodicIO.feedforward = wristGravityComponent + elevatorAccelerationComponent * wristGravityComponent + wristAccelerationComponent;
+
+
+        }else{
             wristPeriodicIO.feedforward = 0.0;
         }
 
@@ -243,7 +224,7 @@ public class Arm extends Subsystem {
         SmartDashboard.putNumber("Wrist Feed Forward", wristPeriodicIO.feedforward);
     }
 
-    public class PeriodicIO {
+    public static class PeriodicIO {
         // INPUTS
         public int position_ticks;
         public int velocity_ticks_per_100ms;
