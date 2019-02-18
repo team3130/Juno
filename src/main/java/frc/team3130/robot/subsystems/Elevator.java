@@ -52,7 +52,6 @@ public class Elevator extends Subsystem {
         m_elevatorSlave = new WPI_TalonSRX(RobotMap.CAN_ELEVATOR2);
 
 
-
         m_elevatorMaster.configFactoryDefault();
         m_elevatorSlave.configFactoryDefault();
 
