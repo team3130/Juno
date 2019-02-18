@@ -1,9 +1,12 @@
 package frc.team3130.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.team3130.robot.commands.*;
+
+import java.awt.*;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -74,6 +77,9 @@ public class OI {
     public static JoystickButton testElevator;
     public static JoystickButton testElevatorDown;
 
+    public static POVTrigger elevCargo;
+    public static POVTrigger elevGround;
+
     public static JoystickButton testArm;
 
     public static JoystickButton intakeCargo;
@@ -94,11 +100,16 @@ public class OI {
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
         testElevator = new JoystickButton(weaponsGamepad, 2);
-        testElevatorDown = new JoystickButton(weaponsGamepad, 3);
+        testElevatorDown = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
         testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+
+
+        elevCargo = new POVTrigger(driverGamepad, 0);
+        elevGround = new POVTrigger(driverGamepad, 4);
 
         intakeCargo = new JoystickButton(driverGamepad, 2);
         intakePickup = new JoystickButton(driverGamepad, 1);
+
 
 
         shift.whenPressed(new ShiftToggle());
@@ -112,8 +123,15 @@ public class OI {
         intakePickup.whenPressed(new WristPickup());
         intakeCargo.whenPressed(new WristCargo());
 
+<<<<<<< HEAD
         testElevator.whileHeld(new TestElevator());
-        testElevatorDown.whileHeld(new TestElevatorDown())
+=======
+        elevCargo.whenActive(new ElevatorToHeight(15.0));
+        elevGround.whenActive(new ElevatorToHeight(8.6));
+
+        testElevator.whenPressed(new ElevatorToHeight(9.0));
+>>>>>>> b890dd4d73011945566c220da88a93a10e6f9b29
+        testElevatorDown.whileHeld(new TestElevatorDown());
         testArm.whileHeld(new TestArm());
 
     }

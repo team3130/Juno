@@ -12,7 +12,7 @@ public class TestArm extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristSimpleRelativeAngle(Preferences.getInstance().getDouble("Wrist Test", 180.0));
+        Arm.setWristRelativeAngle(Preferences.getInstance().getDouble("Wrist Test", 180.0));
     }
 
     // Called repeatedly when this Command is scheduled to run

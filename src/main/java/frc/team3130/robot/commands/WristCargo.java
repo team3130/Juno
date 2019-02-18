@@ -1,6 +1,5 @@
 package frc.team3130.robot.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.Arm;
 
@@ -12,7 +11,7 @@ public class WristCargo extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristSimpleRelativeAngle(90.0);
+        Arm.setWristRelativeAngle(90.0);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -44,14 +44,14 @@ public class RobotMap {
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
 
 			//Wrist
-			public static double kWristP = 0.7;
-			public static double kWristI = 0.0;
-			public static double kWristD = 15.0;
+			public static double kWristP = 2.0;
+			public static double kWristI = 0.005;
+			public static double kWristD = 50.0;
 			public static double kWristF = 0.0;
 			public static int kWristMaxAcc = 2000; // 1024
 			public static int kWristMaxVel = 4100; // 1024
 
-			public static double kWristFFEmpty = 0.1; //checked
+			public static double kWristFFEmpty = 0.10; //checked
 			public static double kWristFFBall = 0.0;
 			public static double kWristFFHatch = 0.0;
 
@@ -65,10 +65,8 @@ public class RobotMap {
 		//Elevator
 		//TODO: Actually find these values
 		public static double kElevatorSlowZone = 11.0;
-		public static double kElevatorThreshold = 0.05;
-		public static double kElevatorMoveMultiplier = 0.8;
 
-		public static double kElevatorStagePickup1 = 21.75; //Checked 2/12
+		public static double kElevatorStagePickup1 = 27.28; //Checked 2/12
 		public static double kElevatorFFAddition1 = 0.0;
 
 		public static double kElevatorStagePickup2 = 49.25; //Checked 2/12
@@ -78,19 +76,19 @@ public class RobotMap {
 		public static double kElevatorManualDeadband = 0.06;
 		public static double kElevatorManualMultipler =0.8;
 
-		public static double kElevatorP = 0.0;
+		public static double kElevatorP = 1.0;
 		public static double kElevatorI = 0.0;
-		public static double kElevatorD = 0.0;
+		public static double kElevatorD = 0.3;
 		public static double kElevatorF = 0.0;
-		public static int kElevatorMaxAcc = 0;
-		public static int kElevatorMaxVel = 0;
+		public static int kElevatorMaxAcc = 15000;
+		public static int kElevatorMaxVel = 10000;
 
-		public static double kElevatorFFEmpty = 0.0;
+		public static double kElevatorFFEmpty = 0.28;
 		public static double kElevatorFFWithHatch = 0.0;
 		public static double kElevatorFFWithBall = 0.0;
 
-		public static double kElevatorHeightEpsilon = 1.0; //min height is 1 inch off ground TODO: check me
-		public static double kElevatorHomingHeight = 7.0; //height of elevator off ground when at home position
+		public static double kElevatorHeightEpsilon = 6.0; //Checked 2/17 min height is 1 inch off ground
+		public static double kElevatorHomingHeight = 8.5; //Checked 2/17 height of elevator off ground when at home position
 		public static double kElevatorMaxHeight = 76.75; //Checked 2/12
 
 		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.65); //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
