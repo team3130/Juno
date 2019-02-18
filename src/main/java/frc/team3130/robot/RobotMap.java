@@ -144,9 +144,9 @@ public class RobotMap {
 	public static final int PNM_INTAKEPISTON = 2;
 	public static final int PNM_CLIMBPISTON1 = 3;
 	public static final int PNM_CLIMBPISTON2 = 4;
+
 	/**
 	 * Gamepad Button List
-	 *
 	 */
 	public static final int LST_BTN_A = 1;
 	public static final int LST_BTN_B = 2;
@@ -160,8 +160,21 @@ public class RobotMap {
 	public static final int LST_BTN_LJOYSTICKPRESS = 10;
 
 	/**
+	 * Gamepad POV List
+	 */
+	public static final int LST_POV_UNPRESSED = -1;
+	public static final int LST_POV_N = 0;
+	public static final int LST_POV_NE = 45;
+	public static final int LST_POV_E = 90;
+	public static final int LST_POV_SE = 135;
+	public static final int LST_POV_S = 180;
+	public static final int LST_POV_SW = 225;
+	public static final int LST_POV_W = 270;
+	public static final int LST_POV_NW = 315;
+
+
+	/**
 	 * Gamepad Axis List
-	 *
 	 */
 	public static final int LST_AXS_LJOYSTICKX = 0;
 	public static final int LST_AXS_LJOYSTICKY = 1;
