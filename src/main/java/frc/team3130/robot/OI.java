@@ -94,7 +94,7 @@ public class OI {
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
         testElevator = new JoystickButton(weaponsGamepad, 2);
-        testElevatorDown = new JoystickButton(weaponsGamepad, 3);
+        testElevatorDown = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
         testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
         intakeCargo = new JoystickButton(driverGamepad, 2);
@@ -113,7 +113,7 @@ public class OI {
         intakeCargo.whenPressed(new WristCargo());
 
         testElevator.whileHeld(new TestElevator());
-        testElevatorDown.whileHeld(new TestElevatorDown())
+        testElevatorDown.whileHeld(new TestElevatorDown());
         testArm.whileHeld(new TestArm());
 
     }
