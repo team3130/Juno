@@ -123,14 +123,12 @@ public class OI {
         intakePickup.whenPressed(new WristPickup());
         intakeCargo.whenPressed(new WristCargo());
 
-<<<<<<< HEAD
+
         testElevator.whileHeld(new TestElevator());
-=======
         elevCargo.whenActive(new ElevatorToHeight(15.0));
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
-        testElevator.whenPressed(new ElevatorToHeight(9.0));
->>>>>>> b890dd4d73011945566c220da88a93a10e6f9b29
+        //testElevator.whenPressed(new ElevatorToHeight(9.0));
         testElevatorDown.whileHeld(new TestElevatorDown());
         testArm.whileHeld(new TestArm());
 
