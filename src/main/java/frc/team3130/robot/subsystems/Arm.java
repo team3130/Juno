@@ -56,9 +56,9 @@ public class Arm extends Subsystem {
          * Relative: Wrist angle is relative to the arm, elbow is technically relative
          * to the elevator and thus, the ground.
          */
-        m_wrist.setInverted(false);
+        m_wrist.setInverted(true);
 
-        m_wrist.setSensorPhase(true);
+        m_wrist.setSensorPhase(false);
 
         m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
     }

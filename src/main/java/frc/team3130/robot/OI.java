@@ -71,7 +71,9 @@ public class OI {
     public static JoystickButton toggleIntakeClamp;
 
     public static JoystickButton deployClimber;
-    public static JoystickButton testButton;
+    public static JoystickButton testElevator;
+
+    public static JoystickButton testArm;
 
     public static JoystickButton intakeCargo;
     public static JoystickButton intakePickup;
@@ -90,7 +92,8 @@ public class OI {
 
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
-        testButton = new JoystickButton(weaponsGamepad, 2);
+        testElevator = new JoystickButton(weaponsGamepad, 2);
+        testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
         intakeCargo = new JoystickButton(driverGamepad, 2);
         intakePickup = new JoystickButton(driverGamepad, 1);
@@ -107,7 +110,8 @@ public class OI {
         intakePickup.whenPressed(new WristPickup());
         intakeCargo.whenPressed(new WristCargo());
 
-        testButton.whileHeld(new TestElevator());
+        testElevator.whileHeld(new TestElevator());
+        testArm.whileHeld(new TestArm());
 
     }
 
@@ -127,7 +131,7 @@ public class OI {
     public static JoystickButton deployClimber;
     public static JoystickButton toggleClimber2;
 
-    public static JoystickButton testButton;
+    public static JoystickButton testElevator;
 
 
 
@@ -147,7 +151,7 @@ public class OI {
         deployClimber = new JoystickButton(stickL, 4);
         toggleClimber2 = new JoystickButton(stickL, 7);
 
-        testButton = new JoystickButton(stickR, 2);
+        testElevator = new JoystickButton(stickR, 2);
 
 
         shift.whenPressed(new ShiftToggle());
@@ -162,7 +166,7 @@ public class OI {
         deployClimber.whenPressed(new ClimberToggle1());
         toggleClimber2.whenPressed(new ClimberToggle2());
 
-        testButton.whileHeld(new TestElevator());
+        testElevator.whileHeld(new TestElevator());
 
 
     }
