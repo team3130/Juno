@@ -92,12 +92,12 @@ public class OI {
         runBallIn = new JoystickButton(driverGamepad, 6);
         runBallOut = new JoystickButton(driverGamepad, 5);
 
-        depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
+        depositHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
 
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
         testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
-        testElevatorDown = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
+        testElevatorDown = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
         testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
 
