@@ -101,8 +101,8 @@ public class Arm extends Subsystem {
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
         configPIDF(m_wrist,
                 RobotMap.kWristP,
-                Preferences.getInstance().getDouble("testI" ,RobotMap.kWristI),
-                        Preferences.getInstance().getDouble("testD" ,RobotMap.kWristD),
+                RobotMap.kWristI,
+                RobotMap.kWristD,
                 0.0);
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }

@@ -7,6 +7,8 @@
 
 package frc.team3130.robot;
 
+import java.util.prefs.Preferences;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -38,6 +40,25 @@ public class RobotMap {
 
 
 
+		public enum Presets{
+			LowHatch (9.0 , 90.0),
+			LowestPort ( 20.0, 120.0),
+			MiddlePort (55.0, 120.0);
+
+			private double height;
+			private double angle;
+
+			Presets(double height, double angle){
+				this.height = height;
+				this.angle = angle;
+			}
+			public double getHeight(){
+				return this.height;
+			}
+			public double getAngle(){
+				return this.angle;
+			}
+		}
 		//Intake
 
 		//Arm
@@ -80,7 +101,7 @@ public class RobotMap {
 		public static double kElevatorI = 0.0;
 		public static double kElevatorD = 0.3;
 		public static double kElevatorF = 0.0;
-		public static int kElevatorMaxAcc = 15000;
+		public static int kElevatorMaxAcc = 20000;
 		public static int kElevatorMaxVel = 10000;
 
 		public static double kElevatorFFEmpty = 0.28;
@@ -91,7 +112,7 @@ public class RobotMap {
 		public static double kElevatorHomingHeight = 8.5; //Checked 2/17 height of elevator off ground when at home position
 		public static double kElevatorMaxHeight = 76.75; //Checked 2/12
 
-		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.65); //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
+		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.65)* 22.0 / 18.0; //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
 		//Limelight
 		//TODO: Figure this out with CAD

@@ -1,7 +1,6 @@
 package frc.team3130.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.team3130.robot.commands.*;
@@ -69,7 +68,7 @@ public class OI {
     public static JoystickButton runBallOut;
     public static JoystickButton runBallIn;
 
-    public static JoystickButton toggleIntakeClamp;
+    public static JoystickButton depositHatch;
 
     public static JoystickButton deployClimber;
     public static JoystickButton testElevator;
@@ -93,7 +92,7 @@ public class OI {
         runBallIn = new JoystickButton(driverGamepad, 6);
         runBallOut = new JoystickButton(driverGamepad, 5);
 
-        toggleIntakeClamp = new JoystickButton(driverGamepad, 4);
+        depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
 
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
@@ -105,8 +104,8 @@ public class OI {
         elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
         elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
 
-        intakeCargo = new JoystickButton(driverGamepad, 2);
-        intakePickup = new JoystickButton(driverGamepad, 1);
+        intakeCargo = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
+        intakePickup = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
 
 
 
@@ -115,9 +114,10 @@ public class OI {
         runBallIn.whileHeld(new BallIn());
         runBallOut.whileHeld(new BallOut());
 
-        //toggleIntakeClamp.whenPressed(new ClampToggle());
+        depositHatch.whenPressed(new DepositHatch());
 
         //deployClimber.whenPressed(new DeployClimber());
+        testArm.whenPressed(new TestArm());
         intakePickup.whenPressed(new WristPickup());
         intakeCargo.whenPressed(new WristCargo());
 
@@ -127,7 +127,6 @@ public class OI {
 
         testElevator.whenPressed(new ElevatorTestPreference());
         testElevatorDown.whileHeld(new ElevatorManualDown());
-        testArm.whileHeld(new TestArm());
 
     }
 
@@ -142,7 +141,7 @@ public class OI {
 
     public static JoystickButton runHatchIn;
 
-    public static JoystickButton toggleIntakeClamp;
+    public static JoystickButton depositHatch;
 
     public static JoystickButton deployClimber;
     public static JoystickButton toggleClimber2;
@@ -162,7 +161,7 @@ public class OI {
         runBallIn = new JoystickButton(stickR, 1);
         runBallOut = new JoystickButton(stickL, 1);
 
-        toggleIntakeClamp = new JoystickButton(stickR, 6);
+        depositHatch = new JoystickButton(stickR, 6);
 
         deployClimber = new JoystickButton(stickL, 4);
         toggleClimber2 = new JoystickButton(stickL, 7);
@@ -177,7 +176,7 @@ public class OI {
         runBallIn.whileHeld(new BallIn());
         runBallOut.whileHeld(new BallOut());
 
-        toggleIntakeClamp.whenPressed(new ClampToggle());
+        depositHatch.whenPressed(new ClampToggle());
 
         deployClimber.whenPressed(new ClimberToggle1());
         toggleClimber2.whenPressed(new ClimberToggle2());
