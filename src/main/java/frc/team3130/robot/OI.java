@@ -85,7 +85,6 @@ public class OI {
     public static POVTrigger elevCargo;
     public static POVTrigger elevGround;
 
-
     public static POVTrigger intakeCargo;
     public static POVTrigger intakePickup;
 
@@ -104,6 +103,7 @@ public class OI {
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
         testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
+
 
         elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
         elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
@@ -130,6 +130,8 @@ public class OI {
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         testElevator.whenPressed(new ElevatorTestPreference());
+
+        runWrist.whileHeld(new RunWrist());
 
     }
 
