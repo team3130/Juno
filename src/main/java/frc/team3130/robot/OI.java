@@ -130,8 +130,7 @@ public class OI {
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         testElevator.whenPressed(new ElevatorTestPreference());
-
-        runWrist.whileHeld(new RunWrist());
+        
 
     }
 
