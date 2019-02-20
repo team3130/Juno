@@ -4,15 +4,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
-import frc.team3130.robot.commands.DefaultDrive;
+import frc.team3130.robot.commands.Chassis.DefaultDrive;
 import frc.team3130.robot.sensors.Navx;
-
-import static frc.team3130.robot.sensors.Navx.getAngle;
 
 
 public class Chassis extends PIDSubsystem {

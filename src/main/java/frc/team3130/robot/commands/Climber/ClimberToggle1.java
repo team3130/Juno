@@ -1,31 +1,28 @@
-package frc.team3130.robot.commands;
+package frc.team3130.robot.commands.Climber;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.Elevator;
+import frc.team3130.robot.subsystems.PistonClimber;
 
-/**
- *
- */
-public class ElevatorTestPreference extends Command {
-
-
-    public ElevatorTestPreference() {
+public class ClimberToggle1 extends Command {
+    public ClimberToggle1() {
+        //Put in the instance of whatever command u need here
+        requires(PistonClimber.GetInstance());
     }
 
-    
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Elevator.setSimpleMotionMagic(Preferences.getInstance().getDouble("Elevator Test", 8.5));
+        PistonClimber.toggleClimbPistons1();
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Elevator.getHeightOffGround()- Preferences.getInstance().getDouble("Elevator Test", 8.5)) < 12.0;
+        return true;
     }
 
     // Called once after isFinished returns true

@@ -1,23 +1,21 @@
-package frc.team3130.robot.commands;
+package frc.team3130.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.Intake;
+import frc.team3130.robot.subsystems.Arm;
 
-public class ClampToggle extends Command {
-    public ClampToggle() {
-        //Put in the instance of whatever command u need here
-        //requires();
-        requires(Intake.GetInstance());
+public class WristCargo extends Command {
+    public WristCargo() {
+        //Put in the instance of whatever subsystem u need here
+        requires(Arm.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Intake.toggleClamp();
+        Arm.setWristRelativeAngle(90.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -27,10 +25,12 @@ public class ClampToggle extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
 }

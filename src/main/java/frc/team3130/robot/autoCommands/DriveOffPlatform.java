@@ -1,7 +1,6 @@
 package frc.team3130.robot.autoCommands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.commands.ElevatorToHeight;
+import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.subsystems.Elevator;
 

@@ -1,36 +1,41 @@
-package frc.team3130.robot.commands;
+package frc.team3130.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.PistonClimber;
+import frc.team3130.robot.subsystems.Intake;
 
-public class DeployClimber extends Command {
-    public DeployClimber() {
+public class BallOut extends Command {
+    public BallOut() {
         //Put in the instance of whatever command u need here
-        requires(PistonClimber.GetInstance());
+        //requires();
+        requires(Intake.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        PistonClimber.toggleClimbPistons1();
-        PistonClimber.toggleClimbPistons2();
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
+        Intake.runBallIntake(-0.3);
+        Intake.runHatchIntake(-0.9);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+        Intake.runBallIntake(0.0);
+        Intake.runHatchIntake(0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        end();
     }
 }
+

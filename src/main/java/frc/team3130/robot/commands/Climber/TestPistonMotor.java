@@ -1,27 +1,23 @@
-package frc.team3130.robot.commands;
+package frc.team3130.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.RobotMap;
-import frc.team3130.robot.subsystems.Arm;
+import frc.team3130.robot.subsystems.PistonClimber;
 
-public class TestArm extends Command {
-    public TestArm() {
+public class TestPistonMotor extends Command {
+    public TestPistonMotor() {
         //Put in the instance of whatever subsystem u need here
-        requires(Arm.GetInstance());
+        requires(PistonClimber.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristRelativeAngle(Preferences.getInstance().getDouble("Wrist Test", 180.0));
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
-        //Arm.runWrist(Preferences.getInstance().getDouble("Wrist Test", 0.0));
-
-        //Arm.runWrist(Preferences.getInstance().getDouble("Wrist Test", 0.0));
+        PistonClimber.rawLandingGear(Preferences.getInstance().getDouble("Climb Motor Test", 0.0));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -31,8 +27,7 @@ public class TestArm extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-
-        //Arm.runWrist(0.0);
+        PistonClimber.rawLandingGear(0.0);
     }
 
     // Called when another command which requires one or more of the same

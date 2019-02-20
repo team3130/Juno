@@ -1,4 +1,4 @@
-package frc.team3130.robot.commands;
+package frc.team3130.robot.commands.Elevator;
 
 import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;

@@ -1,41 +1,39 @@
-package frc.team3130.robot.commands;
+package frc.team3130.robot.commands.Elevator;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.Intake;
+import frc.team3130.robot.subsystems.Elevator;
 
-public class BallIn extends Command {
-    public BallIn() {
-        //Put in the instance of whatever command u need here
-        //requires();
-        requires(Intake.GetInstance());
+/**
+ *
+ */
+public class ElevatorTestPreference extends Command {
+
+
+    public ElevatorTestPreference() {
     }
 
+    
     // Called just before this Command runs the first time
     protected void initialize() {
-
+    	Elevator.setSimpleMotionMagic(Preferences.getInstance().getDouble("Elevator Test", 8.5));
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Intake.runBallIntake(0.3);
-        Intake.runHatchIntake(0.9);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Math.abs(Elevator.getHeightOffGround()- Preferences.getInstance().getDouble("Elevator Test", 8.5)) < 12.0;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        Intake.runBallIntake(0.0);
-        Intake.runHatchIntake(0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        end();
     }
 }
-
