@@ -87,6 +87,7 @@ public class OI {
     public static POVTrigger elevGround;
 
     public static JoystickButton testArm;
+    public static JoystickButton runWrist;
 
     public static JoystickButton intakeCargo;
     public static JoystickButton intakePickup;
@@ -106,8 +107,10 @@ public class OI {
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
         testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
-        testElevatorDown = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
+        testElevatorDown = new JoystickButton(driverGamepad, RobotMap.LST_AXS_LJOYSTICKY);
         testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+
+        runWrist = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
 
         elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
@@ -136,6 +139,8 @@ public class OI {
 
         testElevator.whenPressed(new ElevatorTestPreference());
         testElevatorDown.whileHeld(new ElevatorManualDown());
+
+        runWrist.whileHeld(new RunWrist());
 
     }
 
