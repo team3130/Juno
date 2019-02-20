@@ -104,9 +104,9 @@ public class RobotMap {
 		public static int kElevatorMaxAcc = 20000; //Checked 2/19
 		public static int kElevatorMaxVel = 14000; //Checked 2/19
 
-		public static double kElevatorFFEmpty = 0.28;
-		public static double kElevatorFFWithHatch = 0.285;
-		public static double kElevatorFFWithBall = 0.283;
+		public static double kElevatorFFEmpty = 0.2; //Checked 2/19
+		public static double kElevatorFFWithHatch = 0.25; //Checked 2/19
+		public static double kElevatorFFWithBall = 0.23; //Checked 2/19
 
 		public static double kElevatorHeightEpsilon = 6.0; //Checked 2/17 min height is 1 inch off ground
 		public static double kElevatorHomingHeight = 8.5; //Checked 2/17 height of elevator off ground when at home position

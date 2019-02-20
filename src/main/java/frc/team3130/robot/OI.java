@@ -4,11 +4,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.team3130.robot.commands.*;
-import frc.team3130.robot.commands.Arm.TestArm;
-import frc.team3130.robot.commands.Arm.WristCargo;
+import frc.team3130.robot.commands.Arm.WristVertical;
 import frc.team3130.robot.commands.Arm.WristPickup;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
-import frc.team3130.robot.commands.Elevator.ElevatorManualDown;
 import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Intake.BallIn;
@@ -123,14 +121,14 @@ public class OI {
         //deployClimber.whenPressed(new DeployClimber());
 
         intakePickup.whenActive(new WristPickup());
-        intakeCargo.whenActive(new WristCargo());
+        intakeCargo.whenActive(new WristVertical());
 
 
         elevCargo.whenActive(new ElevatorToHeight(15.0));
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         testElevator.whenPressed(new ElevatorTestPreference());
-        
+
 
     }
 

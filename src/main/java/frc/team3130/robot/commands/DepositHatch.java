@@ -12,6 +12,7 @@ public class DepositHatch extends Command {
     public DepositHatch() {
         //Put in the instance of whatever subsystem u need here
         requires(Arm.GetInstance());
+        requires(Intake.GetInstance());
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +23,7 @@ public class DepositHatch extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         Elevator.rawElevator(-0.3);
-        Arm.runWrist(0.3);
+        Arm.runWrist(0.2);
     }
 
     // Make this return true when this Command no longer needs to run execute()

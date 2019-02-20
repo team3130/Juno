@@ -3,15 +3,15 @@ package frc.team3130.robot.commands.Arm;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.Arm;
 
-public class WristCargo extends Command {
-    public WristCargo() {
+public class WristVertical extends Command {
+    public WristVertical() {
         //Put in the instance of whatever subsystem u need here
         requires(Arm.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristRelativeAngle(100.0);
+        Arm.setWristRelativeAngle(90.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
