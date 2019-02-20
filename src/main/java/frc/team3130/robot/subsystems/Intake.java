@@ -70,7 +70,11 @@ public class Intake extends Subsystem {
         m_hatchMotor.set(speed);
     }
 
-    public static void toggleClamp(){
+    public static synchronized void toggleClamp(){
         clamp.set(!clamp.get());
     }
+
+    public static synchronized void closeClamp(){ clamp.set(false);}
+
+    public static synchronized void openClamp(){ clamp.set(true);}
 }

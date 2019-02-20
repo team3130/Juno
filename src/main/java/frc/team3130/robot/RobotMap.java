@@ -65,11 +65,11 @@ public class RobotMap {
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
 
 			//Wrist
-			public static double kWristP = 2.0;
-			public static double kWristI = 0.005;
-			public static double kWristD = 50.0;
-			public static double kWristF = 0.0;
-			public static int kWristMaxAcc = 2000; // 1024
+			public static double kWristP = 2.0; //Checked 2/17
+			public static double kWristI = 0.005; //Checked 2/17
+			public static double kWristD = 50.0; //Checked 2/17
+			public static double kWristF = 0.0; //Checked 2/17
+			public static int kWristMaxAcc = 1900; // 1024
 			public static int kWristMaxVel = 4100; // 1024
 
 			public static double kWristFFEmpty = 0.10; //checked
@@ -97,16 +97,16 @@ public class RobotMap {
 		public static double kElevatorManualDeadband = 0.06;
 		public static double kElevatorManualMultipler =0.8;
 
-		public static double kElevatorP = 1.0;
-		public static double kElevatorI = 0.0;
-		public static double kElevatorD = 0.3;
+		public static double kElevatorP = 1.0; //Checked 2/19
+		public static double kElevatorI = 0.0; //Checked 2/19
+		public static double kElevatorD = 0.3; //Checked 2/19
 		public static double kElevatorF = 0.0;
-		public static int kElevatorMaxAcc = 20000;
-		public static int kElevatorMaxVel = 10000;
+		public static int kElevatorMaxAcc = 20000; //Checked 2/19
+		public static int kElevatorMaxVel = 14000; //Checked 2/19
 
 		public static double kElevatorFFEmpty = 0.28;
-		public static double kElevatorFFWithHatch = 0.0;
-		public static double kElevatorFFWithBall = 0.0;
+		public static double kElevatorFFWithHatch = 0.285;
+		public static double kElevatorFFWithBall = 0.283;
 
 		public static double kElevatorHeightEpsilon = 6.0; //Checked 2/17 min height is 1 inch off ground
 		public static double kElevatorHomingHeight = 8.5; //Checked 2/17 height of elevator off ground when at home position
@@ -115,9 +115,8 @@ public class RobotMap {
 		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.65)* 22.0 / 18.0; //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
 		//Limelight
-		//TODO: Figure this out with CAD
-		public static double kLimelightTiltAngle = 82.0;
-		public static double kLimelightHeight = 0.0; //Height of Limelight's camera aperture from the ground
+		public static double kLimelightTiltAngle = 30.0; //Checked 2/19
+		public static double kLimelightHeight = 0.0; //TODO Height of Limelight's camera aperture from the ground
 
 	/**
 	 * Field parameters

@@ -112,7 +112,13 @@ public class Arm extends Subsystem {
     /**
      *  Hold the Wrist's current angle by PID motion magic closed loop
      */
+    public static void holdAngleWrist() {
+        setWristRelativeAngle(getRelativeWristAngle());
+    }
 
+    /**
+     * Reset the Arm
+     */
     public static void resetArm(){
         m_wrist.clearMotionProfileTrajectories();
         m_wrist.set(ControlMode.PercentOutput, 0.0);

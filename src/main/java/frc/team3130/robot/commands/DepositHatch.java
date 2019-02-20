@@ -16,7 +16,7 @@ public class DepositHatch extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Intake.toggleClamp();
+        Intake.openClamp();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -32,8 +32,8 @@ public class DepositHatch extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Arm.runWrist(0.0);
-        Intake.toggleClamp();
+        Intake.closeClamp();
+        Arm.holdAngleWrist();
     }
 
     // Called when another command which requires one or more of the same
