@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
+import frc.team3130.robot.commands.RunWrist;
 import frc.team3130.robot.util.Epsilon;
 
 
@@ -27,6 +28,7 @@ public class Arm extends Subsystem {
     private static WPI_TalonSRX m_wrist;
 
     private static PeriodicIO wristPeriodicIO = new PeriodicIO();
+
     //Create and define all standard data types needed
     
 
@@ -67,6 +69,7 @@ public class Arm extends Subsystem {
     @Override
     protected void initDefaultCommand() {
 
+        setDefaultCommand(new RunWrist());
     }
 
     /*
@@ -81,8 +84,10 @@ public class Arm extends Subsystem {
      * @param speed percent value
      */
     public static void runWrist(double speed){
-        m_wrist.set(ControlMode.PercentOutput,speed);
+        speed += wristPeriodicIO.feedforward;
+        m_wrist.set(ControlMode.PercentOutput, speed);
     }
+
 
     /**
      * Gets the angle of the Wrist motor in relation to the arm

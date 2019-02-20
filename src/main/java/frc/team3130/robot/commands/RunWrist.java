@@ -5,15 +5,11 @@ import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Arm;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
-import frc.team3130.robot.subsystems.Elevator;
-
 /**
  *
  */
 public class RunWrist extends Command {
-    private boolean changeHeight = false;
+    private boolean holdAngle = false;
 
     public RunWrist() {
         requires(Arm.GetInstance());
@@ -21,19 +17,19 @@ public class RunWrist extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        changeHeight = false;
+        holdAngle = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        double stick = -OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_LJOYSTICKY);
+        double stick = OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_LJOYSTICKY);
         if (Math.abs(stick) >= RobotMap.kElevatorManualDeadband ){
             double moveSpeed = RobotMap.kElevatorManualMultipler * stick;
             Arm.runWrist(moveSpeed);
-            changeHeight = true;
-        } else if (changeHeight){
+            holdAngle = true;
+        } else if (holdAngle){
             Arm.holdAngleWrist();
-            changeHeight = false;
+            holdAngle = false;
         }
     }
 
@@ -44,7 +40,7 @@ public class RunWrist extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Elevator.resetElevator();
+        Arm.resetArm();
     }
 
     // Called when another command which requires one or more of the same
