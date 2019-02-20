@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
+import frc.team3130.robot.commands.Elevator.RunElevator;
 import frc.team3130.robot.util.Epsilon;
 
 /**
@@ -91,7 +92,7 @@ public class Elevator extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new RunElevator());
+        setDefaultCommand(new RunElevator());
     }
 
     //For testing

@@ -81,61 +81,55 @@ public class OI {
 
     public static JoystickButton deployClimber;
     public static JoystickButton testElevator;
-    public static JoystickButton testElevatorDown;
 
     public static POVTrigger elevCargo;
     public static POVTrigger elevGround;
 
-    public static JoystickButton testArm;
 
-    public static JoystickButton intakeCargo;
-    public static JoystickButton intakePickup;
+    public static POVTrigger intakeCargo;
+    public static POVTrigger intakePickup;
 
     //Settings for gamepad
     private OI(){
         driverGamepad = new Joystick(0);
         weaponsGamepad = new Joystick(1);
 
-        shift = new JoystickButton(driverGamepad, 9);
+        shift = new JoystickButton(driverGamepad, RobotMap.LST_BTN_LJOYSTICKPRESS);
 
-        runBallIn = new JoystickButton(driverGamepad, 6);
-        runBallOut = new JoystickButton(driverGamepad, 5);
+        runBallIn = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RBUMPER);
+        runBallOut = new JoystickButton(driverGamepad, RobotMap.LST_BTN_LBUMPER);
 
-        depositHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
+        depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
 
         deployClimber = new JoystickButton(weaponsGamepad, 8);
 
         testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
-        testElevatorDown = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
-        testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+
+        elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
+        elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
+
+        intakeCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_W);
+        intakePickup = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
 
 
-        elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
-        elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
-
-        intakeCargo = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
-        intakePickup = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
-
-
-
+        //Map the button to command
         shift.whenPressed(new ShiftToggle());
 
         runBallIn.whileHeld(new BallIn());
         runBallOut.whileHeld(new BallOut());
 
-        depositHatch.whenPressed(new DepositHatch());
+        depositHatch.whileHeld(new DepositHatch());
 
         //deployClimber.whenPressed(new DeployClimber());
-        testArm.whenPressed(new TestArm());
-        intakePickup.whenPressed(new WristPickup());
-        intakeCargo.whenPressed(new WristCargo());
+
+        intakePickup.whenActive(new WristPickup());
+        intakeCargo.whenActive(new WristCargo());
 
 
         elevCargo.whenActive(new ElevatorToHeight(15.0));
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         testElevator.whenPressed(new ElevatorTestPreference());
-        testElevatorDown.whileHeld(new ElevatorManualDown());
 
     }
 
