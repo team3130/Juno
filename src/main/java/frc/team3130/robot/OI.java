@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.team3130.robot.commands.*;
+import frc.team3130.robot.commands.Arm.TestArm;
 import frc.team3130.robot.commands.Arm.WristVertical;
 import frc.team3130.robot.commands.Arm.WristPickup;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
+import frc.team3130.robot.commands.Climber.DeployClimber;
 import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Intake.BallIn;
@@ -80,6 +82,8 @@ public class OI {
     public static JoystickButton deployClimber;
     public static JoystickButton testElevator;
 
+    public static JoystickButton testArm;
+
     public static POVTrigger elevCargo;
     public static POVTrigger elevGround;
 
@@ -98,13 +102,14 @@ public class OI {
 
         depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
 
-        deployClimber = new JoystickButton(weaponsGamepad, 8);
+        deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
 
         testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
 
+        testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
-        elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
-        elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
+        elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
+        elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
 
         intakeCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_W);
         intakePickup = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
@@ -118,7 +123,7 @@ public class OI {
 
         depositHatch.whileHeld(new DepositHatch());
 
-        //deployClimber.whenPressed(new DeployClimber());
+        deployClimber.whenPressed(new DeployClimber());
 
         intakePickup.whenActive(new WristPickup());
         intakeCargo.whenActive(new WristVertical());
@@ -128,6 +133,8 @@ public class OI {
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         testElevator.whenPressed(new ElevatorTestPreference());
+
+        testArm.whenPressed(new TestArm());
 
 
     }
