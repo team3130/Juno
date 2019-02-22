@@ -20,8 +20,8 @@ public class RobotMap {
 	/**
 	 *Constants
 	 */
-		//Chassis
-		//TODO: Get the actual values, using janky values bots right now
+
+	//Chassis
 		public static double kChassisWidth = 23.5; //Checked 2/12 Distance between the left and right middle wheels
 		public static double kLWheelDiameter = 6.0; //Center wheel
 		public static double kRWheelDiameter = 6.0; //Center wheel
@@ -29,7 +29,6 @@ public class RobotMap {
 
 		public static double kChassisShiftWait = 0.07;
 
-		//PID Preferences Defaults
 		public static double kChassisHighP = 0.02; //0.018
 		public static double kChassisHighI = 0;
 		public static double kChassisHighD = 0.09; //0.062
@@ -38,10 +37,35 @@ public class RobotMap {
 		public static double kChassisLowI = 0;
 		public static double kChassisLowD = 0.11;
 
+		//Intake
 
+	//Arm
+		public static double kArmLength = 7.70652; //Distance from centers of pivot points
+
+	//Wrist
+		//Manual
+		public static double kWristManualDeadband = 0.06; //Todo: Easy to accidentally bump joystick
+		public static double kWristManualMultipler =0.8;
+
+		public static double kWristP = 2.0; //Checked 2/17
+		public static double kWristI = 0.005; //Checked 2/17
+		public static double kWristD = 50.0; //Checked 2/17
+		public static double kWristF = 0.0; //Checked 2/17
+		public static int kWristMaxAcc = 1900; // 1024
+		public static int kWristMaxVel = 4100; // 1024
+
+		public static double kWristFFEmpty = 0.10; //checked
+		public static double kWristFFBall = 0.0;
+		public static double kWristFFHatch = 0.0;
+
+		public static double kWristKaWithBall = 0.008;
+		public static double kWristKaEmpty = 0.006;
+		public static double kWristKaWithHatch = 0.013;
+
+		public static double kWristTicksPerDeg = 4096.0 / 360.0 * 44.0 / 18.0 ; //4096 ticks per revolution of gearbox output shaft
 
 		public enum Presets{
-			LowHatch (15.0 , 90.0),
+			LowestHatch (15.0 , 90.0),
 			LowestPort ( 20.0, 120.0),
 			MiddlePort (55.0, 120.0);
 
@@ -52,39 +76,18 @@ public class RobotMap {
 				this.height = height;
 				this.angle = angle;
 			}
+
 			public double getHeight(){
 				return this.height;
 			}
+
 			public double getAngle(){
 				return this.angle;
 			}
 		}
-		//Intake
-
-		//Arm
-		public static double kArmLength = 7.70652; //Distance from centers of pivot points
-
-			//Wrist
-			public static double kWristP = 2.0; //Checked 2/17
-			public static double kWristI = 0.005; //Checked 2/17
-			public static double kWristD = 50.0; //Checked 2/17
-			public static double kWristF = 0.0; //Checked 2/17
-			public static int kWristMaxAcc = 1900; // 1024
-			public static int kWristMaxVel = 4100; // 1024
-
-			public static double kWristFFEmpty = 0.10; //checked
-			public static double kWristFFBall = 0.0;
-			public static double kWristFFHatch = 0.0;
-
-			public static double kWristKaWithBall = 0.008;
-			public static double kWristKaEmpty = 0.006;
-			public static double kWristKaWithHatch = 0.013;
-
-			public static double kWristTicksPerDeg = 4096.0 / 360.0 * 44.0 / 18.0 ; //4096 ticks per revolution of gearbox output shaft
 
 
-		//Elevator
-		//TODO: Actually find these values
+	//Elevator
 		public static double kElevatorSlowZone = 11.0;
 
 		public static double kElevatorStagePickup1 = 27.28; //Checked 2/12
@@ -114,7 +117,7 @@ public class RobotMap {
 
 		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.65)* 22.0 / 18.0; //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
-		//Limelight
+	//Limelight
 		public static double kLimelightTiltAngle = 30.0; //Checked 2/19
 		public static double kLimelightHeight = 0.0; //TODO Height of Limelight's camera aperture from the ground
 
@@ -142,8 +145,8 @@ public class RobotMap {
     public static final int CAN_LEFTMOTORFRONT = 4;
 	public static final int CAN_LEFTMOTORREAR = 5;
 
-	//public static final int (nada yet) = 6
-	public static final int CAN_ARMWRIST =	 7;
+	//public static final int (nada yet) = 6;
+	public static final int CAN_ARMWRIST = 7;
 
 	public static final int CAN_BALLMOTOR = 8;
 	public static final int CAN_HATCHMOTOR = 9;
