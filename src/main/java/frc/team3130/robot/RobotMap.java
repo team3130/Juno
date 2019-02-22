@@ -174,8 +174,8 @@ public class RobotMap {
 	public static final int LST_BTN_Y = 4;
 	public static final int LST_BTN_LBUMPER = 5;
 	public static final int LST_BTN_RBUMPER = 6;
-	public static final int LST_BTN_BACK = 7;
-	public static final int LST_BTN_START = 8;
+	public static final int LST_BTN_WINDOW = 7;
+	public static final int LST_BTN_MENU = 8;
 	public static final int LST_BTN_RJOYSTICKPRESS = 9;
 	public static final int LST_BTN_LJOYSTICKPRESS = 10;
 
