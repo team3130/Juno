@@ -44,7 +44,7 @@ public class RobotMap {
 
 	//Wrist
 		//Manual
-		public static double kWristManualDeadband = 0.06; //Todo: Easy to accidentally bump joystick
+		public static double kWristManualDeadband = 0.06; //TODO: Easy to accidentally bump joystick
 		public static double kWristManualMultipler =0.8;
 
 		public static double kWristP = 2.0; //Checked 2/17
@@ -64,6 +64,7 @@ public class RobotMap {
 
 		public static double kWristTicksPerDeg = 4096.0 / 360.0 * 44.0 / 18.0 ; //4096 ticks per revolution of gearbox output shaft
 
+	//Placement Presets
 		public enum Presets{
 			LowestHatch (15.0 , 90.0),
 			LowestPort ( 20.0, 120.0),
