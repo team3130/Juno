@@ -1,9 +1,6 @@
 package frc.team3130.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StickyFaults;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
@@ -51,6 +48,8 @@ public class Arm extends Subsystem {
 
         //setNeutralMode for Talon
         m_wrist.setNeutralMode(NeutralMode.Brake);
+
+        m_wrist.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
         /**
          * For both motors, rotation CCW away from the elevator is positive direction
@@ -227,6 +226,8 @@ public class Arm extends Subsystem {
         SmartDashboard.putNumber("Wrist RelAngle", getRelativeWristAngle());
 
         SmartDashboard.putNumber("Wrist Sensor Value", wristPeriodicIO.position_ticks);
+
+        SmartDashboard.putBoolean("Wrist Homing Switch", m_wrist.getSensorCollection().isRevLimitSwitchClosed());
 
         SmartDashboard.putNumber("Wrist Output %", m_wrist.getMotorOutputPercent());
 
