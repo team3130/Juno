@@ -17,8 +17,8 @@ public class BallIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Intake.runBallIntake(0.3);
-        Intake.runHatchIntake(0.9);
+        Intake.runBallIntake(0.6);
+        Intake.runHatchIntake(0.8);
     }
 
     // Make this return true when this Command no longer needs to run execute()
