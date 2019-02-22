@@ -1,4 +1,4 @@
-package frc.team3130.robot.commands;
+package frc.team3130.robot.commands.Groups;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.Arm;
@@ -22,19 +22,20 @@ public class DepositHatch extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Elevator.rawElevator(-0.3);
+        Elevator.rawElevator(-0.2);
         Arm.runWrist(0.2);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
         Intake.closeClamp();
         Arm.holdAngleWrist();
+        Elevator.holdHeight();
     }
 
     // Called when another command which requires one or more of the same

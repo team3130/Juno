@@ -1,4 +1,4 @@
-package frc.team3130.robot.commands;
+package frc.team3130.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.OI;
@@ -23,8 +23,8 @@ public class RunWrist extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         double stick = OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_LJOYSTICKY);
-        if (Math.abs(stick) >= RobotMap.kElevatorManualDeadband ){
-            double moveSpeed = RobotMap.kElevatorManualMultipler * stick;
+        if (Math.abs(stick) >= RobotMap.kWristManualDeadband ){
+            double moveSpeed = RobotMap.kWristManualMultipler * stick;
             Arm.runWrist(moveSpeed);
             holdAngle = true;
         } else if (holdAngle){
