@@ -2,12 +2,10 @@ package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
-import frc.team3130.robot.commands.RunWrist;
+import frc.team3130.robot.commands.Arm.RunWrist;
 import frc.team3130.robot.util.Epsilon;
 
 
@@ -67,7 +65,6 @@ public class Arm extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-
         setDefaultCommand(new RunWrist());
     }
 

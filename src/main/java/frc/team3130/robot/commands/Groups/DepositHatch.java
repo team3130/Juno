@@ -1,29 +1,29 @@
-package frc.team3130.robot.commands.Arm;
+package frc.team3130.robot.commands.Groups;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.OI;
-import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Arm;
 import frc.team3130.robot.subsystems.Elevator;
+import frc.team3130.robot.subsystems.Intake;
 
 /**
  *
  */
-public class RunArm extends Command {
-
-    private double oldWrist = 180.0;
-
-    public RunArm() {
+public class DepositHatch extends Command {
+    public DepositHatch() {
+        //Put in the instance of whatever subsystem u need here
         requires(Arm.GetInstance());
+        requires(Intake.GetInstance());
     }
 
     // Called just before this Command runs the first time
-
+    protected void initialize() {
+        Intake.openClamp();
+    }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
-
+        Elevator.rawElevator(-0.2);
+        Arm.runWrist(0.2);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,7 +33,9 @@ public class RunArm extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Elevator.resetElevator();
+        Intake.closeClamp();
+        Arm.holdAngleWrist();
+        Elevator.holdHeight();
     }
 
     // Called when another command which requires one or more of the same

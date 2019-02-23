@@ -168,7 +168,7 @@ public class Elevator extends Subsystem {
         mPeriodicIO.position_ticks = m_elevatorMaster.getSelectedSensorPosition(0);
         mPeriodicIO.velocity_ticks_per_100ms = m_elevatorMaster.getSelectedSensorVelocity(0);
         
-        //Handle acceleration of elevator //TODO: Verify this using simple profiling mode
+        //Handle acceleration of elevator
         if (m_elevatorMaster.getControlMode() == ControlMode.MotionMagic) {
             int newPos = m_elevatorMaster.getActiveTrajectoryPosition(); //read in the new motion profile Position trajectory
             int newVel = m_elevatorMaster.getActiveTrajectoryVelocity(); //read in the new motion profile Velocity trajectory
