@@ -5,14 +5,16 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Chassis.DefaultDrive;
 import frc.team3130.robot.sensors.Navx;
+import frc.team3130.robot.util.PIDCustom;
 
 
-public class Chassis extends PIDSubsystem {
+public class Chassis extends Subsystem {
 
     //Instance Handling
     private static Chassis m_pInstance;
@@ -32,11 +34,12 @@ public class Chassis extends PIDSubsystem {
 
     private static Solenoid m_shifter;
 
+    private static PIDCustom ChassisPID;
+
     //Create and define all standard data types needed
     public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
 
     private Chassis() {
-        super(1.0,0,0);
 
         m_leftMotorFront = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORFRONT);
         m_leftMotorRear = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORREAR);
@@ -50,6 +53,9 @@ public class Chassis extends PIDSubsystem {
         
         m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
         m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
+        m_leftMotorRear.setNeutralMode(NeutralMode.Brake);
+        m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
+
 
         m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
         m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
@@ -58,9 +64,10 @@ public class Chassis extends PIDSubsystem {
         m_drive.setSafetyEnabled(false);
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
-        //robot init should start robot in high gear (disabled also should be high gear)
 
+        m_shifter.set(false); //robot init should start robot in high gear (disabled also should be high gear)
 
+        ChassisPID = new PIDCustom(RobotMap.kChassisHighP, RobotMap.kChassisHighI, RobotMap.kChassisHighD);
     }
 
     public void initDefaultCommand() {
@@ -126,22 +133,13 @@ public class Chassis extends PIDSubsystem {
 
     public static void setPIDValues()
     {
-        if(getShift()) {
-            GetInstance().getPIDController().setPID(
-                    RobotMap.kChassisHighP,
-                    RobotMap.kChassisHighI,
-                    RobotMap.kChassisHighD
-            );
+        if(getShift()) { //Chassis is in high gear
+            ChassisPID.setPID(RobotMap.kChassisHighP, RobotMap.kChassisHighI, RobotMap.kChassisHighD);
         }else{
-            GetInstance().getPIDController().setPID(
-                    RobotMap.kChassisLowP,
-                    RobotMap.kChassisLowI,
-                    RobotMap.kChassisLowD
-            );
+            ChassisPID.setPID(RobotMap.kChassisLowP, RobotMap.kChassisLowI, RobotMap.kChassisLowD);
         }
     }
 
-    protected double returnPIDInput() { return getAngle(); }
 
     /**
      * Returns the absolute angle of the drivetrain in relation to the robot's orientation upon last reset.
@@ -169,9 +167,7 @@ public class Chassis extends PIDSubsystem {
      */
     public static void holdAngle(double angle)
     {
-        setPIDValues(); //set PID
-        GetInstance().getPIDController().setSetpoint(getAngle() + angle);
-        GetInstance().getPIDController().enable();
+        //TODO: Rework
     }
 
     public static void talonsToCoast(boolean coast)
@@ -249,9 +245,4 @@ public class Chassis extends PIDSubsystem {
      */
     public static WPI_TalonSRX getFrontR(){ return m_rightMotorFront; }
 
-
-    @Override
-    protected void usePIDOutput(double output) {
-
-    }
 }

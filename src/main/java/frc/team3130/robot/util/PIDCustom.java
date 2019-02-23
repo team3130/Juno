@@ -1,6 +1,9 @@
 package frc.team3130.robot.util;
 
-public class PIDController {
+/**
+ * Custom and relatively easy to use PID controller implementation. Drawn from tekdemo's MiniPID.
+ */
+public class PIDCustom {
     //**********************************
     // Class private variables
     //**********************************
@@ -36,26 +39,26 @@ public class PIDController {
     //**********************************
 
     /**
-     * Create a MiniPID class object.
+     * Create a PID controller class object.
      * See setP, setI, setD methods for more detailed parameters.
      * @param p Proportional gain. Large if large difference between setpoint and target.
      * @param i Integral gain.  Becomes large if setpoint cannot reach target quickly.
      * @param d Derivative gain. Responds quickly to large changes in error. Small values prevents P and I terms from causing overshoot.
      */
-    public PIDController(double p, double i, double d){
+    public PIDCustom(double p, double i, double d){
         P=p; I=i; D=d;
         checkSigns();
     }
 
     /**
-     * Create a MiniPID class object.
+     * Create a PID controller class object.
      * See setP, setI, setD, setF methods for more detailed parameters.
      * @param p Proportional gain. Large if large difference between setpoint and target.
      * @param i Integral gain.  Becomes large if setpoint cannot reach target quickly.
      * @param d Derivative gain. Responds quickly to large changes in error. Small values prevents P and I terms from causing overshoot.
      * @param f Feed-forward gain. Open loop "best guess" for the output should be. Only useful if setpoint represents a rate.
      */
-    public PIDController(double p, double i, double d, double f){
+    public PIDCustom(double p, double i, double d, double f){
         P=p; I=i; D=d; F=f;
         checkSigns();
     }
