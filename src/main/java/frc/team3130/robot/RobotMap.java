@@ -68,7 +68,8 @@ public class RobotMap {
 		public enum Presets{
 			LowestHatch (15.0 , 90.0),
 			LowestPort ( 20.0, 120.0),
-			MiddlePort (55.0, 120.0);
+			MiddlePort (55.0, 120.0),
+			HighestPort (70.0,120.0);
 
 			private double height;
 			private double angle;
@@ -116,7 +117,7 @@ public class RobotMap {
 		public static double kElevatorHomingHeight = 8.5; //Checked 2/17 height of elevator off ground when at home position
 		public static double kElevatorMaxHeight = 76.75; //Checked 2/12
 
-		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.65)* 22.0 / 18.0; //4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
+		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.65)* 40.0 / 18.0 * 22.0 / 16.0; //Updated 2/24 || 4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
 	//Limelight
 		public static double kLimelightTiltAngle = 30.0; //Checked 2/19

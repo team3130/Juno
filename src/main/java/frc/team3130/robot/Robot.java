@@ -209,5 +209,6 @@ public class Robot extends TimedRobot {
     Limelight.outputToSmartDashboard();
     Elevator.outputToSmartDashboard();
     Arm.GetInstance().outputToSmartDashboard();
+    Chassis.outputToSmartDashboard();
   }
 }
