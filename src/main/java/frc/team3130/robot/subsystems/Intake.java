@@ -32,6 +32,7 @@ public class Intake extends Subsystem {
 
     //Create necessary objects
     private static Solenoid clamp;
+    private static Solenoid tongue;
 
     private static WPI_TalonSRX m_ballMotor;
     private static WPI_TalonSRX m_hatchMotor;
@@ -77,4 +78,10 @@ public class Intake extends Subsystem {
     public static synchronized void closeClamp(){ clamp.set(false);}
 
     public static synchronized void openClamp(){ clamp.set(true);}
+
+    public static synchronized void toggleTongue() { tongue.set(tongue.get());}
+
+    public static synchronized void extendTongue() { tongue.set(true);}
+
+    public static synchronized void retractTongue() {tongue.set(false);}
 }
