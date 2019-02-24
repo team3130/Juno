@@ -79,7 +79,7 @@ public class Intake extends Subsystem {
 
     public static synchronized void openClamp(){ clamp.set(true);}
 
-    public static synchronized void toggleTongue() { tongue.set(tongue.get());}
+    public static synchronized void toggleTongue() { tongue.set(!tongue.get());}
 
     public static synchronized void extendTongue() { tongue.set(true);}
 
