@@ -77,6 +77,7 @@ public class OI {
                 checkTriggers();
             }
         }
+    }
 
     /**
      * Definitions for joystick buttons start
