@@ -64,6 +64,19 @@ public class OI {
         if(m_pInstance == null) m_pInstance = new OI();
         return m_pInstance;
     }
+    private class ConditionalOIControl implements Runnable {
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(20L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                checkTriggers();
+            }
+        }
 
     /**
      * Definitions for joystick buttons start
@@ -89,6 +102,18 @@ public class OI {
 
     public static POVTrigger intakeCargo;
     public static POVTrigger intakePickup;
+
+
+
+    public void checkTriggers() {
+        if (OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER) >= RobotMap.kIntakeTriggerDeadband) {
+            new BallOut().start();
+        }
+        if (OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_RTRIGGER) >= RobotMap.kIntakeTriggerDeadband) {
+            new BallIn().start();
+        }
+    }
+
 
     //Settings for gamepad
     private OI(){
@@ -118,8 +143,8 @@ public class OI {
         //Map the button to command
         shift.whenPressed(new ShiftToggle());
 
-        runBallIn.whileHeld(new BallIn());
-        runBallOut.whileHeld(new BallOut());
+        //runBallIn.whileHeld(new BallIn());
+        //runBallOut.whileHeld(new BallOut());
 
         depositHatch.whileHeld(new DepositHatch());
 

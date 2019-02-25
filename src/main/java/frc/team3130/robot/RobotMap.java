@@ -37,7 +37,8 @@ public class RobotMap {
 		public static double kChassisLowI = 0;
 		public static double kChassisLowD = 0.11;
 
-		//Intake
+	//Intake
+		public static double kIntakeTriggerDeadband = 0.5;
 
 	//Arm
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
