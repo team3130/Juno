@@ -121,14 +121,11 @@ public class OI {
         driverGamepad = new Joystick(0);
         weaponsGamepad = new Joystick(1);
 
-        shift = new JoystickButton(driverGamepad, RobotMap.LST_BTN_LJOYSTICKPRESS);
-
-        runBallIn = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RBUMPER);
-        runBallOut = new JoystickButton(driverGamepad, RobotMap.LST_BTN_LBUMPER);
+        shift = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RJOYSTICKPRESS);
 
         depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
 
-        deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
+        // deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
 
         testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
 
