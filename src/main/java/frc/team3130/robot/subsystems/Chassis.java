@@ -13,6 +13,7 @@ import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Chassis.DefaultDrive;
 import frc.team3130.robot.sensors.Navx;
 import frc.team3130.robot.util.PIDCustom;
+import frc.team3130.robot.util.Util;
 
 
 public class Chassis extends Subsystem {
@@ -26,8 +27,6 @@ public class Chassis extends Subsystem {
     }
 
     //Create necessary objects
-    private static DifferentialDrive m_drive;
-
     private static WPI_TalonSRX m_leftMotorFront;
     private static WPI_TalonSRX m_leftMotorRear;
     private static WPI_TalonSRX m_rightMotorFront;
@@ -60,15 +59,17 @@ public class Chassis extends Subsystem {
 
         m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
         m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
-        
-        m_drive = new DifferentialDrive(m_leftMotorFront, m_rightMotorFront);
-        m_drive.setSafetyEnabled(false);
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
 
         m_shifter.set(false); //robot init should start robot in high gear (disabled also should be high gear)
 
         ChassisPID = new PIDCustom(RobotMap.kChassisHighP, RobotMap.kChassisHighI, RobotMap.kChassisHighD);
+
+        /**
+         * For both motors, forward is the positive direction
+         *
+         */
 
         m_rightMotorFront.setInverted(false);
         m_leftMotorFront.setInverted(true);
@@ -83,13 +84,40 @@ public class Chassis extends Subsystem {
     	setDefaultCommand(new DefaultDrive());
     }
 
-    public static void DriveTank(double moveL, double moveR)
-    {
-        m_drive.tankDrive(moveL, moveR, false);
+    public static void driveTank(double moveL, double moveR, boolean squaredInputs) {
+        moveL = Util.limit(moveL, 1.0);
+        moveL = Util.applyDeadband(moveL, RobotMap.kDriveDeadband);
+
+        moveR = Util.limit(moveR, 1.0);
+        moveR = Util.applyDeadband(moveR, RobotMap.kDriveDeadband);
+
+        if(squaredInputs){
+            moveL = Math.copySign(moveL * moveL, moveL);
+            moveR = Math.copySign(moveR * moveR, moveR);
+        }
+
+        m_leftMotorFront.set(ControlMode.PercentOutput, moveL);
+        m_rightMotorFront.set(ControlMode.PercentOutput, moveR);
+
     }
 
-    public static void DriveArcade(double moveThrottle, double turnThrottle, boolean squaredinputs){
-        m_drive.arcadeDrive(moveThrottle, turnThrottle, squaredinputs);
+    public static void driveArcade(double moveThrottle, double turnThrottle, boolean squaredInputs) {
+        moveThrottle = Util.limit(moveThrottle, 1.0);
+        moveThrottle = Util.applyDeadband(moveThrottle, RobotMap.kDriveDeadband);
+
+        turnThrottle = Util.limit(turnThrottle, 1.0);
+        turnThrottle = Util.applyDeadband(turnThrottle, RobotMap.kDriveDeadband);
+
+        if(squaredInputs){
+            moveThrottle = Math.copySign(moveThrottle * moveThrottle, moveThrottle);
+            turnThrottle = Math.copySign(turnThrottle * turnThrottle, turnThrottle);
+        }
+
+        double leftMotorOutput = moveThrottle + turnThrottle;
+        double rightMotorOutput = moveThrottle - turnThrottle;
+
+        m_leftMotorFront.set(ControlMode.PercentOutput, Util.limit(leftMotorOutput, 1.0));
+        m_rightMotorFront.set(ControlMode.PercentOutput, Util.limit(rightMotorOutput, 1.0));
     }
 
     /**

@@ -37,6 +37,8 @@ public class RobotMap {
 		public static double kChassisLowI = 0;
 		public static double kChassisLowD = 0.11;
 
+		public static double kDriveDeadband = 0.02;
+
 	//Intake
 		public static double kIntakeTriggerDeadband = 0.5;
 

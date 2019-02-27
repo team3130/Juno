@@ -34,7 +34,7 @@ public class DefaultDrive extends Command {
 
     
     double turnThrottle = (1.0);
-    Chassis.DriveArcade(moveSpeed, turnSpeed * turnThrottle, true);
+    Chassis.driveArcade(moveSpeed, turnSpeed * turnThrottle, true);
     /*
     if(PistonClimber.getPiston1()) {
       PistonClimber.rawLandingGear(moveSpeed);

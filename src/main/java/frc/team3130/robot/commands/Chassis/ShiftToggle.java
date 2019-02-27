@@ -26,7 +26,7 @@ public class ShiftToggle extends Command {
     protected void initialize() {
     	timer.reset();
     	Chassis.talonsToCoast(true);
-    	Chassis.DriveTank(0, 0); 		//Cut all power to the motors so they aren't running during the shift
+    	Chassis.driveTank(0, 0, false); 		//Cut all power to the motors so they aren't running during the shift
         timer.start();
     }
 
