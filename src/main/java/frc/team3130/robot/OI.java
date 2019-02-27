@@ -98,6 +98,8 @@ public class OI {
 
     public static JoystickButton testArm;
 
+    public static JoystickButton testToungue;
+
     public static POVTrigger elevCargo;
     public static POVTrigger elevGround;
 
@@ -131,6 +133,8 @@ public class OI {
 
         testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
+        testToungue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
+
         elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
         elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
 
@@ -159,6 +163,7 @@ public class OI {
 
         testArm.whenPressed(new TestArm());
 
+        testToungue.whenPressed(new TongueToggle());
 
     }
 
