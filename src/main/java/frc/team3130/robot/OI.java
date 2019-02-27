@@ -125,7 +125,7 @@ public class OI {
 
         depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
 
-        // deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
+        deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
 
         testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
 
@@ -146,7 +146,7 @@ public class OI {
 
         depositHatch.whileHeld(new DepositHatch());
 
-        deployClimber.whenPressed(new DeployClimber());
+        //deployClimber.whenPressed(new DeployClimber());
 
         intakePickup.whenActive(new WristPickup());
         intakeCargo.whenActive(new WristVertical());

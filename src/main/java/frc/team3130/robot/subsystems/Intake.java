@@ -55,6 +55,8 @@ public class Intake extends Subsystem {
 
         clamp = new Solenoid(RobotMap.CAN_PNMMODULE,RobotMap.PNM_INTAKEPISTON);
 
+        tongue = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_TONGUEPISTON);
+
         m_ballMotor.setInverted(true);
     }
 
