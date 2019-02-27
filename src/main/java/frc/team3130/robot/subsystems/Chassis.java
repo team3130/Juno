@@ -69,6 +69,13 @@ public class Chassis extends Subsystem {
         m_shifter.set(false); //robot init should start robot in high gear (disabled also should be high gear)
 
         ChassisPID = new PIDCustom(RobotMap.kChassisHighP, RobotMap.kChassisHighI, RobotMap.kChassisHighD);
+
+        m_rightMotorFront.setInverted(false);
+        m_leftMotorFront.setInverted(true);
+        m_rightMotorRear.setInverted(false);
+        m_leftMotorRear.setInverted(true);
+
+        m_rightMotorFront.setSensorPhase(false);
     }
 
     public void initDefaultCommand() {

@@ -13,6 +13,7 @@ import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.DepositHatch;
 import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
+import frc.team3130.robot.commands.Intake.TongueToggle;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
