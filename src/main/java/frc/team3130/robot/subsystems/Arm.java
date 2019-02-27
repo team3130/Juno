@@ -19,16 +19,16 @@ public class Arm extends Subsystem {
     }
 
     //Create necessary objects
-    // RIP "WPI_TalonSRX m_elbow"
     private static WPI_TalonSRX m_wrist;
 
     private static PeriodicIO wristPeriodicIO = new PeriodicIO();
+
+    private WristControlState mWristState = WristControlState.PERCENT_OUTPUT;
 
     //Create and define all standard data types needed
     
 
     private Arm() {
-
 
         m_wrist = new WPI_TalonSRX(RobotMap.CAN_ARMWRIST);
 
@@ -61,6 +61,12 @@ public class Arm extends Subsystem {
         m_wrist.setSensorPhase(false);
 
         m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
+
+        configPIDF(m_wrist,
+                RobotMap.kWristP,
+                RobotMap.kWristI,
+                RobotMap.kWristD,
+                0.0);
     }
 
     @Override
@@ -69,17 +75,13 @@ public class Arm extends Subsystem {
     }
 
     /*
-        Elbow (Motor removed, that's why nothing is here)
-     */
-
-    /*
         Wrist
      */
     /**
      * Run Wrist motor manually
      * @param speed percent value
      */
-    public static void runWrist(double speed){
+    public synchronized static void runWrist(double speed){
         speed += wristPeriodicIO.feedforward;
         m_wrist.set(ControlMode.PercentOutput, speed);
     }
@@ -89,7 +91,7 @@ public class Arm extends Subsystem {
      * Gets the angle of the Wrist motor in relation to the arm
      * @return Angle of Wrist in degrees in relation to the arm (not relative the ground)
      */
-    public static double getRelativeWristAngle(){
+    public synchronized static double getRelativeWristAngle(){
         return m_wrist.getSelectedSensorPosition(0) / RobotMap.kWristTicksPerDeg;
     }
 
@@ -98,13 +100,8 @@ public class Arm extends Subsystem {
      * @param angle The angle setpoint to go to in degrees
      */
     public synchronized static void setWristRelativeAngle(double angle) {
-        m_wrist.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
-        configPIDF(m_wrist,
-                RobotMap.kWristP,
-                RobotMap.kWristI,
-                RobotMap.kWristD,
-                0.0);
+
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
 
@@ -113,7 +110,7 @@ public class Arm extends Subsystem {
     /**
      *  Hold the Wrist's current angle by PID motion magic closed loop
      */
-    public static void holdAngleWrist() {
+    public synchronized static void holdAngleWrist() {
         setWristRelativeAngle(getRelativeWristAngle());
     }
 
@@ -156,7 +153,6 @@ public class Arm extends Subsystem {
             wristPeriodicIO.active_trajectory_velocity = 0;
             wristPeriodicIO.active_trajectory_acceleration_rad_per_s2 = 0.0;
         }
-        //wristPeriodicIO.limit_switch = m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
         wristPeriodicIO.output_voltage = m_wrist.getMotorOutputVoltage();
         wristPeriodicIO.output_percent = m_wrist.getMotorOutputPercent();
         wristPeriodicIO.position_ticks = m_wrist.getSelectedSensorPosition(0);
@@ -184,8 +180,16 @@ public class Arm extends Subsystem {
         }else{
             wristPeriodicIO.feedforward = 0.0;
         }
+    }
 
-
+    public synchronized void writePeriodicOutputs() {
+        if (mWristState == WristControlState.MOTION_MAGIC) {
+            m_wrist.set(ControlMode.MotionMagic,
+                    wristPeriodicIO.setpoint, DemandType.ArbitraryFeedForward, wristPeriodicIO.feedforward);
+        } else {
+            m_wrist.set(ControlMode.PercentOutput,
+                    wristPeriodicIO.setpoint, DemandType.ArbitraryFeedForward, wristPeriodicIO.feedforward);
+        }
     }
 
     //Configs
@@ -231,6 +235,13 @@ public class Arm extends Subsystem {
         SmartDashboard.putNumber("Wrist Current Trajectory Point", wristPeriodicIO.active_trajectory_position);
 
         SmartDashboard.putNumber("Wrist Feed Forward", wristPeriodicIO.feedforward);
+
+        SmartDashboard.putNumber("Wrist Active Arbitrary FF", m_wrist.getActiveTrajectoryArbFeedFwd(0));
+    }
+
+    private enum WristControlState{
+        PERCENT_OUTPUT,
+        MOTION_MAGIC
     }
 
     public static class PeriodicIO {
@@ -243,9 +254,9 @@ public class Arm extends Subsystem {
         public double output_percent;
         public double output_voltage;
         public double feedforward;
-        //public boolean limit_switch;
 
         // OUTPUTS
+        public double setpoint;
     }
 
 }
