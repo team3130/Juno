@@ -1,21 +1,26 @@
-package frc.team3130.robot.commands.Arm;
+package frc.team3130.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.Arm;
+import frc.team3130.robot.subsystems.Elevator;
+import frc.team3130.robot.subsystems.Intake;
 
-public class WristVertical extends Command {
-    public WristVertical() {
-        //Put in the instance of whatever subsystem u need here
-        requires(Arm.GetInstance());
+public class ElevatorShift extends Command {
+    public ElevatorShift() {
+        //Put in the instance of whatever command u need here
+        //requires();
+        requires(Elevator.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristRelativeAngle(90.0);
+        boolean thisShift = Elevator.getShift();
+        Elevator.shift(!thisShift);
+
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -25,12 +30,10 @@ public class WristVertical extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-        end();
     }
 }
