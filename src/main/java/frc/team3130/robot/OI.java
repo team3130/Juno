@@ -3,11 +3,13 @@ package frc.team3130.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.commands.Arm.TestArm;
 import frc.team3130.robot.commands.Arm.WristVertical;
 import frc.team3130.robot.commands.Arm.WristPickup;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.DeployClimber;
+import frc.team3130.robot.commands.Elevator.ElevatorShift;
 import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.DepositHatch;
@@ -65,20 +67,6 @@ public class OI {
         if(m_pInstance == null) m_pInstance = new OI();
         return m_pInstance;
     }
-    private class ConditionalOIControl implements Runnable {
-
-        @Override
-        public void run() {
-            while (true) {
-                try {
-                    Thread.sleep(20L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                checkTriggers();
-            }
-        }
-    }
 
     /**
      * Definitions for joystick buttons start
@@ -89,13 +77,9 @@ public class OI {
 
     public static JoystickButton shift;
 
-    public static JoystickButton runBallOut;
-    public static JoystickButton runBallIn;
-
     public static JoystickButton depositHatch;
 
     public static JoystickButton deployClimber;
-    public static JoystickButton testElevator;
 
     public static JoystickButton testArm;
 
@@ -103,18 +87,28 @@ public class OI {
 
     public static POVTrigger elevCargo;
     public static POVTrigger elevGround;
+    public static JoystickButton elevatorShift;
+    public static JoystickButton testElevator;
 
     public static POVTrigger intakeCargo;
     public static POVTrigger intakePickup;
 
+    private static Command ballOutCommand = new BallOut();
+    private static Command ballInCommand = new BallIn();
 
 
     public void checkTriggers() {
-        if (OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER) >= RobotMap.kIntakeTriggerDeadband) {
-            new BallOut().start();
+        if (Math.abs(OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER)) >= RobotMap.kIntakeTriggerDeadband) {
+            System.out.println("start ball out");
+            ballOutCommand.start();
+        }else{
+            ballOutCommand.cancel();
         }
-        if (OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_RTRIGGER) >= RobotMap.kIntakeTriggerDeadband) {
-            new BallIn().start();
+        if (Math.abs(OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_RTRIGGER)) >= RobotMap.kIntakeTriggerDeadband) {
+            System.out.println("start ball in");
+            ballInCommand.start();
+        }else{
+            ballInCommand.cancel();
         }
     }
 
@@ -128,9 +122,7 @@ public class OI {
 
         depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
 
-        deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
-
-        testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
+        deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
 
         testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
@@ -138,6 +130,8 @@ public class OI {
 
         elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
         elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
+        testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
+        elevatorShift = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
 
         intakeCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_W);
         intakePickup = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
@@ -145,9 +139,6 @@ public class OI {
 
         //Map the button to command
         shift.whenPressed(new ShiftToggle());
-
-        //runBallIn.whileHeld(new BallIn());
-        //runBallOut.whileHeld(new BallOut());
 
         depositHatch.whileHeld(new DepositHatch());
 
@@ -159,6 +150,8 @@ public class OI {
 
         elevCargo.whenActive(new ElevatorToHeight(15.0));
         elevGround.whenActive(new ElevatorToHeight(8.6));
+
+        elevatorShift.whenPressed(new ElevatorShift());
 
         testElevator.whenPressed(new ElevatorTestPreference());
 
