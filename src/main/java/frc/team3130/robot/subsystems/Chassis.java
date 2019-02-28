@@ -104,8 +104,8 @@ public class Chassis extends Subsystem {
     /**
      * Drive the robot using arcade mode
      * @param moveThrottle Base forward and backward speed to move at. Positive is forward
-     * @param turnThrottle Turning v
-     * @param squaredInputs
+     * @param turnThrottle Turning velocity
+     * @param squaredInputs Whether or not to use squared inputs
      */
     public static void driveArcade(double moveThrottle, double turnThrottle, boolean squaredInputs) {
         moveThrottle = Util.limit(moveThrottle, 1.0);
