@@ -70,9 +70,11 @@ public class RobotMap {
 	//Placement Presets
 		public enum Presets{
 			LowestHatch (15.0 , 90.0),
+			MiddleHatch (53.0, 90.0),
+			HighestHatch(86.0,90.0),
 			LowestPort ( 20.0, 120.0),
 			MiddlePort (55.0, 120.0),
-			HighestPort (70.0,120.0);
+			HighestPort (90.0,120.0);
 
 			private double height;
 			private double angle;
@@ -109,8 +111,8 @@ public class RobotMap {
 		public static double kElevatorI = 0.0; //Checked 2/19
 		public static double kElevatorD = 0.3; //Checked 2/19
 		public static double kElevatorF = 0.0;
-		public static int kElevatorMaxAcc = 20000; //Checked 2/19
-		public static int kElevatorMaxVel = 14000; //Checked 2/19
+		public static int kElevatorMaxAcc = 35000; //Checked 2/19
+		public static int kElevatorMaxVel = 29000; //Checked 2/19
 
 		public static double kElevatorFFEmpty = 0.2; //Checked 2/19
 		public static double kElevatorFFWithHatch = 0.25; //Checked 2/19
@@ -185,8 +187,8 @@ public class RobotMap {
 	public static final int LST_BTN_RBUMPER = 6;
 	public static final int LST_BTN_WINDOW = 7;
 	public static final int LST_BTN_MENU = 8;
-	public static final int LST_BTN_RJOYSTICKPRESS = 9;
-	public static final int LST_BTN_LJOYSTICKPRESS = 10;
+	public static final int LST_BTN_LJOYSTICKPRESS = 9;
+	public static final int LST_BTN_RJOYSTICKPRESS = 10;
 
 	/**
 	 * Gamepad POV List
