@@ -23,7 +23,7 @@ public class DepositHatch extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         Elevator.rawElevator(-0.2);
-        Arm.runWrist(0.2);
+        Arm.runWrist(0.15);
     }
 
     // Make this return true when this Command no longer needs to run execute()

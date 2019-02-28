@@ -50,7 +50,7 @@ public class Arm extends Subsystem {
         m_wrist.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
         /**
-         * For both motors, rotation CCW away from the elevator is positive direction
+         * For both motors, rotation CW toward from the elevator is positive direction
          *
          * Absolute: 180 degrees is parallel to the ground and fully extended, 0 is full back into/toward the robot
          * Relative: Wrist angle is relative to the arm, elbow is technically relative
@@ -60,7 +60,7 @@ public class Arm extends Subsystem {
 
         m_wrist.setSensorPhase(false);
 
-        m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
+        m_wrist.setSelectedSensorPosition((int) -(180.0 * RobotMap.kWristTicksPerDeg));
 
         configPIDF(m_wrist,
                 RobotMap.kWristP,
