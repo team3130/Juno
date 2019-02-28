@@ -101,6 +101,12 @@ public class Chassis extends Subsystem {
 
     }
 
+    /**
+     * Drive the robot using arcade mode
+     * @param moveThrottle Base forward and backward speed to move at. Positive is forward
+     * @param turnThrottle Turning v
+     * @param squaredInputs
+     */
     public static void driveArcade(double moveThrottle, double turnThrottle, boolean squaredInputs) {
         moveThrottle = Util.limit(moveThrottle, 1.0);
         moveThrottle = Util.applyDeadband(moveThrottle, RobotMap.kDriveDeadband);
