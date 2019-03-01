@@ -6,6 +6,9 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
+import frc.team3130.robot.commands.Climber.DefaultPistonMotor;
+
+import frc.team3130.robot.util.Util;
 
 public class PistonClimber extends Subsystem {
     //Instance Handling
@@ -46,13 +49,15 @@ public class PistonClimber extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+        setDefaultCommand(new DefaultPistonMotor());
 
     }
 
-    public static void rawLandingGear(double percent){
-        m_LandingGear.set(ControlMode.PercentOutput, percent);
+    //this stuff
+    public static void rawLandingGear(double moveF){
+        moveF = Util.limit(moveF, 1.0);
 
+        m_LandingGear.set(ControlMode.PercentOutput, moveF);
     }
 
     public static void toggleClimbPistons1() {
