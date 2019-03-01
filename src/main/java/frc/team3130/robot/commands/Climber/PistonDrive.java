@@ -12,8 +12,8 @@ import frc.team3130.robot.OI;
 import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.subsystems.PistonClimber;
 
-public class DefaultPistonMotor extends Command {
-  public DefaultPistonMotor() {
+public class PistonDrive extends Command {
+  public PistonDrive() {
     // Use requires() here to declare subsystem dependencies
     requires(PistonClimber.GetInstance());
   }
@@ -27,7 +27,7 @@ public class DefaultPistonMotor extends Command {
   @Override
   protected void execute() {
 
-    double moveSpeed = -OI.driverGamepad.getRawAxis(1); 
+    double moveSpeed = -OI.driverGamepad.getRawAxis(1);
     if (PistonClimber.getPiston1()) {
       PistonClimber.rawLandingGear(moveSpeed);
     }

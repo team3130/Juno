@@ -4,9 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.team3130.robot.RobotMap;
-import frc.team3130.robot.commands.Climber.DefaultPistonMotor;
+import frc.team3130.robot.commands.Climber.PistonDrive;
 
 import frc.team3130.robot.util.Util;
 
@@ -49,7 +48,7 @@ public class PistonClimber extends Subsystem {
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new DefaultPistonMotor());
+        setDefaultCommand(new PistonDrive());
 
     }
 

@@ -72,6 +72,9 @@ public class RobotMap {
 			LowestHatch (15.0 , 90.0),
 			MiddleHatch (53.0, 90.0),
 			HighestHatch(86.0,90.0),
+			LowestTongue(26.0, 90.0),
+			MiddleTongue(62.0, 90.0),
+			HighestTongue(94.0, 90.0),
 			LowestPort ( 20.0, 120.0),
 			MiddlePort (55.0, 120.0),
 			HighestPort (90.0,120.0);

@@ -8,7 +8,6 @@ import frc.team3130.robot.commands.Arm.TestArm;
 import frc.team3130.robot.commands.Arm.WristVertical;
 import frc.team3130.robot.commands.Arm.WristPickup;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
-import frc.team3130.robot.commands.Climber.DeployClimber;
 import frc.team3130.robot.commands.Elevator.ElevatorShift;
 import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
@@ -83,7 +82,7 @@ public class OI {
 
     public static JoystickButton testArm;
 
-    public static JoystickButton testToungue;
+    public static JoystickButton testTongue;
 
     public static POVTrigger elevCargo;
     public static POVTrigger elevGround;
@@ -99,13 +98,11 @@ public class OI {
 
     public void checkTriggers() {
         if (Math.abs(OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER)) >= RobotMap.kIntakeTriggerDeadband) {
-            System.out.println("start ball out");
             ballOutCommand.start();
         }else{
             ballOutCommand.cancel();
         }
         if (Math.abs(OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_RTRIGGER)) >= RobotMap.kIntakeTriggerDeadband) {
-            System.out.println("start ball in");
             ballInCommand.start();
         }else{
             ballInCommand.cancel();
@@ -118,24 +115,31 @@ public class OI {
         driverGamepad = new Joystick(0);
         weaponsGamepad = new Joystick(1);
 
+        /*
+         * Driver
+         */
         shift = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RJOYSTICKPRESS);
 
         depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
 
-        deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
-
-        testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
-
-        testToungue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
-
-        elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
-        elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
-        testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
-        elevatorShift = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
-
         intakeCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_W);
         intakePickup = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
 
+        elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
+        elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
+
+        testTongue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
+
+        /*
+         * Weapons
+         */
+        testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
+
+        elevatorShift = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
+
+        testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+
+        deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
 
         //Map the button to command
         shift.whenPressed(new ShiftToggle());
@@ -157,7 +161,7 @@ public class OI {
 
         testArm.whenPressed(new TestArm());
 
-        testToungue.whenPressed(new TongueToggle());
+        testTongue.whenPressed(new TongueToggle());
 
     }
 
