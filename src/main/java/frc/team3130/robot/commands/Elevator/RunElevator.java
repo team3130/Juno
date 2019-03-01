@@ -7,6 +7,7 @@ import frc.team3130.robot.subsystems.Elevator;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3130.robot.util.Util;
 
 /**
  *
@@ -27,9 +28,9 @@ public class RunElevator extends Command {
     protected void execute() {
         double stick = -OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_RJOYSTICKY);
         if (Math.abs(stick) >= RobotMap.kElevatorManualDeadband ){
-            double moveSpeed = RobotMap.kElevatorManualMultipler * stick;
+            double moveSpeed = RobotMap.kElevatorManualMultipler * Util.applyDeadband(stick, RobotMap.kElevatorManualDeadband);
             Elevator.runElevator(moveSpeed);
-            changeHeight = true;
+            if(!Elevator.getShift())changeHeight = true;
         } else if (changeHeight){
             Elevator.holdHeight();
             changeHeight = false;

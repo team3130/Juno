@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Elevator.RunElevator;
 import frc.team3130.robot.util.Epsilon;
+import frc.team3130.robot.util.Util;
 
 /**
  * This subsystem controls the elevator of the robot
@@ -105,17 +106,20 @@ public class Elevator extends Subsystem {
      * @param percent
      */
     public static void runElevator(double percent){
-        boolean isGoingDown = percent < 0;
-        //When the elevator is going down
-        if(isGoingDown){
-            percent *= 0.75; //set to 75% of actual input when going down
-            //Also, if we are in the extra slow zone, multiply by reduction ratio
-            if(getHeightOffGround() < RobotMap.kElevatorSlowZone){
-                percent *= Math.abs(getHeightOffGround()/RobotMap.kElevatorSlowZone);
+        if(!getShift()) { //Only apply power modification if in high gear
+            boolean isGoingDown = percent < 0;
+            //When the elevator is going down
+            if (isGoingDown) {
+                percent *= 0.75; //set to 75% of actual input when going down
+                //Also, if we are in the extra slow zone, multiply by reduction ratio
+                if (getHeightOffGround() < RobotMap.kElevatorSlowZone) {
+                    percent *= Math.abs(getHeightOffGround() / RobotMap.kElevatorSlowZone);
+                    percent = Math.min(-0.2, percent);
+                }
             }
+            //Offset the output using normal operation feed forward
+            percent += mPeriodicIO.feedforward;
         }
-        //Offset the output using feed forward
-        percent += mPeriodicIO.feedforward;
         m_elevatorMaster.set(ControlMode.PercentOutput, percent);
     }
 

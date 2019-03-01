@@ -105,7 +105,7 @@ public class RobotMap {
 
 		//Manual
 		public static double kElevatorManualDeadband = 0.06;
-		public static double kElevatorManualMultipler =0.8;
+		public static double kElevatorManualMultipler = 0.8;
 
 		public static double kElevatorP = 1.0; //Checked 2/19
 		public static double kElevatorI = 0.0; //Checked 2/19
@@ -122,7 +122,7 @@ public class RobotMap {
 		public static double kElevatorHomingHeight = 8.5; //Checked 2/17 height of elevator off ground when at home position
 		public static double kElevatorMaxHeight = 76.75; //Checked 2/12
 
-		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.625)* 38.0 / 18.0 * 22.0 / 16.0; //Updated 2/24 || 4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
+		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.625)* 40.0 / 18.0 * 22.0 / 16.0; //Updated 2/24 || 4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
 	//Limelight
 		public static double kLimelightTiltAngle = 30.0; //Checked 2/19
