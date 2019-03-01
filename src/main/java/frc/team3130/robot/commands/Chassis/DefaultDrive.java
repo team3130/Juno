@@ -16,7 +16,6 @@ public class DefaultDrive extends Command {
   public DefaultDrive() {
     // Use requires() here to declare subsystem dependencies
     requires(Chassis.GetInstance());
-    requires(PistonClimber.GetInstance());
     // eg. requires(chassis);
   }
 
@@ -35,11 +34,6 @@ public class DefaultDrive extends Command {
     
     double turnThrottle = (1.0);
     Chassis.driveArcade(moveSpeed, turnSpeed * turnThrottle, true);
-    /*
-    if(PistonClimber.getPiston1()) {
-      PistonClimber.rawLandingGear(moveSpeed);
-    }
-    */
   }
 
   // Make this return true when this Command no longer needs to run execute()
