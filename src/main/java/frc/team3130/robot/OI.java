@@ -5,16 +5,16 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.commands.Arm.TestArm;
-import frc.team3130.robot.commands.Arm.WristVertical;
-import frc.team3130.robot.commands.Arm.WristPickup;
+import frc.team3130.robot.commands.Arm.WristToAngle;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Elevator.ElevatorShift;
 import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.DepositHatch;
+import frc.team3130.robot.commands.Groups.RunPreset;
+import frc.team3130.robot.commands.Groups.TongueHatch;
 import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
-import frc.team3130.robot.commands.Intake.TongueToggle;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -82,15 +82,19 @@ public class OI {
 
     public static JoystickButton testArm;
 
-    public static JoystickButton testTongue;
+    public static JoystickButton toggleTongue;
 
     public static POVTrigger elevCargo;
     public static POVTrigger elevGround;
     public static JoystickButton elevatorShift;
     public static JoystickButton testElevator;
 
-    public static POVTrigger intakeCargo;
+    public static POVTrigger intakeStowed;
     public static POVTrigger intakePickup;
+
+    public static POVTrigger highTongue;
+    public static POVTrigger middleTongue;
+    public static POVTrigger lowTongue;
 
     private static Command ballOutCommand = new BallOut();
     private static Command ballInCommand = new BallIn();
@@ -120,15 +124,15 @@ public class OI {
          */
         shift = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RJOYSTICKPRESS);
 
-        depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
+        depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
 
-        intakeCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_W);
+        intakeStowed = new POVTrigger(driverGamepad, RobotMap.LST_POV_W);
         intakePickup = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
 
         elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
         elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
 
-        testTongue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
+        toggleTongue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
 
         /*
          * Weapons
@@ -141,6 +145,10 @@ public class OI {
 
         deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
 
+        highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
+        middleTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_W);
+        lowTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_S);
+
         //Map the button to command
         shift.whenPressed(new ShiftToggle());
 
@@ -148,8 +156,8 @@ public class OI {
 
         //deployClimber.whenPressed(new DeployClimber());
 
-        intakePickup.whenActive(new WristPickup());
-        intakeCargo.whenActive(new WristVertical());
+        intakePickup.whenActive(new WristToAngle(177.5));
+        intakeStowed.whenActive(new WristToAngle(90.0));
 
 
         elevCargo.whenActive(new ElevatorToHeight(15.0));
@@ -161,7 +169,11 @@ public class OI {
 
         testArm.whenPressed(new TestArm());
 
-        testTongue.whenPressed(new TongueToggle());
+        toggleTongue.whenPressed(new TongueHatch());
+
+        highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
+        middleTongue.whenActive(new RunPreset(RobotMap.Presets.MiddleTongue));
+        lowTongue.whenActive(new RunPreset(RobotMap.Presets.LowestTongue));
 
     }
 
@@ -213,8 +225,7 @@ public class OI {
 
         depositHatch.whenPressed(new ClampToggle());
 
-        deployClimber.whenPressed(new ClimberToggle1());
-        toggleClimber2.whenPressed(new ClimberToggle2());
+        deployClimber.whenPressed(new DeployClimber());
 
         testElevator.whileHeld(new TestElevator());
 
