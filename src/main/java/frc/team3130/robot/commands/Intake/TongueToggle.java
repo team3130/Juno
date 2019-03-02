@@ -9,7 +9,6 @@ import frc.team3130.robot.subsystems.Intake;
 public class TongueToggle extends Command {
     public TongueToggle() {
         //Put in the instance of whatever subsystem u need here
-        //requires();
         requires(Intake.GetInstance());
     }
 

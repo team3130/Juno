@@ -192,14 +192,6 @@ public class Arm extends Subsystem {
         }
     }
 
-    public synchronized boolean hasFinishedTrajectory() {
-        if (Epsilon.epsilonEquals(wristPeriodicIO.active_trajectory_position,
-                wristPeriodicIO.setpoint, 2)) {
-            return true;
-        }
-        return false;
-    }
-
     //Configs
     /**
      * Configure motion magic parameters
