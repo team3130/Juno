@@ -48,6 +48,8 @@ public class SensorHandler {
             if(Elevator.hasBeenZeroed())
                 Elevator.setZeroedState(false);
         }
+
+        //TODO: Wrist sensor handler
         Elevator.GetInstance().readPeriodicInputs();
         Arm.GetInstance().readPeriodicInputs();
         OI.GetInstance().checkTriggers();

@@ -1,17 +1,26 @@
 package frc.team3130.robot.commands.Arm;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Arm;
 
-public class WristVertical extends Command {
-    public WristVertical() {
+public class WristToAngle extends Command {
+
+    private double angle;
+
+    public WristToAngle(double angle) {
         //Put in the instance of whatever subsystem u need here
         requires(Arm.GetInstance());
+        this.angle = angle;
+    }
+
+    public void setParam(double angle){
+        this.angle = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        Arm.setWristRelativeAngle(90.0);
+        Arm.setWristRelativeAngle(angle);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -20,7 +29,7 @@ public class WristVertical extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return Math.abs(Arm.getRelativeWristAngle() - angle) < RobotMap.kWristFinishDeadband;
     }
 
     // Called once after isFinished returns true

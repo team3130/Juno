@@ -14,8 +14,8 @@ public class ElevatorToHeight extends Command {
 	private double dist;
 	
     public ElevatorToHeight(double dist) {
-    	this.dist = dist;
         requires(Elevator.GetInstance());
+        this.dist = dist;
     }
 
     public void setParam(double dist){

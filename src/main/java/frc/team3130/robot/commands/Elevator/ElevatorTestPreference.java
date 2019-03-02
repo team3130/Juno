@@ -2,6 +2,7 @@ package frc.team3130.robot.commands.Elevator;
 
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Elevator;
 
 /**
@@ -25,7 +26,7 @@ public class ElevatorTestPreference extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(Elevator.getHeightOffGround()- Preferences.getInstance().getDouble("Elevator Test", 8.5)) < 12.0;
+        return Math.abs(Elevator.getHeightOffGround()- Preferences.getInstance().getDouble("Elevator Test", 8.5)) < RobotMap.kElevatorFinishDeadband;
     }
 
     // Called once after isFinished returns true
