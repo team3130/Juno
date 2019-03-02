@@ -67,7 +67,7 @@ public class Chassis extends Subsystem {
         ChassisPID = new PIDCustom(RobotMap.kChassisHighP, RobotMap.kChassisHighI, RobotMap.kChassisHighD);
 
         /**
-         * For both motors, forward is the positive direction
+         * For all motors, forward is the positive direction
          *
          */
 

@@ -29,7 +29,7 @@ public class AutoDelay extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return timer.get() > delay;
+        return timer.get() >= delay;
     }
 
     // Called once after isFinished returns true

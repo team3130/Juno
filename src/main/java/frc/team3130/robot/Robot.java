@@ -26,9 +26,6 @@ public class Robot extends TimedRobot {
   public static SendableChooser<String> startPos = new SendableChooser<String>();
 
 
-  //public static final LimeLight _limelight = new LimeLight();
-  //public static final LimeLight _limelight = new LimeLight("NetworkTable Key");  //If you renamed your limelight ex: limelight-custome
-
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -88,7 +85,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    Limelight.updateData();
     outputToSmartDashboard();
   }
 

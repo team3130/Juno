@@ -5,6 +5,7 @@ import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Arm;
 import frc.team3130.robot.subsystems.Elevator;
 import frc.team3130.robot.subsystems.Intake;
+import frc.team3130.robot.vision.Limelight;
 
 public class SensorHandler {
     //Instance Handling
@@ -64,5 +65,6 @@ public class SensorHandler {
         Elevator.GetInstance().readPeriodicInputs();
         Arm.GetInstance().readPeriodicInputs();
         OI.GetInstance().checkTriggers();
+        Limelight.updateData();
     }
 }
