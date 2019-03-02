@@ -47,8 +47,8 @@ public class RobotMap {
 
 	//Wrist
 		//Manual
-		public static double kWristManualDeadband = 0.06; //TODO: Easy to accidentally bump joystick
-		public static double kWristManualMultipler =0.8;
+		public static double kWristManualDeadband = 0.05;
+		public static double kWristManualMultipler = 0.7;
 
 		public static double kWristP = 2.0; //Checked 2/17
 		public static double kWristI = 0.005; //Checked 2/17
@@ -60,6 +60,8 @@ public class RobotMap {
 		public static double kWristFFEmpty = 0.10; //checked
 		public static double kWristFFBall = 0.0;
 		public static double kWristFFHatch = 0.0;
+
+		public static double kWristFinishDeadband = 1.0;
 
 		public static double kWristKaWithBall = 0.008;
 		public static double kWristKaEmpty = 0.006;
@@ -114,8 +116,10 @@ public class RobotMap {
 		public static double kElevatorI = 0.0; //Checked 2/19
 		public static double kElevatorD = 0.3; //Checked 2/19
 		public static double kElevatorF = 0.0;
-		public static int kElevatorMaxAcc = 35000; //Checked 2/19
-		public static int kElevatorMaxVel = 29000; //Checked 2/19
+		public static int kElevatorMaxAcc = 40000; //Checked 3/1
+		public static int kElevatorMaxVel = 35000; //Checked 3/1
+
+		public static double kElevatorFinishDeadband = 1.0;
 
 		public static double kElevatorFFEmpty = 0.2; //Checked 2/19
 		public static double kElevatorFFWithHatch = 0.25; //Checked 2/19
