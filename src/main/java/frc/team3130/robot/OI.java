@@ -81,26 +81,36 @@ public class OI {
     public static JoystickButton deployClimber;
 
     public static JoystickButton testArm;
+    public static JoystickButton testElevator;
 
     public static JoystickButton toggleTongue;
 
     public static POVTrigger elevGround;
 
     public static JoystickButton elevatorShift;
-    public static JoystickButton testElevator;
 
     public static JoystickButton intakeStowed;
     public static JoystickButton intakePickup;
+
+    public static JoystickButton lowBall;
 
     public static POVTrigger highTongue;
     public static POVTrigger middleTongue;
     public static POVTrigger lowTongue;
 
+    public static JoystickButton highHatch;
+    public static JoystickButton middleHatch;
+    public static JoystickButton lowHatch;
+
     private static Command ballOutCommand = new BallOut();
     private static Command ballInCommand = new BallIn();
 
+    private static Command highBall = new RunPreset(RobotMap.Presets.HighestPort);
+    private static Command middleBall = new RunPreset(RobotMap.Presets.MiddlePort);
+
 
     public void checkTriggers() {
+        //Driver
         if (Math.abs(OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER)) >= RobotMap.kIntakeTriggerDeadband) {
             ballOutCommand.start();
         }else{
@@ -110,6 +120,18 @@ public class OI {
             ballInCommand.start();
         }else{
             ballInCommand.cancel();
+        }
+
+        //Weapons
+        if (Math.abs(OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER)) >= RobotMap.kPresetTriggerDeadband) {
+            middleBall.start();
+        }else{
+            middleBall.cancel();
+        }
+        if (Math.abs(OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_RTRIGGER)) >= RobotMap.kPresetTriggerDeadband) {
+            highBall.start();
+        }else{
+            highBall.cancel();
         }
     }
 
@@ -143,10 +165,15 @@ public class OI {
 
         deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
 
+        lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
+
         highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
         middleTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_W);
         lowTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_S);
 
+        highHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
+        middleHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
+        lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
         //Map the button to command
         depositHatch.whileHeld(new DepositHatch());
@@ -168,9 +195,15 @@ public class OI {
 
         toggleTongue.whenPressed(new TongueHatch());
 
+        lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
+
         highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
         middleTongue.whenActive(new RunPreset(RobotMap.Presets.MiddleTongue));
         lowTongue.whenActive(new RunPreset(RobotMap.Presets.LowestTongue));
+
+        highHatch.whenPressed(new RunPreset(RobotMap.Presets.HighestHatch));
+        middleHatch.whenPressed(new RunPreset(RobotMap.Presets.MiddleHatch));
+        lowHatch.whenPressed(new RunPreset(RobotMap.Presets.LowestHatch));
 
     }
 

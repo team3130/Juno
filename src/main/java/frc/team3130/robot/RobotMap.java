@@ -38,7 +38,7 @@ public class RobotMap {
 		public static double kDriveDeadband = 0.02;
 
 	//Intake
-		public static double kIntakeTriggerDeadband = 0.5;
+		public static double kIntakeTriggerDeadband = 0.4;
 
 	//Arm
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
@@ -74,7 +74,7 @@ public class RobotMap {
 			LowestHatch (15.0 , 90.0),
 			MiddleHatch (53.0, 90.0),
 			HighestHatch(86.0,90.0),
-			LowestTongue(26.0, 90.0),
+			LowestTongue(25.0, 90.0),
 			MiddleTongue(62.0, 90.0),
 			HighestTongue(94.0, 90.0),
 			LowestPort ( 20.0, 120.0),
@@ -97,6 +97,8 @@ public class RobotMap {
 				return this.angle;
 			}
 		}
+
+		public static double kPresetTriggerDeadband = 0.6;
 
 
 	//Elevator
@@ -127,7 +129,7 @@ public class RobotMap {
 
 		public static double kElevatorHeightEpsilon = 6.0; //Checked 2/17 min height is 1 inch off ground
 		public static double kElevatorHomingHeight = 8.5; //Checked 2/17 height of elevator off ground when at home position
-		public static double kElevatorMaxHeight = 76.75; //Checked 2/12
+		public static double kElevatorMaxHeight = 76.75; //INCORRECT
 
 		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.625)* 40.0 / 18.0 * 22.0 / 16.0; //Updated 2/24 || 4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
