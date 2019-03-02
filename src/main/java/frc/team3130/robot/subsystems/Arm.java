@@ -26,7 +26,7 @@ public class Arm extends Subsystem {
     private WristControlState mWristState = WristControlState.PERCENT_OUTPUT;
 
     //Create and define all standard data types needed
-    
+    private static boolean zeroed;
 
     private Arm() {
 
@@ -49,6 +49,8 @@ public class Arm extends Subsystem {
 
         m_wrist.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
+        m_wrist.set(ControlMode.PercentOutput, 0);
+
         /**
          * For both motors, rotation CW toward from the elevator is positive direction
          *
@@ -59,6 +61,8 @@ public class Arm extends Subsystem {
         m_wrist.setInverted(true);
 
         m_wrist.setSensorPhase(false);
+
+        zeroed = false;
 
         m_wrist.setSelectedSensorPosition((int) -(180.0 * RobotMap.kWristTicksPerDeg));
 
@@ -101,11 +105,8 @@ public class Arm extends Subsystem {
      */
     public synchronized static void setWristRelativeAngle(double angle) {
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
-
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
-
-
 
     /**
      *  Hold the Wrist's current angle by PID motion magic closed loop
@@ -120,7 +121,27 @@ public class Arm extends Subsystem {
     public static void resetArm(){
         m_wrist.clearMotionProfileTrajectories();
         m_wrist.set(ControlMode.PercentOutput, 0.0);
+    }
 
+    /**
+     * Reset the Wrist encoder to a given angle
+     * @param angle the angle to reset the wrist to in degrees
+     */
+    public static synchronized void zeroSensors(double angle){
+        m_wrist.setSelectedSensorPosition((int) -(angle * RobotMap.kWristTicksPerDeg));
+        zeroed = true;
+    }
+
+    public static synchronized boolean hasBeenZeroed(){
+        return zeroed;
+    }
+
+    public static synchronized void setZeroedState(boolean isZeroed){
+        zeroed = isZeroed;
+    }
+
+    public static boolean isRevLimitClosed(){
+        return m_wrist.getSensorCollection().isRevLimitSwitchClosed();
     }
 
     public synchronized void readPeriodicInputs() {
@@ -131,7 +152,6 @@ public class Arm extends Subsystem {
         if (faults.hasAnyFault()) {
             m_wrist.clearStickyFaults(0);
         }
-
 
         if (m_wrist.getControlMode() == ControlMode.MotionMagic) {
             //read in current trajectory position

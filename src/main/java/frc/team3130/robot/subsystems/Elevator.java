@@ -47,7 +47,7 @@ public class Elevator extends Subsystem {
     private static PeriodicIO mPeriodicIO = new PeriodicIO();
 
     //Create and define all standard data types needed
-    private static boolean zeroed;
+    private static boolean zeroed = false;
 
     private Elevator(){
 
@@ -75,8 +75,6 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
         //configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
-
-
 
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 

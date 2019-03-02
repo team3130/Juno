@@ -1,6 +1,7 @@
 package frc.team3130.robot.sensors;
 
 import frc.team3130.robot.OI;
+import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Arm;
 import frc.team3130.robot.subsystems.Elevator;
 import frc.team3130.robot.subsystems.Intake;
@@ -49,7 +50,17 @@ public class SensorHandler {
                 Elevator.setZeroedState(false);
         }
 
-        //TODO: Wrist sensor handler
+        //Wrist
+        if(Arm.isRevLimitClosed()){
+            if(!Arm.hasBeenZeroed()){
+                Arm.zeroSensors(RobotMap.kWristHomingAngle);
+            }
+        }
+        else{
+            if(Arm.hasBeenZeroed())
+                Arm.setZeroedState(false);
+        }
+
         Elevator.GetInstance().readPeriodicInputs();
         Arm.GetInstance().readPeriodicInputs();
         OI.GetInstance().checkTriggers();

@@ -7,8 +7,6 @@
 
 package frc.team3130.robot;
 
-import java.util.prefs.Preferences;
-
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -49,6 +47,8 @@ public class RobotMap {
 		//Manual
 		public static double kWristManualDeadband = 0.05;
 		public static double kWristManualMultipler = 0.7;
+
+		public static double kWristHomingAngle = 180.0; //TODO: Find this
 
 		public static double kWristP = 2.0; //Checked 2/17
 		public static double kWristI = 0.005; //Checked 2/17
