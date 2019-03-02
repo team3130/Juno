@@ -9,11 +9,10 @@ package frc.team3130.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.OI;
-import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.subsystems.PistonClimber;
 
-public class PistonDrive extends Command {
-  public PistonDrive() {
+public class LandingGearDrive extends Command {
+  public LandingGearDrive() {
     // Use requires() here to declare subsystem dependencies
     requires(PistonClimber.GetInstance());
   }
@@ -28,7 +27,7 @@ public class PistonDrive extends Command {
   protected void execute() {
 
     double moveSpeed = -OI.driverGamepad.getRawAxis(1);
-    if (PistonClimber.getPiston1()) {
+    if (PistonClimber.getPiston()) {
       PistonClimber.rawLandingGear(moveSpeed);
     }
   }
