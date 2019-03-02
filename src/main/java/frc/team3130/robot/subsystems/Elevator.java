@@ -225,7 +225,7 @@ public class Elevator extends Subsystem {
 
         //Calculate the feed forward necessary this loop
         double currHeight = getHeightOffGround();
-        if (currHeight > RobotMap.kElevatorHeightEpsilon /*&& !getShift()*/) { //above epsilon and in high gear
+        if (currHeight > RobotMap.kElevatorHeightEpsilon && getShift()) { //above epsilon and in high gear
             if(Intake.GetInstance().getState() == Intake.IntakeState.Empty){
                 mPeriodicIO.feedforward = RobotMap.kElevatorFFEmpty;
             }else if(Intake.GetInstance().getState() == Intake.IntakeState.HasBall){
