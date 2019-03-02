@@ -1,8 +1,6 @@
 package frc.team3130.robot.commands.Elevator;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Elevator;
 

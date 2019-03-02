@@ -84,13 +84,13 @@ public class OI {
 
     public static JoystickButton toggleTongue;
 
-    public static POVTrigger elevCargo;
     public static POVTrigger elevGround;
+
     public static JoystickButton elevatorShift;
     public static JoystickButton testElevator;
 
-    public static POVTrigger intakeStowed;
-    public static POVTrigger intakePickup;
+    public static JoystickButton intakeStowed;
+    public static JoystickButton intakePickup;
 
     public static POVTrigger highTongue;
     public static POVTrigger middleTongue;
@@ -126,22 +126,20 @@ public class OI {
 
         depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
 
-        intakeStowed = new POVTrigger(driverGamepad, RobotMap.LST_POV_W);
-        intakePickup = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
+        elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
 
-        elevCargo = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
-        elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_E);
+        intakeStowed = new JoystickButton(driverGamepad, RobotMap.LST_BTN_X);
+        intakePickup = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
 
         toggleTongue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
 
         /*
          * Weapons
          */
-        testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
+        //testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
+        //testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
         elevatorShift = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
-
-        testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
         deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
 
@@ -149,25 +147,24 @@ public class OI {
         middleTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_W);
         lowTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_S);
 
-        //Map the button to command
-        shift.whenPressed(new ShiftToggle());
 
+        //Map the button to command
         depositHatch.whileHeld(new DepositHatch());
 
         //deployClimber.whenPressed(new DeployClimber());
 
-        intakePickup.whenActive(new WristToAngle(177.5));
-        intakeStowed.whenActive(new WristToAngle(90.0));
-
-
-        elevCargo.whenActive(new ElevatorToHeight(15.0));
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         elevatorShift.whenPressed(new ElevatorShift());
 
-        testElevator.whenPressed(new ElevatorTestPreference());
+        intakePickup.whenActive(new WristToAngle(178.0));
+        intakeStowed.whenActive(new WristToAngle(90.0));
 
-        testArm.whenPressed(new TestArm());
+        shift.whenPressed(new ShiftToggle());
+
+        //testElevator.whenPressed(new ElevatorTestPreference());
+
+        //testArm.whenPressed(new TestArm());
 
         toggleTongue.whenPressed(new TongueHatch());
 

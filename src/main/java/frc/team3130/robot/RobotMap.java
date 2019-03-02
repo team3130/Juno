@@ -170,9 +170,6 @@ public class RobotMap {
 
 	public static final int CAN_PISTONMOTOR = 12;
 
-
-
-
 	/**
 	 * Pneumatics ports
 	 */
