@@ -65,7 +65,7 @@ public class Limelight {
             hTarget = RobotMap.PORTVISIONTARGET;
         }
 
-        return (hTarget - hLimelight) / Math.tan(angle);
+        return (hTarget - hLimelight) / Math.tan(Math.toRadians(angle));
     }
 
     /*
