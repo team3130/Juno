@@ -16,6 +16,7 @@ import frc.team3130.robot.commands.Groups.RunPreset;
 import frc.team3130.robot.commands.Groups.TongueHatch;
 import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
+import frc.team3130.robot.commands.Climber.DeployClimber;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -179,7 +180,7 @@ public class OI {
         //Map the button to command
         depositHatch.whileHeld(new DepositHatch());
 
-        //deployClimber.whenPressed(new DeployClimber());
+        deployClimber.whenPressed(new DeployClimber());
 
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
