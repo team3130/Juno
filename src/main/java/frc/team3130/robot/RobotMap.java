@@ -51,16 +51,16 @@ public class RobotMap {
 		public static double kWristManualDeadband = 0.05;
 		public static double kWristManualMultipler = 0.7;
 
-		public static double kWristHomingAngle = 180.0; //TODO: Find this
+		public static double kWristHomingAngle = 92.0; //Checked 3/2
 
 		public static double kWristP = 2.0; //Checked 2/17
 		public static double kWristI = 0.005; //Checked 2/17
 		public static double kWristD = 50.0; //Checked 2/17
 		public static double kWristF = 0.0; //Checked 2/17
-		public static int kWristMaxAcc = 1900; // 1024
-		public static int kWristMaxVel = 4100; // 1024
+		public static int kWristMaxAcc = 1400; // 1024
+		public static int kWristMaxVel = 3400; // 1024
 
-		public static double kWristFFEmpty = 0.10; //checked
+		public static double kWristFFEmpty = 0.095; //Checked 3/2
 		public static double kWristFFBall = 0.0;
 		public static double kWristFFHatch = 0.0;
 
@@ -77,9 +77,10 @@ public class RobotMap {
 			LowestHatch (15.0 , 90.0),
 			MiddleHatch (53.0, 90.0),
 			HighestHatch(86.0,90.0),
-			LowestTongue(25.0, 90.0),
-			MiddleTongue(62.0, 90.0),
-			HighestTongue(94.0, 90.0),
+			LowestTongue(23.0, 90.0),
+			MiddleTongue(61.0, 90.0),
+			HighestTongue(93.0, 90.0),
+			Station(19.75, 90.0),
 			LowestPort ( 20.0, 120.0),
 			MiddlePort (55.0, 120.0),
 			HighestPort (90.0,120.0);
@@ -117,12 +118,12 @@ public class RobotMap {
 		public static double kElevatorManualDeadband = 0.06;
 		public static double kElevatorManualMultipler = 0.8;
 
-		public static double kElevatorP = 1.0; //Checked 2/19
-		public static double kElevatorI = 0.0; //Checked 2/19
-		public static double kElevatorD = 0.3; //Checked 2/19
-		public static double kElevatorF = 0.0;
-		public static int kElevatorMaxAcc = 40000; //Checked 3/1
-		public static int kElevatorMaxVel = 35000; //Checked 3/1
+		public static double kElevatorP = 0.3; //Checked 3/2
+		public static double kElevatorI = 0.0; //Checked 3/2
+		public static double kElevatorD = 0.5; //Checked 3/2
+		public static double kElevatorF = 0.2;
+		public static int kElevatorMaxAcc = 38000; //Checked 3/2
+		public static int kElevatorMaxVel = 34000; //Checked 3/2
 
 		public static double kElevatorFinishDeadband = 1.0;
 

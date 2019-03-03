@@ -74,7 +74,7 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
         m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
-        //configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
+        configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
 
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
@@ -128,9 +128,9 @@ public class Elevator extends Subsystem {
     public synchronized static void setSimpleMotionMagic(double height){
         m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
         configPIDF(
-                Preferences.getInstance().getDouble("testP" , RobotMap.kElevatorP),
-                Preferences.getInstance().getDouble("testI" , RobotMap.kElevatorI),
-                Preferences.getInstance().getDouble("testD" , RobotMap.kElevatorD),
+                RobotMap.kElevatorP,
+                RobotMap.kElevatorI,
+                RobotMap.kElevatorD,
                 mPeriodicIO.feedforward);
         configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
         m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * (height - RobotMap.kElevatorHomingHeight) );
