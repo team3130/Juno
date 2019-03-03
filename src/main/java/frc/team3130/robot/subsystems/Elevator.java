@@ -150,6 +150,11 @@ public class Elevator extends Subsystem {
      */
     public static void shift(boolean shiftVal)
     {
+        if(shiftVal){
+            m_elevatorMaster.overrideLimitSwitchesEnable(false);
+        }else{
+            m_elevatorMaster.overrideLimitSwitchesEnable(true);
+        }
         m_shifter.set(shiftVal);
     }
 
