@@ -3,6 +3,7 @@ package frc.team3130.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.OI;
+import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.PistonClimber;
 
 public class LandingGearDrive extends Command {
@@ -22,7 +23,7 @@ public class LandingGearDrive extends Command {
 
     double moveSpeed = -OI.driverGamepad.getRawAxis(1);
     if (PistonClimber.getPiston()) {
-      PistonClimber.rawLandingGear(moveSpeed);
+      PistonClimber.rawLandingGear(RobotMap.kLandingGearMultiplier *moveSpeed);
     }
   }
   

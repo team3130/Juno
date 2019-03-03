@@ -40,6 +40,9 @@ public class RobotMap {
 	//Intake
 		public static double kIntakeTriggerDeadband = 0.4;
 
+	//Climber
+		public static double kLandingGearMultiplier = 0.2;
+
 	//Arm
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
 
