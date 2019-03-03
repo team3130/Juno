@@ -52,7 +52,6 @@ public class SensorHandler {
         }
 
         //Wrist
-        /*
         if(Arm.isRevLimitClosed()){
             if(!Arm.hasBeenZeroed()){
                 Arm.zeroSensors(RobotMap.kWristHomingAngle);
@@ -61,7 +60,7 @@ public class SensorHandler {
         else{
             if(Arm.hasBeenZeroed())
                 Arm.setZeroedState(false);
-        }*/
+        }
 
         Elevator.GetInstance().readPeriodicInputs();
         Arm.GetInstance().readPeriodicInputs();

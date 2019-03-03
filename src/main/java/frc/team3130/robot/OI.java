@@ -184,7 +184,7 @@ public class OI {
         elevatorShift.whenPressed(new ElevatorShift());
         deployClimber.whenPressed(new DeployClimber());
 
-        intakePickup.whenActive(new WristToAngle(178.0));
+        intakePickup.whenActive(new WristToAngle(175.0));
         intakeStowed.whenActive(new WristToAngle(90.0));
 
         shift.whenPressed(new ShiftToggle());
