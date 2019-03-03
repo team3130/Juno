@@ -179,9 +179,6 @@ public class OI {
 
         //Map the button to command
         depositHatch.whileHeld(new DepositHatch());
-
-        deployClimber.whenPressed(new DeployClimber());
-
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         elevatorShift.whenPressed(new ElevatorShift());
