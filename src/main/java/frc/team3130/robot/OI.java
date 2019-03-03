@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.commands.Arm.TestArm;
 import frc.team3130.robot.commands.Arm.WristToAngle;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
+import frc.team3130.robot.commands.Climber.DeployClimber;
 import frc.team3130.robot.commands.Elevator.ElevatorShift;
 import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
@@ -173,7 +174,7 @@ public class OI {
 
         highHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
         middleHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
-        lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+        lowHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
         //Map the button to command
         depositHatch.whileHeld(new DepositHatch());
@@ -183,6 +184,7 @@ public class OI {
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         elevatorShift.whenPressed(new ElevatorShift());
+        deployClimber.whenPressed(new DeployClimber());
 
         intakePickup.whenActive(new WristToAngle(178.0));
         intakeStowed.whenActive(new WristToAngle(90.0));
