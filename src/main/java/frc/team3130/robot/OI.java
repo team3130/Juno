@@ -93,6 +93,7 @@ public class OI {
 
     public static JoystickButton intakeStowed;
     public static JoystickButton intakePickup;
+    public static JoystickButton intakeHalfway;
 
     public static JoystickButton lowBall;
 
@@ -154,15 +155,13 @@ public class OI {
 
         intakeStowed = new JoystickButton(driverGamepad, RobotMap.LST_BTN_X);
         intakePickup = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
+        intakeHalfway = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
 
         toggleTongue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
 
         /*
          * Weapons
          */
-        //testElevator = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
-        //testArm = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
-
         elevatorShift = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
 
         deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
@@ -186,6 +185,7 @@ public class OI {
 
         intakePickup.whenActive(new WristToAngle(175.0));
         intakeStowed.whenActive(new WristToAngle(90.0));
+        intakeHalfway.whenActive(new WristToAngle(135.0));
 
         shift.whenPressed(new ShiftToggle());
 
