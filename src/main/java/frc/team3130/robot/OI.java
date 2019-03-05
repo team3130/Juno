@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3130.robot.autoCommands.AimAssist;
 import frc.team3130.robot.commands.Arm.TestArm;
 import frc.team3130.robot.commands.Arm.WristToAngle;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
@@ -77,6 +78,7 @@ public class OI {
     public static Joystick weaponsGamepad;
 
     public static JoystickButton shift;
+    public static JoystickButton startAiming;
 
     public static JoystickButton depositHatch;
 
@@ -148,6 +150,7 @@ public class OI {
          * Driver
          */
         shift = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RJOYSTICKPRESS);
+        startAiming = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RBUMPER);
 
         depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
 
@@ -188,6 +191,8 @@ public class OI {
         intakeHalfway.whenActive(new WristToAngle(135.0));
 
         shift.whenPressed(new ShiftToggle());
+
+        startAiming.whileHeld(new AimAssist());
 
         //testElevator.whenPressed(new ElevatorTestPreference());
 

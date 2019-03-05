@@ -227,6 +227,23 @@ public class Chassis extends Subsystem {
         }
     }
 
+    /**
+     * Returns the current speed of the front left motor in native units
+     * @return Current speed of the front left motor (ticks per 0.1 seconds)
+     */
+    public static double getRawSpeedL()
+    {
+        return m_leftMotorFront.getSelectedSensorVelocity(0);
+    }
+
+    /**
+     * Returns the current speed of the front left motor in native units
+     * @return Current speed of the front left motor (ticks per 0.1 seconds)
+     */
+    public static double getRawSpeedR()
+    {
+        return m_rightMotorFront.getSelectedSensorVelocity(0);
+    }
 
     /**
      * Returns the current speed of the front left motor

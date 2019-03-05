@@ -24,6 +24,10 @@ public class RobotMap {
 		public static double kLWheelDiameter = 6.0; //Center wheel
 		public static double kRWheelDiameter = 6.0; //Center wheel
 		public static double kDriveCodesPerRev = 2048.0;
+		public static double kDistanceToEncoder = kDriveCodesPerRev / (Math.PI * 0.5*(kLWheelDiameter+kRWheelDiameter));
+		public static double kVelocityToEncoder = kDistanceToEncoder / 10.0; 		// Per 100ms
+		public static double kAccelerationToEncoder = kVelocityToEncoder / 10.0; 	// Per 100ms
+
 
 		public static double kChassisShiftWait = 0.07;
 
@@ -138,8 +142,11 @@ public class RobotMap {
 		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.625)* 40.0 / 18.0 * 22.0 / 16.0; //Updated 2/24 || 4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
 	//Limelight
-		public static double kLimelightTiltAngle = 30.0; //Checked 2/19
-		public static double kLimelightHeight = 0.0; //TODO Height of Limelight's camera aperture from the ground
+		public static double kLimelightTiltAngle = -30.0; //Checked 2/19
+		public static double kLimelightHeight = 38.875; // Height of camera aperture from the ground
+		public static double kLimelightCalibrateDist = 36;	// Exact horizontal distance between hatch target and lens
+		public static double kLimelightOffset = 10.375;    // Offset to the right side (inches)
+		public static double kLimelightBumper = 12;   // Depth of the camera from the front bumper (inches)
 
 	/**
 	 * Field parameters
