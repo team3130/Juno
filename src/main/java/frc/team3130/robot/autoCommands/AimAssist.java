@@ -26,17 +26,24 @@ public class AimAssist extends Command {
         double cruiseVelocity = 100 * RobotMap.kVelocityToEncoder;
 
         Limelight.updateData();
-        double goStraight = Limelight.getDistanceToTarget(true) - RobotMap.kLimelightBumper;
+        double goStraight = Limelight.getDistanceToTarget(true);
         double angularOffset = -Math.toRadians(Limelight.getDegHorizontalOffset());
         double goLeft = Math.tan(angularOffset) * goStraight - RobotMap.kLimelightOffset;
         double goSlope = Limelight.getTargetRotationTan();
 
-        // Magic boost. To be deleted when(if) a real rotation is implemented
-        // A linear approximation from the data collected with the software robot
-        //goSlope *= (0.52/32)*(goStraight+RobotMap.kLimelightBumper-18)+1.238;
+        // Bogus rotation adjustment by subtracting the angle between the camera and the bot's center.
+        // To be deleted when(if) a real rotation is implemented
+        goSlope = Math.tan(
+                    Math.atan(goSlope)
+                  + Math.asin(
+                        Math.cos(angularOffset) * RobotMap.kLimelightOffset/goStraight
+                    )
+        );
 
         System.out.format("Robot is going to Go %8.3f'' straight and left %8.3f with slope %8.3f%n",
                 goStraight, goLeft, goSlope);
+
+        goStraight -= RobotMap.kLimelightBumper;
 
         // Basic sanity check
         if(goStraight <= 0 || goStraight >= 144 || goLeft <= -144 || goLeft >= 144) return;
