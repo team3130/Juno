@@ -23,7 +23,7 @@ public class RobotMap {
 		public static double kChassisWidth = 23.5; //Checked 2/12 Distance between the left and right middle wheels
 		public static double kLWheelDiameter = 6.0; //Center wheel
 		public static double kRWheelDiameter = 6.0; //Center wheel
-		public static double kDriveCodesPerRev = 2048.0;
+		public static double kDriveCodesPerRev = 4096;
 		public static double kDistanceToEncoder = kDriveCodesPerRev / (Math.PI * 0.5*(kLWheelDiameter+kRWheelDiameter));
 		public static double kVelocityToEncoder = kDistanceToEncoder / 10.0; 		// Per 100ms
 		public static double kAccelerationToEncoder = kVelocityToEncoder / 10.0; 	// Per 100ms
@@ -151,8 +151,8 @@ public class RobotMap {
 	/**
 	 * Field parameters
 	 */
-	public static final double HATCHVISIONTARGET = 28.5;
-	public static final double PORTVISIONTARGET = 36.125;
+	public static final double HATCHVISIONTARGET = 31.25;
+	public static final double PORTVISIONTARGET = 38.75;
 	
 	public static final double PORTBOTTOM = 27.5;
 	public static final double PORTMIDDLE = 55.5;

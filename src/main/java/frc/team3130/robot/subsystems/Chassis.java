@@ -2,6 +2,7 @@ package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -182,6 +183,28 @@ public class Chassis extends Subsystem {
         }
     }
 
+    public static void configMP() {
+
+        m_leftMotorFront.config_kP(0, 0.75, 0);
+        m_leftMotorFront.config_kI(0, 0.0, 0);
+        m_leftMotorFront.config_kD(0, 0.0, 0);
+        m_leftMotorFront.config_kF(0, 1023.0 / 7200.0, 0);
+        m_leftMotorFront.configNeutralDeadband(0.1, 0);
+        /* Status 10 provides the trajectory target for motion profile AND motion magic */
+        m_leftMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
+        /* Our profile uses 10ms timing so do not add the base duration */
+        m_leftMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
+
+        m_rightMotorFront.config_kP(0, 0.75, 0);
+        m_rightMotorFront.config_kI(0, 0.0, 0);
+        m_rightMotorFront.config_kD(0, 0.0, 0);
+        m_rightMotorFront.config_kF(0, 1023.0 / 7200.0, 0);
+        m_rightMotorFront.configNeutralDeadband(0.1, 0);
+        /* Status 10 provides the trajectory target for motion profile AND motion magic */
+        m_rightMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
+        /* Our profile uses 10ms timing so do not add the base duration */
+        m_rightMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
+    }
 
     /**
      * Returns the absolute angle of the drivetrain in relation to the robot's orientation upon last reset.

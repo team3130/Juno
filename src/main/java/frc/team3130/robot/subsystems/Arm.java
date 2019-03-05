@@ -256,7 +256,7 @@ public class Arm extends Subsystem {
 
         SmartDashboard.putNumber("Wrist Feed Forward", wristPeriodicIO.feedforward);
 
-        SmartDashboard.putNumber("Wrist Active Arbitrary FF", m_wrist.getActiveTrajectoryArbFeedFwd(0));
+        //SmartDashboard.putNumber("Wrist Active Arbitrary FF", m_wrist.getActiveTrajectoryArbFeedFwd(0));
     }
 
     private enum WristControlState{

@@ -23,7 +23,7 @@ public class Limelight {
     private static NetworkTableEntry ta;
     private static NetworkTableEntry ts; // Skew or rotation (-90 degrees to 0 degrees)
 
-    private static double kLimelightTiltAngle = 32;
+    private static double kLimelightTiltAngle = -19.76;
     private static double x_targetOffsetAngle = 0.0;
     private static double y_targetOffsetAngle = 0.0;
     private static double area = 0.0;
@@ -59,18 +59,18 @@ public class Limelight {
     public static double getTargetRotationTan() {
         double realSkew = Math.toRadians(skew < -45 ? skew + 90 : skew);
         // Very approximate adjustment for the camera tilt, should work for small angles
-        // Rationale: the best view is from the top which is 90 degree, no adjustment would be needed
-        // Then it gets worse as the tilt comes closer to zero degree.
+        // Rationale: the best view is straight from below which is 90 degree, then no adjustment would be needed
+        // Then it gets worse as the tilt comes closer to zero degree - can't see rotation at the horizon.
         // Ideally it would be better to do this with vectors and matrices
         // TAN(new) = COS(ty)*TAN(skew)/SIN(cam+ty)
         double ty = Math.toRadians(y_targetOffsetAngle);
         double cam = Math.toRadians(kLimelightTiltAngle);
         double tanRot = Math.cos(ty)*Math.tan(realSkew)/Math.sin(cam+ty);
-        System.out.format("Real skew:%8.3f, rot:%8.3f %n", realSkew, tanRot);
+        System.out.format("Real skew:%8.3f, rot:%8.3f ty:%8.3f %n", realSkew, tanRot, ty);
         return tanRot;
     }
 
-    public static double getdegHorizontalOffset(){
+    public static double getDegHorizontalOffset(){
         return x_targetOffsetAngle;
     }
 

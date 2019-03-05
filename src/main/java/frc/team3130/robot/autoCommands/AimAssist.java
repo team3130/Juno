@@ -27,13 +27,13 @@ public class AimAssist extends Command {
 
         Limelight.updateData();
         double goStraight = Limelight.getDistanceToTarget(true) - RobotMap.kLimelightBumper;
-        double angularOffset = -Math.toRadians(Limelight.getdegHorizontalOffset());
+        double angularOffset = -Math.toRadians(Limelight.getDegHorizontalOffset());
         double goLeft = Math.tan(angularOffset) * goStraight - RobotMap.kLimelightOffset;
         double goSlope = Limelight.getTargetRotationTan();
 
         // Magic boost. To be deleted when(if) a real rotation is implemented
         // A linear approximation from the data collected with the software robot
-        goSlope *= (0.52/32)*(goStraight+RobotMap.kLimelightBumper-18)+1.238;
+        //goSlope *= (0.52/32)*(goStraight+RobotMap.kLimelightBumper-18)+1.238;
 
         System.out.format("Robot is going to Go %8.3f'' straight and left %8.3f with slope %8.3f%n",
                 goStraight, goLeft, goSlope);
@@ -45,7 +45,7 @@ public class AimAssist extends Command {
         goStraight *= RobotMap.kDistanceToEncoder;
         goLeft *= RobotMap.kDistanceToEncoder;
 
-        Chassis.setPIDValues();
+        Chassis.configMP();
         double currentVelocity = 0.5*(Chassis.getRawSpeedL()+Chassis.getRawSpeedR());
         CubicPath path = new CubicPath( maxAcceleration, cruiseVelocity)
                 .withDuration(0.1) // 10ms = 0.1 * 100ms
@@ -76,8 +76,8 @@ public class AimAssist extends Command {
             pointStreamLeft.Write(point);
 
             /* for each point, fill our structure and pass it to API */
-            point.position = -path.profileRight[i][0];
-            point.velocity = -path.profileRight[i][1];
+            point.position = path.profileRight[i][0];
+            point.velocity = path.profileRight[i][1];
             point.timeDur = 10;
             pointStreamRight.Write(point);
         }
