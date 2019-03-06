@@ -62,14 +62,16 @@ public class Limelight {
         // Rationale: the best view is straight from below which is 90 degree, then no adjustment would be needed
         // Then it gets worse as the tilt comes closer to zero degree - can't see rotation at the horizon.
         // Ideally it would be better to do this with vectors and matrices
-        // TAN(new) = COS(ty)*TAN(skew)/SIN(cam+ty)
+        // TAN(new) = COS(ty)*TAN(skew)/SIN(cam+ty) + robotRotation
         double tx = Math.toRadians(x_targetOffsetAngle);
         double ty = Math.toRadians(y_targetOffsetAngle);
         double cam = Math.toRadians(kLimelightTiltAngle);
-        double sinTilt = Math.sin(cam+ty);
-        double tanRot = Math.cos(ty)*Math.tan(realSkew)/sinTilt + 10.0*(1.0-Math.cos(tx))*sinTilt;
-        System.out.format("Real skew:%8.3f, rot:%8.3f ty:%8.3f %n", realSkew, tanRot, ty);
-        return tanRot;
+        double elev = cam + ty;
+        if(elev < -0.001 && 0.001 < elev)
+            return Math.atan2(Math.cos(ty)*Math.tan(realSkew), Math.sin(elev))
+                + Math.acos(Math.cos(tx)*Math.cos(elev));
+        else
+            return 0;
     }
 
     public static double getDegHorizontalOffset(){

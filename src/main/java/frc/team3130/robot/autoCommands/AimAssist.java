@@ -26,7 +26,7 @@ public class AimAssist extends Command {
         double cruiseVelocity = 100 * RobotMap.kVelocityToEncoder;
 
         Limelight.updateData();
-        double goSlope = 0; // Limelight.getTargetRotationTan();
+        double goSlope = Limelight.getTargetRotationTan();
         double rotation = Math.atan(goSlope);
         double goStraight = Limelight.getDistanceToTarget(true);
         goStraight -= (RobotMap.kLimelightBumper+RobotMap.kLimelightForward) * Math.cos(rotation);
