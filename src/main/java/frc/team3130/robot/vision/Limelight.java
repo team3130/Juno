@@ -63,9 +63,11 @@ public class Limelight {
         // Then it gets worse as the tilt comes closer to zero degree - can't see rotation at the horizon.
         // Ideally it would be better to do this with vectors and matrices
         // TAN(new) = COS(ty)*TAN(skew)/SIN(cam+ty)
+        double tx = Math.toRadians(x_targetOffsetAngle);
         double ty = Math.toRadians(y_targetOffsetAngle);
         double cam = Math.toRadians(kLimelightTiltAngle);
-        double tanRot = Math.cos(ty)*Math.tan(realSkew)/Math.sin(cam+ty);
+        double sinTilt = Math.sin(cam+ty);
+        double tanRot = Math.cos(ty)*Math.tan(realSkew)/sinTilt + 10.0*(1.0-Math.cos(tx))*sinTilt;
         System.out.format("Real skew:%8.3f, rot:%8.3f ty:%8.3f %n", realSkew, tanRot, ty);
         return tanRot;
     }
