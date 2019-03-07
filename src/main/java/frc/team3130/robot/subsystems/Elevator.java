@@ -186,7 +186,7 @@ public class Elevator extends Subsystem {
                 // Elevator is at almost constant velocity.
                 mPeriodicIO.active_trajectory_accel_g = 0.0;
             }else{
-                if(newVel > mPeriodicIO.active_trajectory_velocity) { //TODO: check if velocities are negative in MP
+                if(newVel > mPeriodicIO.active_trajectory_velocity) {
                     //elevator is accelerating upward
                     mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
                             (RobotMap.kElevatorTicksPerInch * 386.09);

@@ -45,7 +45,7 @@ public class RobotMap {
 		public static double kIntakeTriggerDeadband = 0.4;
 
 	//Climber
-		public static double kLandingGearMultiplier = 0.2;
+		public static double kLandingGearMultiplier = 0.2; //FIXME
 
 	//Arm
 		public static double kArmLength = 7.70652; //Distance from centers of pivot points
@@ -55,20 +55,24 @@ public class RobotMap {
 		public static double kWristManualDeadband = 0.05;
 		public static double kWristManualMultipler = 0.7;
 
-		public static double kWristHomingAngle = 92.0; //Checked 3/2
+		public static double kWristHomingAngle = 92.0; //TODO Checked ---
 
-		public static double kWristP = 2.0; //Checked 2/17
-		public static double kWristI = 0.005; //Checked 2/17
-		public static double kWristD = 50.0; //Checked 2/17
+		public static double kWristP = 2.0; //FIXME Checked ---
+		public static double kWristI = 0.005; //FIXME Checked ---
+		public static double kWristD = 50.0; //FIXME Checked ---
 		public static double kWristF = 0.0; //Checked 2/17
 		public static int kWristMaxAcc = 1400; // 1024
 		public static int kWristMaxVel = 3400; // 1024
 
-		public static double kWristFFEmpty = 0.095; //Checked 3/2
+		public static double kWristFFEmpty = 0.095; //FIXME Checked ---
 		public static double kWristFFBall = 0.0;
 		public static double kWristFFHatch = 0.0;
 
 		public static double kWristFinishDeadband = 1.0;
+
+		public static double kWristZeroTimeout = 3.0; //FIXME
+
+		public static double kWristBackwardMax = 90.0; //FIXME: Wrist backward hardstop angle
 
 		public static double kWristKaWithBall = 0.008;
 		public static double kWristKaEmpty = 0.006;
