@@ -48,9 +48,12 @@ public class PistonClimber extends Subsystem {
 
     }
 
-    public static void rawLandingGear(double throttle){
+    public static void rawLandingGear(double throttle , boolean squaredInputs){
         throttle = Util.limit(throttle, 1.0);
-        
+
+        if(squaredInputs){
+            throttle = Math.copySign(throttle * throttle, throttle);
+        }
         m_landingGear.set(ControlMode.PercentOutput, throttle);
     }
 

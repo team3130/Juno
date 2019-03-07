@@ -24,7 +24,7 @@ public class LandingGearDrive extends Command {
 
     double moveSpeed = -OI.driverGamepad.getRawAxis(1);
     if (PistonClimber.getPiston() == DoubleSolenoid.Value.kForward) {
-      PistonClimber.rawLandingGear(RobotMap.kLandingGearMultiplier * moveSpeed);
+      PistonClimber.rawLandingGear(RobotMap.kLandingGearMultiplier * moveSpeed, true);
     }
   }
   
