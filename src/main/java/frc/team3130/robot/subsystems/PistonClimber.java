@@ -2,7 +2,7 @@ package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Climber.LandingGearDrive;
@@ -20,7 +20,7 @@ public class PistonClimber extends Subsystem {
 
     //Create necessary objects
 
-    private static Solenoid pistons1;
+    private static DoubleSolenoid pistons;
 
     private static WPI_TalonSRX m_landingGear;
 
@@ -32,7 +32,7 @@ public class PistonClimber extends Subsystem {
          * Constructor:
          * Define and configure your defined objects (ie. talons, vars)
          */
-        pistons1 = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTON);
+        pistons = new DoubleSolenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_CLIMBPISTONFORWARD, RobotMap.PNM_CLIMBPISTONREVERSE);
 
         m_landingGear = new WPI_TalonSRX(RobotMap.CAN_PISTONMOTOR);
 
@@ -48,20 +48,26 @@ public class PistonClimber extends Subsystem {
 
     }
 
-    //this stuff
     public static void rawLandingGear(double throttle){
         throttle = Util.limit(throttle, 1.0);
-
+        
         m_landingGear.set(ControlMode.PercentOutput, throttle);
     }
 
-    public static void toggleClimbPistons() {
-        pistons1.set(!pistons1.get());
+    public static void deployPistons() {
+        pistons.set(DoubleSolenoid.Value.kForward);
     }
 
+    public static void setPistons(DoubleSolenoid.Value val){
+        pistons.set(val);
+    }
 
-    public static boolean getPiston() {
-        return pistons1.get();
+    public static void retractPistons(){
+        pistons.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    public static DoubleSolenoid.Value getPiston() {
+        return pistons.get();
     }
 
 }

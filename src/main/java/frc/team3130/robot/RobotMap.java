@@ -191,8 +191,8 @@ public class RobotMap {
 	public static final int PNM_ELEVATORSHIFT = 4;
 	public static final int PNM_INTAKEPISTON = 3;
 	public static final int PNM_TONGUEPISTON = 2;
-	public static final int PNM_CLIMBPISTON = 1;
-	public static final int PNM_CLIMBPISTON2 = 5;
+	public static final int PNM_CLIMBPISTONFORWARD = 1;
+	public static final int PNM_CLIMBPISTONREVERSE = 5;
 
 	/**
 	 * Gamepad Button List

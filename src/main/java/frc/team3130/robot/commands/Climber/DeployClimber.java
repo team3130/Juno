@@ -11,7 +11,7 @@ public class DeployClimber extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        PistonClimber.toggleClimbPistons();
+        PistonClimber.deployPistons();
     }
 
     // Called repeatedly when this Command is scheduled to run
