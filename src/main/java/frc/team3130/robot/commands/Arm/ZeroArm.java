@@ -10,20 +10,17 @@ import frc.team3130.robot.subsystems.Arm;
  */
 public class ZeroArm extends Command {
 
-    private Timer timer;
+    private double startTime;
 
     public ZeroArm() {
         //Put in the instance of whatever subsystem u need here
         requires(Arm.GetInstance());
-
-        timer = new Timer();
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        timer.reset();
+        startTime = Timer.getFPGATimestamp();
         Arm.setZeroedState(false);
-        timer.start();
         Arm.runWrist(-0.15);
     }
 
@@ -34,12 +31,11 @@ public class ZeroArm extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Arm.hasBeenZeroed() || timer.get() >= RobotMap.kWristZeroTimeout;
+        return Arm.hasBeenZeroed() || (Timer.getFPGATimestamp() - startTime) > RobotMap.kWristZeroTimeout;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-        timer.stop();
         if(!Arm.hasBeenZeroed()){ //Limit switch was never triggered, assume the Wrist made it all the way back to 90 degrees
             Arm.zeroSensors(RobotMap.kWristBackwardMax);
         }
