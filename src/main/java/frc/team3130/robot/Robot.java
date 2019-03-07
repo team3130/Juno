@@ -58,6 +58,18 @@ public class Robot extends TimedRobot {
     startPos.addOption("Right Start Pos", "Right");
 
     SmartDashboard.putData("Starting position", startPos);
+
+    Thread t = new Thread(() -> {
+      while (!Thread.interrupted()) {
+        try {
+          Thread.sleep(200);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        outputToSmartDashboard();
+      }
+    });
+    t.start();
   }
 
   /**
@@ -84,9 +96,7 @@ public class Robot extends TimedRobot {
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {
-    outputToSmartDashboard();
-  }
+  public void robotPeriodic() { }
 
 
   /**
