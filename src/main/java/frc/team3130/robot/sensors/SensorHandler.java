@@ -17,10 +17,14 @@ public class SensorHandler {
 
     private static boolean lastHatch;
     private static boolean lastBall;
+    private static boolean lastWrist;
+    private static boolean lastElevator;
 
     public SensorHandler(){
         lastBall = false;
         lastHatch = false;
+        lastWrist = false;
+        lastElevator = false;
     }
 
     public static void updateSensors(){
@@ -42,24 +46,28 @@ public class SensorHandler {
 
         //Elevator
         if(Elevator.isRevLimitClosed()){
-            if(!Elevator.hasBeenZeroed()){
+            if(!lastElevator){
                 Elevator.zeroSensors();
+                Elevator.setZeroedState(true);
+                lastElevator = true;
             }
         }
         else{
-            if(Elevator.hasBeenZeroed())
-                Elevator.setZeroedState(false);
+            if(lastElevator)
+                lastElevator = false;
         }
 
         //Wrist
         if(Arm.isRevLimitClosed()){
-            if(!Arm.hasBeenZeroed()){
+            if(!lastWrist){
                 Arm.zeroSensors(RobotMap.kWristHomingAngle);
+                Arm.setZeroedState(true);
+                lastWrist = true;
             }
         }
         else{
-            if(Arm.hasBeenZeroed())
-                Arm.setZeroedState(false);
+            if(lastWrist)
+                lastWrist = false;
         }
 
         Elevator.GetInstance().readPeriodicInputs();
