@@ -88,10 +88,11 @@ public class RobotMap {
 			LowestTongue(23.0, 90.0),
 			MiddleTongue(61.0, 90.0),
 			HighestTongue(93.0, 90.0),
-			Station(19.75, 90.0),
+			Station(19.75, 90.0), //FIXME
 			LowestPort ( 20.0, 120.0),
 			MiddlePort (55.0, 120.0),
-			HighestPort (90.0,120.0);
+			HighestPort (90.0,120.0),
+			Cargoship(35.0, 170.0); //FIXME
 
 			private double height;
 			private double angle;
@@ -140,8 +141,8 @@ public class RobotMap {
 		public static double kElevatorFFWithBall = 0.23; //Checked 2/19
 
 		public static double kElevatorHeightEpsilon = 6.0; //Checked 2/17 min height is 1 inch off ground
-		public static double kElevatorHomingHeight = 8.5; //Checked 2/17 height of elevator off ground when at home position
-		public static double kElevatorMaxHeight = 76.75; //INCORRECT
+		public static double kElevatorHomingHeight = 8.5; //FIXME Checked --- height of elevator off ground when at home position
+		public static double kElevatorMaxHeight = 76.75; //FIXME INCORRECT
 
 		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.625)* 40.0 / 18.0 * 22.0 / 16.0; //Updated 2/24 || 4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
 
@@ -192,10 +193,10 @@ public class RobotMap {
 	 * Pneumatics ports
 	 */
 	public static final int PNM_SHIFT = 0;
-	public static final int PNM_ELEVATORSHIFT = 4;
+	public static final int PNM_ELEVATORSHIFT = 1;
 	public static final int PNM_INTAKEPISTON = 3;
 	public static final int PNM_TONGUEPISTON = 2;
-	public static final int PNM_CLIMBPISTONFORWARD = 1;
+	public static final int PNM_CLIMBPISTONFORWARD = 4;
 	public static final int PNM_CLIMBPISTONREVERSE = 5;
 
 	/**

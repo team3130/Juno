@@ -5,20 +5,17 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.autoCommands.AimAssist;
-import frc.team3130.robot.commands.Arm.TestArm;
 import frc.team3130.robot.commands.Arm.WristToAngle;
 import frc.team3130.robot.commands.Arm.ZeroArm;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.DeployClimber;
 import frc.team3130.robot.commands.Elevator.ElevatorShift;
-import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.DepositHatch;
 import frc.team3130.robot.commands.Groups.RunPreset;
-import frc.team3130.robot.commands.Groups.TongueHatch;
 import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
-import frc.team3130.robot.commands.Climber.DeployClimber;
+import frc.team3130.robot.commands.Intake.TongueToggle;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -98,13 +95,14 @@ public class OI {
 
     public static JoystickButton intakeStowed;
     public static JoystickButton intakePickup;
-    public static JoystickButton intakeHalfway;
 
     public static JoystickButton lowBall;
+    public static JoystickButton toCargoship;
 
     public static POVTrigger highTongue;
     public static POVTrigger middleTongue;
     public static POVTrigger lowTongue;
+    public static POVTrigger toStation;
 
     public static JoystickButton highHatch;
     public static JoystickButton middleHatch;
@@ -174,15 +172,16 @@ public class OI {
         deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
 
         lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
+        toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_RJOYSTICKPRESS);
 
         highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
         middleTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_W);
         lowTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_S);
+        toStation = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_E);
 
         highHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
         middleHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
         lowHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
-        intakeHalfway = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
 
         //Map the button to command
         depositHatch.whileHeld(new DepositHatch());
@@ -193,7 +192,6 @@ public class OI {
 
         intakePickup.whenPressed(new WristToAngle(175.0));
         intakeStowed.whenPressed(new WristToAngle(90.0));
-        intakeHalfway.whenPressed(new WristToAngle(135.0));
 
         shift.whenPressed(new ShiftToggle());
 
@@ -205,13 +203,15 @@ public class OI {
 
         //testArm.whenPressed(new TestArm());
 
-        toggleTongue.whenPressed(new TongueHatch());
+        toggleTongue.whenPressed(new TongueToggle());
 
         lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
+        toCargoship.whenPressed(new RunPreset(RobotMap.Presets.Cargoship));
 
         highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
         middleTongue.whenActive(new RunPreset(RobotMap.Presets.MiddleTongue));
         lowTongue.whenActive(new RunPreset(RobotMap.Presets.LowestTongue));
+        toStation.whenActive(new RunPreset(RobotMap.Presets.Station));
 
         highHatch.whenPressed(new RunPreset(RobotMap.Presets.HighestHatch));
         middleHatch.whenPressed(new RunPreset(RobotMap.Presets.MiddleHatch));
