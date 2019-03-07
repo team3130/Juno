@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.autoCommands.AimAssist;
 import frc.team3130.robot.commands.Arm.TestArm;
 import frc.team3130.robot.commands.Arm.WristToAngle;
+import frc.team3130.robot.commands.Arm.ZeroArm;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.DeployClimber;
 import frc.team3130.robot.commands.Elevator.ElevatorShift;
@@ -81,6 +82,8 @@ public class OI {
     public static JoystickButton startAiming;
 
     public static JoystickButton depositHatch;
+
+    public static POVTrigger zeroWrist;
 
     public static JoystickButton deployClimber;
 
@@ -158,9 +161,10 @@ public class OI {
 
         intakeStowed = new JoystickButton(driverGamepad, RobotMap.LST_BTN_X);
         intakePickup = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
-        intakeHalfway = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
 
         toggleTongue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
+
+        zeroWrist = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
 
         /*
          * Weapons
@@ -178,6 +182,7 @@ public class OI {
         highHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
         middleHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
         lowHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+        intakeHalfway = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_B);
 
         //Map the button to command
         depositHatch.whileHeld(new DepositHatch());
@@ -186,13 +191,15 @@ public class OI {
         elevatorShift.whenPressed(new ElevatorShift());
         deployClimber.whenPressed(new DeployClimber());
 
-        intakePickup.whenActive(new WristToAngle(175.0));
-        intakeStowed.whenActive(new WristToAngle(90.0));
-        intakeHalfway.whenActive(new WristToAngle(135.0));
+        intakePickup.whenPressed(new WristToAngle(175.0));
+        intakeStowed.whenPressed(new WristToAngle(90.0));
+        intakeHalfway.whenPressed(new WristToAngle(135.0));
 
         shift.whenPressed(new ShiftToggle());
 
         startAiming.whileHeld(new AimAssist());
+
+        zeroWrist.whenActive(new ZeroArm());
 
         //testElevator.whenPressed(new ElevatorTestPreference());
 

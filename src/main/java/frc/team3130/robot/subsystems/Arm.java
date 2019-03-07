@@ -51,6 +51,9 @@ public class Arm extends Subsystem {
 
         m_wrist.set(ControlMode.PercentOutput, 0);
 
+        m_wrist.configPeakCurrentLimit(30);
+        m_wrist.configPeakCurrentDuration(300);
+
         /**
          * For both motors, rotation CW forward from the elevator is positive direction
          *
