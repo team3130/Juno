@@ -58,7 +58,7 @@ public class SensorHandler {
         }
 
         //Wrist
-        if(Arm.isRevLimitClosed()){
+        if(Arm.isFwdLimitClosed()){
             if(!lastWrist){
                 Arm.zeroSensors(RobotMap.kWristHomingAngle);
                 Arm.setZeroedState(true);

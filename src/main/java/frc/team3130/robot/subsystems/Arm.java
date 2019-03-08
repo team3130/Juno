@@ -2,6 +2,7 @@ package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
@@ -108,6 +109,11 @@ public class Arm extends Subsystem {
      */
     public synchronized static void setWristRelativeAngle(double angle) {
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
+        configPIDF(m_wrist,
+                Preferences.getInstance().getDouble("testP",RobotMap.kWristP),
+                Preferences.getInstance().getDouble("testI",RobotMap.kWristI),
+                Preferences.getInstance().getDouble("testD",RobotMap.kWristD),
+                0.0);
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
 
@@ -143,8 +149,8 @@ public class Arm extends Subsystem {
         zeroed = isZeroed;
     }
 
-    public static boolean isRevLimitClosed(){
-        return m_wrist.getSensorCollection().isRevLimitSwitchClosed();
+    public static boolean isFwdLimitClosed(){
+        return m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
     }
 
     public synchronized void readPeriodicInputs() {
