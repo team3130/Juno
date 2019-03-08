@@ -194,8 +194,8 @@ public class RobotMap {
 	 */
 	public static final int PNM_SHIFT = 0;
 	public static final int PNM_ELEVATORSHIFT = 1;
-	public static final int PNM_INTAKEPISTON = 3;
-	public static final int PNM_TONGUEPISTON = 2;
+	public static final int PNM_INTAKEPISTON = 2;
+	public static final int PNM_TONGUEPISTON = 3;
 	public static final int PNM_CLIMBPISTONFORWARD = 4;
 	public static final int PNM_CLIMBPISTONREVERSE = 5;
 
