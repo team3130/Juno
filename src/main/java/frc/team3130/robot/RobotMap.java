@@ -131,7 +131,7 @@ public class RobotMap {
 		public static double kElevatorI = 0.0; //Checked 3/2
 		public static double kElevatorD = 0.5; //Checked 3/2
 		public static double kElevatorF = 0.14; //Checked 3/7
-		public static int kElevatorMaxAcc = 38000; //Checked 3/2
+		public static int kElevatorMaxAcc = 30000; //Checked 3/2
 		public static int kElevatorMaxVel = 34000; //Checked 3/2
 
 		public static double kElevatorFinishDeadband = 1.0;
