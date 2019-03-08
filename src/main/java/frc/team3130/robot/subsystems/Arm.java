@@ -257,7 +257,7 @@ public class Arm extends Subsystem {
 
         SmartDashboard.putNumber("Wrist Sensor Value", wristPeriodicIO.position_ticks);
 
-        SmartDashboard.putBoolean("Wrist Homing Switch", m_wrist.getSensorCollection().isRevLimitSwitchClosed());
+        SmartDashboard.putBoolean("Wrist Homing Switch", m_wrist.getSensorCollection().isFwdLimitSwitchClosed());
 
         SmartDashboard.putNumber("Wrist Output %", m_wrist.getMotorOutputPercent());
 
