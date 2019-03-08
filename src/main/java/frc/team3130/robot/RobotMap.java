@@ -141,7 +141,7 @@ public class RobotMap {
 		public static double kElevatorFFWithBall = 0.23; //Checked 2/19
 
 		public static double kElevatorHeightEpsilon = 6.0; //Checked 2/17 min height is 1 inch off ground
-		public static double kElevatorHomingHeight = 8.5; //FIXME Checked --- height of elevator off ground when at home position
+		public static double kElevatorHomingHeight = 8.5; //Checked 3/7 height of elevator off ground when at home position
 		public static double kElevatorMaxHeight = 76.75; //FIXME INCORRECT
 
 		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.625)* 40.0 / 18.0 * 22.0 / 16.0; //Updated 2/24 || 4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
