@@ -64,11 +64,11 @@ public class Arm extends Subsystem {
          */
         m_wrist.setInverted(true);
 
-        m_wrist.setSensorPhase(true);
+        m_wrist.setSensorPhase(false);
 
         zeroed = false;
 
-        m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
+        //m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
 
         configPIDF(m_wrist,
                 Preferences.getInstance().getDouble("testP",RobotMap.kWristP),
@@ -110,9 +110,9 @@ public class Arm extends Subsystem {
     public synchronized static void setWristRelativeAngle(double angle) {
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
         configPIDF(m_wrist,
-                RobotMap.kWristP,
-                RobotMap.kWristI,
-                RobotMap.kWristD,
+                Preferences.getInstance().getDouble("testP",RobotMap.kWristP),
+                Preferences.getInstance().getDouble("testI",RobotMap.kWristI),
+                Preferences.getInstance().getDouble("testD",RobotMap.kWristD),
                 0.0);
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
