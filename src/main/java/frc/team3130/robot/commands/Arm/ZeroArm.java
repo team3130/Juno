@@ -21,7 +21,7 @@ public class ZeroArm extends Command {
     protected void initialize() {
         startTime = Timer.getFPGATimestamp();
         Arm.setZeroedState(false);
-        Arm.runWrist(-0.15);
+        Arm.runWrist(-0.17);
     }
 
     // Called repeatedly when this Command is scheduled to run
