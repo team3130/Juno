@@ -78,6 +78,9 @@ public class Chassis extends Subsystem {
         m_leftMotorRear.setInverted(true);
 
         m_rightMotorFront.setSensorPhase(false);
+
+        m_leftMotorFront.overrideLimitSwitchesEnable(false);
+        m_rightMotorFront.overrideLimitSwitchesEnable(false);
     }
 
     public void initDefaultCommand() {
