@@ -17,13 +17,11 @@ public class SensorHandler {
 
     private static boolean lastHatch;
     private static boolean lastBall;
-    private static boolean lastWrist;
     private static boolean lastElevator;
 
     public SensorHandler(){
         lastBall = false;
         lastHatch = false;
-        lastWrist = false;
         lastElevator = false;
     }
 
@@ -58,16 +56,9 @@ public class SensorHandler {
         }
 
         //Wrist
-        if(Arm.isFwdLimitClosed()){
-            if(!lastWrist){
+        if(!Arm.hasBeenZeroed() && Arm.isFwdLimitClosed()){
                 Arm.zeroSensors(RobotMap.kWristHomingAngle);
                 Arm.setZeroedState(true);
-                lastWrist = true;
-            }
-        }
-        else{
-            if(lastWrist)
-                lastWrist = false;
         }
 
         Elevator.GetInstance().readPeriodicInputs();
