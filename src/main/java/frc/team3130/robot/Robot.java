@@ -114,6 +114,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     Elevator.resetElevator();
     Arm.resetArm();
+    //Intake.retractTongue();
     //determine the auton to run
     //determineAuton();
     //start that command
@@ -146,6 +147,7 @@ public class Robot extends TimedRobot {
     }
     Elevator.resetElevator();
     Arm.resetArm();
+    //Intake.retractTongue();
   }
 
 

@@ -108,7 +108,6 @@ public class Elevator extends Subsystem {
             boolean isGoingDown = percent < 0;
             //When the elevator is going down
             if (isGoingDown) {
-                percent *= 0.75; //set to 75% of actual input when going down
                 //Also, if we are in the extra slow zone, multiply by reduction ratio
                 if (getHeightOffGround() < RobotMap.kElevatorSlowZone) {
                     percent *= Math.abs(getHeightOffGround() / RobotMap.kElevatorSlowZone);
