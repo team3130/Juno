@@ -96,6 +96,7 @@ public class OI {
     public static JoystickButton intakeStowed;
     public static JoystickButton intakePickup;
 
+    public static JoystickButton middleBall;
     public static JoystickButton lowBall;
     public static JoystickButton toCargoship;
 
@@ -112,7 +113,6 @@ public class OI {
     private static Command ballInCommand = new BallIn();
 
     private static Command highBall = new RunPreset(RobotMap.Presets.HighestPort);
-    private static Command middleBall = new RunPreset(RobotMap.Presets.MiddlePort);
 
     private static JoystickButton armDeploy;
     private static JoystickTrigger legDown;
@@ -162,6 +162,7 @@ public class OI {
          */
         elevatorShift = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
 
+        middleBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
         lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
         toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_RJOYSTICKPRESS);
 
@@ -201,6 +202,7 @@ public class OI {
 
         toggleTongue.whenPressed(new TongueToggle());
 
+        middleBall.whenPressed(new RunPreset(RobotMap.Presets.MiddlePort));
         lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
         toCargoship.whenPressed(new RunPreset(RobotMap.Presets.Cargoship));
 
@@ -242,20 +244,22 @@ public class OI {
     private OI(){
         stickL = new Joystick(0);
         stickR = new Joystick(1);
+     runBallOut = new JoystickButton(stickL, 1);
+
+     depositHatch = new JoystickButton(stickR, 6);
         gamepad = new Joystick(2);
 
         shift = new JoystickButton(stickR, 5);
 
         runHatchIn = new JoystickButton(stickR, 3);
         runBallIn = new JoystickButton(stickR, 1);
-        runBallOut = new JoystickButton(stickL, 1);
-
-        depositHatch = new JoystickButton(stickR, 6);
 
         deployClimber = new JoystickButton(stickL, 4);
         toggleClimber2 = new JoystickButton(stickL, 7);
 
         testElevator = new JoystickButton(stickR, 2);
+
+
 
 
         shift.whenPressed(new ShiftToggle());
