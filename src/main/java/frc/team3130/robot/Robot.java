@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
     //Instantiate subsystems
     Chassis.GetInstance();
     Intake.GetInstance();
-    PistonClimber.GetInstance();
+    Climber.GetInstance();
     Elevator.GetInstance();
 
     //Instantiate sensors

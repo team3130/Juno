@@ -1,17 +1,20 @@
 package frc.team3130.robot.commands.Climber;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team3130.robot.subsystems.PistonClimber;
+import frc.team3130.robot.OI;
+import frc.team3130.robot.subsystems.Climber;
+import frc.team3130.robot.RobotMap;
 
-public class DeployClimber extends Command {
-    public DeployClimber() {
+public class ArmsDown extends Command {
+    public ArmsDown() {
         //Put in the instance of whatever command u need here
-        requires(PistonClimber.GetInstance());
+        requires(Climber.GetInstance());
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        PistonClimber.deployPistons();
+        if(OI.driverGamepad.getRawButton(RobotMap.BTN_CONFIRM_DRIVER) && OI.weaponsGamepad.getRawButton(RobotMap.BTN_CONFIRM_WEAPONS))
+            Climber.deployArms();
     }
 
     // Called repeatedly when this Command is scheduled to run

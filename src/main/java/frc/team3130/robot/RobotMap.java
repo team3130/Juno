@@ -187,7 +187,8 @@ public class RobotMap {
 	public static final int CAN_ELEVATOR1 = 10;
 	public static final int CAN_ELEVATOR2 = 11;
 
-	public static final int CAN_PISTONMOTOR = 12;
+	public static final int CAN_CLIMBERLEG = 12;
+	public static final int CAN_CLIMBERDRIVE = 13;
 
 	/**
 	 * Pneumatics ports
@@ -196,7 +197,7 @@ public class RobotMap {
 	public static final int PNM_ELEVATORSHIFT = 1;
 	public static final int PNM_INTAKEPISTON = 2;
 	public static final int PNM_TONGUEPISTON = 3;
-	public static final int PNM_CLIMBPISTONFORWARD = 4;
+	public static final int PNM_CLIMBARMS = 4;
 	public static final int PNM_CLIMBPISTONREVERSE = 5;
 
 	/**
@@ -237,5 +238,13 @@ public class RobotMap {
 	public static final int LST_AXS_RJOYSTICKX = 4;
 	public static final int LST_AXS_RJOYSTICKY = 5;
 
-
+	/**
+	 * Climber Button names
+	 */
+	public static final int BTN_CONFIRM_DRIVER = 0;//temp
+	public static final int BTN_CONFIRM_WEAPONS = LST_BTN_MENU;
+	public static final int BTN_DROP_ARMS = LST_BTN_WINDOW;
+	public static final int BTN_UP_LEG = LST_BTN_RBUMPER;
+	public static final int AXS_DROP_LEG = LST_AXS_LTRIGGER;
+	public static final int AXS_DRIVE_LEG = LST_AXS_RTRIGGER;
 }

@@ -8,7 +8,9 @@ import frc.team3130.robot.autoCommands.AimAssist;
 import frc.team3130.robot.commands.Arm.WristToAngle;
 import frc.team3130.robot.commands.Arm.ZeroArm;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
-import frc.team3130.robot.commands.Climber.DeployClimber;
+import frc.team3130.robot.commands.Climber.ArmsDown;
+import frc.team3130.robot.commands.Climber.LegDown;
+import frc.team3130.robot.commands.Climber.LegDrive;
 import frc.team3130.robot.commands.Elevator.ElevatorShift;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.DepositHatch;
@@ -82,8 +84,6 @@ public class OI {
 
     public static POVTrigger zeroWrist;
 
-    public static JoystickButton deployClimber;
-
     public static JoystickButton testArm;
     public static JoystickButton testElevator;
 
@@ -114,6 +114,11 @@ public class OI {
     private static Command highBall = new RunPreset(RobotMap.Presets.HighestPort);
     private static Command middleBall = new RunPreset(RobotMap.Presets.MiddlePort);
 
+    private static JoystickButton armDeploy;
+    private static JoystickTrigger legDown;
+    private static JoystickTrigger legDrive;
+    private static JoystickButton legUp;
+
 
     public void checkTriggers() {
         //Driver
@@ -126,18 +131,6 @@ public class OI {
             ballInCommand.start();
         }else{
             ballInCommand.cancel();
-        }
-
-        //Weapons
-        if (Math.abs(OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER)) >= RobotMap.kPresetTriggerDeadband) {
-            middleBall.start();
-        }else{
-            middleBall.cancel();
-        }
-        if (Math.abs(OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_RTRIGGER)) >= RobotMap.kPresetTriggerDeadband) {
-            highBall.start();
-        }else{
-            highBall.cancel();
         }
     }
 
@@ -169,8 +162,6 @@ public class OI {
          */
         elevatorShift = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
 
-        deployClimber = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
-
         lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
         toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_RJOYSTICKPRESS);
 
@@ -183,12 +174,17 @@ public class OI {
         middleHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
         lowHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
 
+        armDeploy = new JoystickButton(weaponsGamepad, RobotMap.BTN_DROP_ARMS);
+        legDown = new JoystickTrigger(weaponsGamepad, RobotMap.AXS_DROP_LEG, 0.1);
+        legDrive = new JoystickTrigger(weaponsGamepad, RobotMap.AXS_DRIVE_LEG, 0.1);
+        legUp = new JoystickButton(weaponsGamepad, RobotMap.BTN_UP_LEG);
+
+
         //Map the button to command
         depositHatch.whileHeld(new DepositHatch());
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         elevatorShift.whenPressed(new ElevatorShift());
-        deployClimber.whenPressed(new DeployClimber());
 
         intakePickup.whenPressed(new WristToAngle(175.0));
         intakeStowed.whenPressed(new WristToAngle(90.0));
@@ -217,6 +213,10 @@ public class OI {
         middleHatch.whenPressed(new RunPreset(RobotMap.Presets.MiddleHatch));
         lowHatch.whenPressed(new RunPreset(RobotMap.Presets.LowestHatch));
 
+        armDeploy.whileHeld(new ArmsDown());
+        legDown.whileActive(new LegDown());
+        legUp.whileHeld(new LegDown(true));
+        legDrive.whileActive(new LegDrive());
     }
 
 
