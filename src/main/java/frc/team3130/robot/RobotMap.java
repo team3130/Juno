@@ -90,7 +90,7 @@ public class RobotMap {
 			HighestTongue(93.0, 90.0),
 			Station(19.75, 90.0), //FIXME
 			LowestPort ( 20.0, 120.0),
-			MiddlePort (40.0, 120.0),
+			MiddlePort (55.0, 120.0),
 			HighestPort (90.0,120.0),
 			Cargoship(35.0, 170.0); //FIXME
 
@@ -192,7 +192,7 @@ public class RobotMap {
 
 	/**
 	 * Pneumatics ports
-
+	 */
 	public static final int PNM_SHIFT = 0;
 	public static final int PNM_ELEVATORSHIFT = 1;
 	public static final int PNM_INTAKEPISTON = 2;
