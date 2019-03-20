@@ -39,7 +39,7 @@ public class WristManual extends PIDCommand {
       setSetpoint(Arm.getPos());
     }else{
       getPIDController().disable();
-      Arm.runWristPVbus(val);
+      Arm.runWristPVbus(0.8*val);
     }
   }
 
@@ -65,7 +65,7 @@ public class WristManual extends PIDCommand {
 
   @Override
   protected void usePIDOutput(double i){
-      Arm.runWristPVbus(i);
+      Arm.runWristPVbus(0.8*i);
   }  
 
   @Override
