@@ -239,6 +239,12 @@ public class RobotMap {
 	public static final int LST_AXS_RJOYSTICKY = 5;
 
 	/**
+	 * Wrist Button names
+	 */
+
+	 public static final int AXS_WRIST = LST_AXS_LJOYSTICKY;
+
+	/**
 	 * Climber Button names
 	 */
 	public static final int BTN_CONFIRM_WEAPONS = LST_BTN_MENU;

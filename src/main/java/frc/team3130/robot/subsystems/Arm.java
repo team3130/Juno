@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Arm.RunWrist;
+import frc.team3130.robot.commands.Arm.WristManual;
 import frc.team3130.robot.util.Epsilon;
 
 
@@ -79,7 +80,7 @@ public class Arm extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new RunWrist());
+        setDefaultCommand(new WristManual());
     }
 
     /*
@@ -94,6 +95,21 @@ public class Arm extends Subsystem {
         m_wrist.set(ControlMode.PercentOutput, speed);
     }
 
+    /**
+     * Sets the wrist output in percent vbus
+     * @param PVBus percentage of input voltage to output
+     */
+    public static void runWristPVbus(double PVBus){
+        m_wrist.set(ControlMode.PercentOutput, PVBus);
+    }
+
+    /**
+     * Gets the raw encoder position
+     * @return the current raw encoder position
+     */
+    public static int getPos(){
+        return m_wrist.getSensorCollection().getQuadraturePosition();
+    }
 
     /**
      * Gets the angle of the Wrist motor in relation to the arm
