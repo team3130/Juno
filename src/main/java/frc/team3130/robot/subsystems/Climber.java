@@ -49,9 +49,9 @@ public class Climber extends Subsystem {
         m_legDown.set(ControlMode.PercentOutput, pVbus);
     }
 
-    public static void deployArms()
+    public static void deployArms(boolean deploy)
     {
-        pistons.set(true);
+        pistons.set(deploy);
     }
 }
 
