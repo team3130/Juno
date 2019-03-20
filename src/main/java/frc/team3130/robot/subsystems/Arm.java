@@ -153,7 +153,7 @@ public class Arm extends Subsystem {
      * @param angle the angle to reset the wrist to in degrees
      */
     public static synchronized void zeroSensors(double angle){
-        m_wrist.setSelectedSensorPosition((int) (angle * RobotMap.kWristTicksPerDeg));
+        //m_wrist.setSelectedSensorPosition((int) (angle * RobotMap.kWristTicksPerDeg));
         zeroed = true;
     }
 
