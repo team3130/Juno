@@ -91,12 +91,10 @@ public class OI {
 
     public static POVTrigger elevGround;
 
-    public static JoystickButton elevatorShift;
 
     public static JoystickButton intakeStowed;
     public static JoystickButton intakePickup;
 
-    public static JoystickButton middleBall;
     public static JoystickButton lowBall;
     public static JoystickButton toCargoship;
 
@@ -160,9 +158,6 @@ public class OI {
         /*
          * Weapons
          */
-        elevatorShift = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
-
-        middleBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_WINDOW);
         lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
         toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_RJOYSTICKPRESS);
 
@@ -185,8 +180,6 @@ public class OI {
         depositHatch.whileHeld(new DepositHatch());
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
-        elevatorShift.whenPressed(new ElevatorShift());
-
         intakePickup.whenPressed(new WristToAngle(175.0));
         intakeStowed.whenPressed(new WristToAngle(90.0));
 
@@ -202,7 +195,6 @@ public class OI {
 
         toggleTongue.whenPressed(new TongueToggle());
 
-        middleBall.whenPressed(new RunPreset(RobotMap.Presets.MiddlePort));
         lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
         toCargoship.whenPressed(new RunPreset(RobotMap.Presets.Cargoship));
 
