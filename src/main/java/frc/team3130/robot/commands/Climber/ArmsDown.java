@@ -13,7 +13,7 @@ public class ArmsDown extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-        if(OI.driverGamepad.getRawButton(RobotMap.BTN_CONFIRM_DRIVER) && OI.weaponsGamepad.getRawButton(RobotMap.BTN_CONFIRM_WEAPONS))
+        if(OI.weaponsGamepad.getRawButton(RobotMap.BTN_CONFIRM_WEAPONS))
             Climber.deployArms();
     }
 

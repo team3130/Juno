@@ -241,7 +241,6 @@ public class RobotMap {
 	/**
 	 * Climber Button names
 	 */
-	public static final int BTN_CONFIRM_DRIVER = 0;//temp
 	public static final int BTN_CONFIRM_WEAPONS = LST_BTN_MENU;
 	public static final int BTN_DROP_ARMS = LST_BTN_WINDOW;
 	public static final int BTN_UP_LEG = LST_BTN_RBUMPER;
