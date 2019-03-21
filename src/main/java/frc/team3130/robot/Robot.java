@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
     //Instantiate subsystems
     Chassis.GetInstance();
     Intake.GetInstance();
-    PistonClimber.GetInstance();
+    Climber.GetInstance();
     Elevator.GetInstance();
 
     //Instantiate sensors
@@ -58,6 +58,18 @@ public class Robot extends TimedRobot {
     startPos.addOption("Right Start Pos", "Right");
 
     SmartDashboard.putData("Starting position", startPos);
+
+    Thread t = new Thread(() -> {
+      while (!Thread.interrupted()) {
+        try {
+          Thread.sleep(200);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        outputToSmartDashboard();
+      }
+    });
+    t.start();
   }
 
   /**
@@ -84,9 +96,7 @@ public class Robot extends TimedRobot {
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {
-    outputToSmartDashboard();
-  }
+  public void robotPeriodic() { }
 
 
   /**
@@ -104,6 +114,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     Elevator.resetElevator();
     Arm.resetArm();
+    Intake.retractTongue();
     //determine the auton to run
     //determineAuton();
     //start that command
@@ -136,6 +147,7 @@ public class Robot extends TimedRobot {
     }
     Elevator.resetElevator();
     Arm.resetArm();
+    Intake.retractTongue();
   }
 
 

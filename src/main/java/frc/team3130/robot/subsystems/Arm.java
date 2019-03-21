@@ -2,10 +2,12 @@ package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Arm.RunWrist;
+import frc.team3130.robot.commands.Arm.WristManual;
 import frc.team3130.robot.util.Epsilon;
 
 
@@ -51,8 +53,11 @@ public class Arm extends Subsystem {
 
         m_wrist.set(ControlMode.PercentOutput, 0);
 
+        m_wrist.configPeakCurrentLimit(30);
+        m_wrist.configPeakCurrentDuration(300);
+
         /**
-         * For both motors, rotation CW toward from the elevator is positive direction
+         * For both motors, rotation CW forward from the elevator is positive direction
          *
          * Absolute: 180 degrees is parallel to the ground and fully extended, 0 is full back into/toward the robot
          * Relative: Wrist angle is relative to the arm, elbow is technically relative
@@ -64,18 +69,18 @@ public class Arm extends Subsystem {
 
         zeroed = false;
 
-        m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
+        //m_wrist.setSelectedSensorPosition((int) (180.0 * RobotMap.kWristTicksPerDeg));
 
         configPIDF(m_wrist,
-                RobotMap.kWristP,
-                RobotMap.kWristI,
-                RobotMap.kWristD,
+                Preferences.getInstance().getDouble("testP",RobotMap.kWristP),
+                Preferences.getInstance().getDouble("testI",RobotMap.kWristI),
+                Preferences.getInstance().getDouble("testD",RobotMap.kWristD),
                 0.0);
     }
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new RunWrist());
+        setDefaultCommand(new WristManual());
     }
 
     /*
@@ -90,6 +95,21 @@ public class Arm extends Subsystem {
         m_wrist.set(ControlMode.PercentOutput, speed);
     }
 
+    /**
+     * Sets the wrist output in percent vbus
+     * @param PVBus percentage of input voltage to output
+     */
+    public static void runWristPVbus(double PVBus){
+        m_wrist.set(ControlMode.PercentOutput, PVBus);
+    }
+
+    /**
+     * Gets the raw encoder position
+     * @return the current raw encoder position
+     */
+    public static int getPos(){
+        return m_wrist.getSensorCollection().getQuadraturePosition();
+    }
 
     /**
      * Gets the angle of the Wrist motor in relation to the arm
@@ -105,6 +125,11 @@ public class Arm extends Subsystem {
      */
     public synchronized static void setWristRelativeAngle(double angle) {
         configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
+        configPIDF(m_wrist,
+                Preferences.getInstance().getDouble("testP",RobotMap.kWristP),
+                Preferences.getInstance().getDouble("testI",RobotMap.kWristI),
+                Preferences.getInstance().getDouble("testD",RobotMap.kWristD),
+                0.0);
         m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
 
@@ -128,7 +153,7 @@ public class Arm extends Subsystem {
      * @param angle the angle to reset the wrist to in degrees
      */
     public static synchronized void zeroSensors(double angle){
-        m_wrist.setSelectedSensorPosition((int) (angle * RobotMap.kWristTicksPerDeg));
+        //m_wrist.setSelectedSensorPosition((int) (angle * RobotMap.kWristTicksPerDeg));
         zeroed = true;
     }
 
@@ -140,8 +165,8 @@ public class Arm extends Subsystem {
         zeroed = isZeroed;
     }
 
-    public static boolean isRevLimitClosed(){
-        return m_wrist.getSensorCollection().isRevLimitSwitchClosed();
+    public static boolean isFwdLimitClosed(){
+        return m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
     }
 
     public synchronized void readPeriodicInputs() {
@@ -248,7 +273,7 @@ public class Arm extends Subsystem {
 
         SmartDashboard.putNumber("Wrist Sensor Value", wristPeriodicIO.position_ticks);
 
-        SmartDashboard.putBoolean("Wrist Homing Switch", m_wrist.getSensorCollection().isRevLimitSwitchClosed());
+        SmartDashboard.putBoolean("Wrist Homing Switch", m_wrist.getSensorCollection().isFwdLimitSwitchClosed());
 
         SmartDashboard.putNumber("Wrist Output %", m_wrist.getMotorOutputPercent());
 

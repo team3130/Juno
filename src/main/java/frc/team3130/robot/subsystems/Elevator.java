@@ -71,12 +71,15 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
         m_elevatorMaster.enableVoltageCompensation(true);
 
-        m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        m_elevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled, 0);
         m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
         configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
 
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
+
+        m_elevatorMaster.configForwardSoftLimitEnable(true);
+        m_elevatorMaster.configForwardSoftLimitThreshold(Preferences.getInstance().getInt("Elevator Softlimit", 65535));
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_ELEVATORSHIFT);
         m_shifter.set(false); //false should be high gear or normal running mode
@@ -108,7 +111,6 @@ public class Elevator extends Subsystem {
             boolean isGoingDown = percent < 0;
             //When the elevator is going down
             if (isGoingDown) {
-                percent *= 0.75; //set to 75% of actual input when going down
                 //Also, if we are in the extra slow zone, multiply by reduction ratio
                 if (getHeightOffGround() < RobotMap.kElevatorSlowZone) {
                     percent *= Math.abs(getHeightOffGround() / RobotMap.kElevatorSlowZone);
@@ -186,7 +188,7 @@ public class Elevator extends Subsystem {
                 // Elevator is at almost constant velocity.
                 mPeriodicIO.active_trajectory_accel_g = 0.0;
             }else{
-                if(newVel > mPeriodicIO.active_trajectory_velocity) { //TODO: check if velocities are negative in MP
+                if(newVel > mPeriodicIO.active_trajectory_velocity) {
                     //elevator is accelerating upward
                     mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
                             (RobotMap.kElevatorTicksPerInch * 386.09);

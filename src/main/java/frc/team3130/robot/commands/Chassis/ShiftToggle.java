@@ -35,7 +35,6 @@ public class ShiftToggle extends Command {
     	//Execute the shift only once, and only at a certain time after the motors have been stopped
 
     	if(!hasShifted && timer.get() > RobotMap.kChassisShiftWait){
-    	    System.out.println("shifting");
             currentShift = Chassis.isLowGear();
 
     		Chassis.shift(!currentShift); //toggle the gear to what it isn't currently
