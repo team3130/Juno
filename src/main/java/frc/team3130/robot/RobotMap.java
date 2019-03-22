@@ -53,7 +53,7 @@ public class RobotMap {
 	//Wrist
 		//Manual
 		public static double kWristManualDeadband = 0.1;
-		public static double kWristManualMultipler = 0.7;
+		public static double kWristManualMultipler = 0.5;
 
 		public static double kWristHomingAngle = 91.0; //FIXME Checked 3/21
 

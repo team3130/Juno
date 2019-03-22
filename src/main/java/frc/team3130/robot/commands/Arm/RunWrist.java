@@ -24,7 +24,7 @@ public class RunWrist extends Command {
     protected void execute() {
         double stick = OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_LJOYSTICKY);
         if (Math.abs(stick) >= RobotMap.kWristManualDeadband ){
-            double moveSpeed = RobotMap.kWristManualMultipler * stick;
+            double moveSpeed = RobotMap.kWristManualMultipler * stick * Math.abs(stick);
             Arm.runWrist(moveSpeed);
             holdAngle = true;
         } else if (holdAngle){
