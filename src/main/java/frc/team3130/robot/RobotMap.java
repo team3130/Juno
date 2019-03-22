@@ -191,7 +191,6 @@ public class RobotMap {
 	 * Pneumatics ports
 	*/
 	public static final int PNM_SHIFT = 0;
-	public static final int PNM_ELEVATORSHIFT = 7;
 	public static final int PNM_TONGUEPISTON = 3;
 	public static final int PNM_CLIMBARMS = 1;
 
