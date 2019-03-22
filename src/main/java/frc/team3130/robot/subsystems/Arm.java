@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Arm.RunWrist;
-import frc.team3130.robot.commands.Arm.WristManual;
 import frc.team3130.robot.util.Epsilon;
 
 
@@ -80,7 +79,7 @@ public class Arm extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-        setDefaultCommand(new WristManual());
+        setDefaultCommand(new RunWrist());
     }
 
     /*
@@ -107,7 +106,7 @@ public class Arm extends Subsystem {
      * Gets the raw encoder position
      * @return the current raw encoder position
      */
-    public static int getPos(){
+    public static int getRawPosition(){
         return m_wrist.getSensorCollection().getQuadraturePosition();
     }
 
@@ -153,7 +152,7 @@ public class Arm extends Subsystem {
      * @param angle the angle to reset the wrist to in degrees
      */
     public static synchronized void zeroSensors(double angle){
-        //m_wrist.setSelectedSensorPosition((int) (angle * RobotMap.kWristTicksPerDeg));
+        m_wrist.setSelectedSensorPosition((int) (angle * RobotMap.kWristTicksPerDeg));
         zeroed = true;
     }
 
