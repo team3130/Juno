@@ -1,6 +1,7 @@
 package frc.team3130.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -34,6 +35,10 @@ public class Climber extends Subsystem {
 
         m_legDown.configVoltageCompSaturation(12.0, 0);
         m_legDown.enableVoltageCompensation(true);
+        m_legDown.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        m_legDown.config_kP(0, .1, 10);
+        m_legDown.config_kI(0, 0, 10);
+        m_legDown.config_kD(0, 0, 10);
 
         m_legDrive.configFactoryDefault();
     }
@@ -52,6 +57,10 @@ public class Climber extends Subsystem {
     public static void deployArms(boolean deploy)
     {
         pistons.set(deploy);
+    }
+
+    public static void holdLeg(){
+        m_legDown.set(ControlMode.Position, m_legDown.getSelectedSensorPosition());
     }
 }
 
