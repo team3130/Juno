@@ -182,7 +182,6 @@ public class RobotMap {
 	public static final int CAN_ARMWRIST = 7;
 
 	public static final int CAN_BALLMOTOR = 8;
-	public static final int CAN_HATCHMOTOR = 9;
 
 	public static final int CAN_ELEVATOR1 = 10;
 	public static final int CAN_ELEVATOR2 = 11;
@@ -195,7 +194,6 @@ public class RobotMap {
 	*/
 	public static final int PNM_SHIFT = 0;
 	public static final int PNM_ELEVATORSHIFT = 7;
-	public static final int PNM_INTAKEPISTON = 2;
 	public static final int PNM_TONGUEPISTON = 3;
 	public static final int PNM_CLIMBARMS = 1;
 
