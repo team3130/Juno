@@ -49,7 +49,7 @@ public class Arm extends Subsystem {
         //setNeutralMode for Talon
         m_wrist.setNeutralMode(NeutralMode.Brake);
 
-        m_wrist.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        m_wrist.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
         m_wrist.set(ControlMode.PercentOutput, 0);
 
@@ -165,8 +165,8 @@ public class Arm extends Subsystem {
         zeroed = isZeroed;
     }
 
-    public static boolean isFwdLimitClosed(){
-        return m_wrist.getSensorCollection().isFwdLimitSwitchClosed();
+    public static boolean isRevLimitClosed(){
+        return m_wrist.getSensorCollection().isRevLimitSwitchClosed();
     }
 
     public synchronized void readPeriodicInputs() {
@@ -273,7 +273,7 @@ public class Arm extends Subsystem {
 
         SmartDashboard.putNumber("Wrist Sensor Value", wristPeriodicIO.position_ticks);
 
-        SmartDashboard.putBoolean("Wrist Homing Switch", m_wrist.getSensorCollection().isFwdLimitSwitchClosed());
+        SmartDashboard.putBoolean("Wrist Homing Switch", m_wrist.getSensorCollection().isRevLimitSwitchClosed());
 
         SmartDashboard.putNumber("Wrist Output %", m_wrist.getMotorOutputPercent());
 
