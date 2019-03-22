@@ -11,6 +11,7 @@ import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.ArmsDown;
 import frc.team3130.robot.commands.Climber.LegDown;
 import frc.team3130.robot.commands.Climber.LegDrive;
+import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.RunPreset;
 import frc.team3130.robot.commands.Intake.BallIn;
@@ -149,6 +150,8 @@ public class OI {
 
         zeroWrist = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
 
+        testElevator = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
+
         /*
          * Weapons
          */
@@ -174,7 +177,7 @@ public class OI {
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         intakePickup.whenPressed(new WristToAngle(175.0));
-        intakeStowed.whenPressed(new WristToAngle(90.0));
+        intakeStowed.whenPressed(new WristToAngle(RobotMap.kWristHomingAngle));
 
         shift.whenPressed(new ShiftToggle());
 
@@ -182,7 +185,7 @@ public class OI {
 
         zeroWrist.whenActive(new ZeroArm());
 
-        //testElevator.whenPressed(new ElevatorTestPreference());
+        testElevator.whenPressed(new ElevatorTestPreference());
 
         //testArm.whenPressed(new TestArm());
 
