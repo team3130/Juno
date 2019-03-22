@@ -55,11 +55,11 @@ public class RobotMap {
 		public static double kWristManualDeadband = 0.1;
 		public static double kWristManualMultipler = 0.7;
 
-		public static double kWristHomingAngle = 102.5; //Checked 3/8
+		public static double kWristHomingAngle = 91.0; //FIXME Checked 3/21
 
-		public static double kWristP = 4.0; //FIXME Checked ---
-		public static double kWristI = 0.0; //FIXME Checked ---
-		public static double kWristD = 0.0; //FIXME Checked ---
+		public static double kWristP = 3.0; //Checked 3/21
+		public static double kWristI = 0.001; //Checked 3/21
+		public static double kWristD = 1.5; //Checked 3/21
 		public static double kWristF = 0.0; //Checked 2/17
 		public static int kWristMaxAcc = 1400; // 1024
 		public static int kWristMaxVel = 3400; // 1024
@@ -71,8 +71,6 @@ public class RobotMap {
 		public static double kWristFinishDeadband = 1.0;
 
 		public static double kWristZeroTimeout = 5.0;
-
-		public static double kWristBackwardMax = 89.0; //Checked 3/8 Wrist backward hardstop angle
 
 		public static double kWristKaWithBall = 0.008;
 		public static double kWristKaEmpty = 0.006;
@@ -88,7 +86,7 @@ public class RobotMap {
 			LowestTongue(23.0, 90.0),
 			MiddleTongue(61.0, 90.0),
 			HighestTongue(93.0, 90.0),
-			Station(19.75, 90.0), //FIXME
+			Station(19.5, 90.0), //Checked 3/21
 			LowestPort ( 20.0, 120.0),
 			MiddlePort (55.0, 120.0),
 			HighestPort (90.0,120.0),
@@ -127,24 +125,24 @@ public class RobotMap {
 		public static double kElevatorManualDeadband = 0.06;
 		public static double kElevatorManualMultipler = 0.8;
 
-		public static double kElevatorP = 0.3; //Checked 3/2
-		public static double kElevatorI = 0.0; //Checked 3/2
-		public static double kElevatorD = 0.5; //Checked 3/2
-		public static double kElevatorF = 0.14; //Checked 3/7
-		public static int kElevatorMaxAcc = 30000; //Checked 3/2
-		public static int kElevatorMaxVel = 34000; //Checked 3/2
+		public static double kElevatorP = 1.2; //Checked 3/21
+		public static double kElevatorI = 0.0; //Checked 3/21
+		public static double kElevatorD = 0.1; //Checked 3/21
+		public static double kElevatorF = 0.04; //Checked 3/21
+		public static int kElevatorMaxAcc = 1900; //Checked 3/21
+		public static int kElevatorMaxVel = 2300; //Checked 3/21
 
 		public static double kElevatorFinishDeadband = 1.0;
 
-		public static double kElevatorFFEmpty = 0.14; //Checked 3/7
-		public static double kElevatorFFWithHatch = 0.19; //Checked 3/7
-		public static double kElevatorFFWithBall = 0.17; //Checked 3/7
+		public static double kElevatorFFEmpty = 0.04; //Checked 3/21
+		public static double kElevatorFFWithHatch = 0.09; //Checked 3/21
+		public static double kElevatorFFWithBall = 0.07; //Checked 3/21
 
 		public static double kElevatorHeightEpsilon = 6.0; //Checked 2/17 min height is 1 inch off ground
-		public static double kElevatorHomingHeight = 8.5; //Checked 3/7 height of elevator off ground when at home position
-		public static double kElevatorMaxHeight = 94.5; //Checked 3/8
+		public static double kElevatorHomingHeight = 7.5; //Checked 3/21 height of elevator off ground when at home position
+		public static double kElevatorMaxHeight = 60.1; //FIXME Checked 3/21
 
-		public static double kElevatorTicksPerInch = (4096.0 * 3.0) / (2.0*Math.PI * 0.625)* 40.0 / 18.0 * 22.0 / 16.0; //Updated 2/24 || 4096 ticks per revolution of encoder shaft which runs 3 times faster than the output shaft
+		public static double kElevatorTicksPerInch =  (4096.0)/ (2.0*Math.PI * 0.66); //Updated 3/21 || 4096 ticks per revolution of output shaft
 
 	//Limelight
 	public static double kLimelightTiltAngle = -30.0; //Checked 2/19
@@ -234,12 +232,6 @@ public class RobotMap {
 	public static final int LST_AXS_RTRIGGER = 3;
 	public static final int LST_AXS_RJOYSTICKX = 4;
 	public static final int LST_AXS_RJOYSTICKY = 5;
-
-	/**
-	 * Wrist Button names
-	 */
-
-	 public static final int AXS_WRIST = LST_AXS_LJOYSTICKY;
 
 	/**
 	 * Climber Button names

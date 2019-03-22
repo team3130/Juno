@@ -66,7 +66,7 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 
         m_elevatorMaster.overrideLimitSwitchesEnable(true);
-        m_elevatorMaster.overrideSoftLimitsEnable(false);
+        m_elevatorMaster.overrideSoftLimitsEnable(true);
 
         m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
         m_elevatorMaster.enableVoltageCompensation(true);
@@ -79,7 +79,7 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
         m_elevatorMaster.configForwardSoftLimitEnable(true);
-        m_elevatorMaster.configForwardSoftLimitThreshold(Preferences.getInstance().getInt("Elevator Softlimit", 65535));
+        m_elevatorMaster.configForwardSoftLimitThreshold(52000);
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_ELEVATORSHIFT);
         m_shifter.set(false); //false should be high gear or normal running mode
