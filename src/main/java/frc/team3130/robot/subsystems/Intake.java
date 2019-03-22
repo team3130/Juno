@@ -48,7 +48,6 @@ public class Intake extends Subsystem {
 
         m_ballMotor.setNeutralMode(NeutralMode.Brake);
 
-
         tongue = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_TONGUEPISTON);
 
         m_ballMotor.setInverted(true);
@@ -67,7 +66,7 @@ public class Intake extends Subsystem {
 
     public static synchronized boolean getTongue() { return tongue.get();}
 
-    public static synchronized void extendTongue() { tongue.set(false);}
+    public static synchronized void extendTongue() { tongue.set(true);}
 
-    public static synchronized void retractTongue() {tongue.set(true);}
+    public static synchronized void retractTongue() {tongue.set(false);}
 }
