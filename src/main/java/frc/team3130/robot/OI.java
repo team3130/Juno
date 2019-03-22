@@ -155,7 +155,7 @@ public class OI {
         /*
          * Weapons
          */
-        lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
+        //lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
         toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_RJOYSTICKPRESS);
 
         highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);

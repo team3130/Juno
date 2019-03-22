@@ -35,10 +35,10 @@ public class Climber extends Subsystem {
 
         m_legDown.configVoltageCompSaturation(12.0, 0);
         m_legDown.enableVoltageCompensation(true);
-        m_legDown.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        /*m_legDown.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
         m_legDown.config_kP(0, .1, 10);
         m_legDown.config_kI(0, 0, 10);
-        m_legDown.config_kD(0, 0, 10);
+        m_legDown.config_kD(0, 0, 10);*/
 
         m_legDrive.configFactoryDefault();
     }
@@ -60,7 +60,7 @@ public class Climber extends Subsystem {
     }
 
     public static void holdLeg(){
-        m_legDown.set(ControlMode.Position, m_legDown.getSelectedSensorPosition());
+        //m_legDown.set(ControlMode.Position, m_legDown.getSelectedSensorPosition());
     }
 }
 
