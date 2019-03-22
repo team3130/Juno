@@ -30,6 +30,21 @@ public class Matrix {
     }
 
     public Matrix multiply(Matrix other) {
+        if (other.nRows == 1) { // Other is just a vector
+            if (this.nCols != other.nCols) {
+                throw new IllegalArgumentException("A:nCols: " + this.nCols + " did not match B-vector size " + other.nCols + ".");
+            }
+            Matrix C = new Matrix(1, this.nRows);
+            for (int i = 0; i < this.nRows; i++) {
+                Double sum = 0.0;
+                for (int k = 0; k < this.nCols; k++) {
+                    sum += this.body[i][k] * other.body[0][k];
+                }
+                C.body[0][i] = sum;
+            }
+            return C;
+        }
+
         if (this.nCols != other.nRows) {
             throw new IllegalArgumentException("A:nCols: " + this.nCols + " did not match B:nRows " + other.nRows + ".");
         }
@@ -55,9 +70,19 @@ public class Matrix {
         Matrix matrixB = new Matrix(B);
         Matrix result = matrixA.multiply(matrixB);
 
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++)
+        for (int i = 0; i < result.nRows; i++) {
+            for (int j = 0; j < result.nCols; j++)
                 System.out.print(result.get(i, j) + " ");
+            System.out.println();
+        }
+
+        Double[][] V = {{1.0, 2.0}};
+        Matrix matrixV = new Matrix(V);
+        System.out.format("Rows %d, Cols %d%n", matrixV.nRows, matrixV.nCols);
+        Matrix result1 = matrixA.multiply(matrixV);
+        for (int i = 0; i < result1.nRows; i++) {
+            for (int j = 0; j < result1.nCols; j++)
+                System.out.print(result1.get(i, j) + " ");
             System.out.println();
         }
     }
