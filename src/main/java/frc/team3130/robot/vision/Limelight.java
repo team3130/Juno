@@ -5,6 +5,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
+import frc.team3130.robot.util.Matrix;
 
 
 public class Limelight {
@@ -28,6 +29,7 @@ public class Limelight {
     private static double y_targetOffsetAngle = 0.0;
     private static double area = 0.0;
     private static double skew = 0.0;
+    private static Matrix R;
 
     public Limelight() {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -36,6 +38,7 @@ public class Limelight {
         ty = table.getEntry("ty");
         ta = table.getEntry("ta");
         ts = table.getEntry("ts");
+        R = Matrix.Rodrigues(new Matrix(Math.toRadians(kLimelightTiltAngle), 0, 0));
     }
 
 
@@ -54,6 +57,23 @@ public class Limelight {
             area = 0.0;
             skew = 0.0;
         }
+    }
+
+    public static Matrix getTargetVector(boolean isHatch) {
+        if(area == 0.0) return null;
+        Matrix t = new Matrix(
+                Math.tan(x_targetOffsetAngle),
+                Math.tan(y_targetOffsetAngle),
+                1
+        );
+        double hTarget;
+        if(isHatch){
+            hTarget = RobotMap.HATCHVISIONTARGET;
+        }else{
+            hTarget = RobotMap.PORTVISIONTARGET;
+        }
+        Matrix e = R.multiply(t);
+        return e.multiply(hTarget/e.get(0, 1)).add(new Matrix(0.0, -hTarget, 0.0));
     }
 
     public static double getTargetRotationTan() {

@@ -8,11 +8,14 @@ import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.tantanDrive.CubicPath;
 import frc.team3130.robot.subsystems.Chassis;
+import frc.team3130.robot.util.Matrix;
 import frc.team3130.robot.vision.Limelight;
 
 public class AimAssist extends Command {
     private BufferedTrajectoryPointStream pointStreamLeft = new BufferedTrajectoryPointStream();
     private BufferedTrajectoryPointStream pointStreamRight = new BufferedTrajectoryPointStream();
+    private boolean isStreamReady = false;
+    private boolean isRunning = false;
 
     public AimAssist() {
         requires(Chassis.GetInstance());
@@ -22,17 +25,32 @@ public class AimAssist extends Command {
     @Override
     protected void initialize()
     {
+        isRunning = false;
+        isStreamReady = false;
+        new Thread(() -> { isStreamReady = calculate(); }).start();
+    }
+
+    private boolean calculate()
+    {
         double maxAcceleration = 30 * RobotMap.kAccelerationToEncoder;
         double cruiseVelocity = 100 * RobotMap.kVelocityToEncoder;
 
         Limelight.updateData();
+        Matrix target = Limelight.getTargetVector(true);
+        while (target == null) {
+            try { Thread.sleep(9); }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
         double goSlope = Limelight.getTargetRotationTan();
         double rotation = Math.atan(goSlope);
-        double goStraight = Limelight.getDistanceToTarget(true);
+        double goStraight = -target.get(0, 1);
         goStraight -= (RobotMap.kLimelightBumper+RobotMap.kLimelightForward) * Math.cos(rotation);
         goStraight += RobotMap.kLimelightForward;
-        double angularOffset = -Math.toRadians(Limelight.getDegHorizontalOffset());
-        double goLeft = Math.tan(angularOffset) * goStraight;
+        double goLeft = -target.get(0, 0);
         goLeft -= (RobotMap.kLimelightBumper+RobotMap.kLimelightForward) * Math.sin(rotation);
         goLeft -= RobotMap.kLimelightOffset;
 
@@ -40,7 +58,7 @@ public class AimAssist extends Command {
                 goStraight, goLeft, goSlope);
 
         // Basic sanity check
-        if(goStraight <= 0 || goStraight >= 144 || goLeft <= -144 || goLeft >= 144) return;
+        if(goStraight <= 0 || goStraight >= 144 || goLeft <= -144 || goLeft >= 144) return false;
 
         /* Convert distances from inches to encoder units */
         goStraight *= RobotMap.kDistanceToEncoder;
@@ -82,25 +100,33 @@ public class AimAssist extends Command {
             point.timeDur = 10;
             pointStreamRight.Write(point);
         }
-
-        /* Start motion profiles */
-        Chassis.getFrontL().startMotionProfile(pointStreamLeft, 5, ControlMode.MotionProfile);
-        Chassis.getFrontR().startMotionProfile(pointStreamRight, 5, ControlMode.MotionProfile);
+        return true;
     }
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute()
     {
+        if (!isRunning) {
+            if (isStreamReady) {
+                isRunning = true;
+                /* Start motion profiles */
+                Chassis.getFrontL().startMotionProfile(pointStreamLeft, 5, ControlMode.MotionProfile);
+                Chassis.getFrontR().startMotionProfile(pointStreamRight, 5, ControlMode.MotionProfile);
+            }
+        }
         //Chassis.printVelocity();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        return Chassis.getFrontL().isMotionProfileFinished() &&
-                Chassis.getFrontR().isMotionProfileFinished() &&
-                !OI.startAiming.get();
+        if (!OI.startAiming.get()) return true;
+        if (isRunning) {
+            return Chassis.getFrontL().isMotionProfileFinished() &&
+                    Chassis.getFrontR().isMotionProfileFinished();
+        }
+        return false;
     }
 
     // Called once after isFinished returns true
