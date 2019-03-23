@@ -239,17 +239,13 @@ public class MotionProfileController {
 
     private void startFilling(double[][] profile, int totalCnt) {
 
-        /* create an empty point */
+        // create an empty point
         TrajectoryPoint point = new TrajectoryPoint();
 
-        /* did we get an underrun condition since last time we checked ? */
+        // did we get an underrun condition since last time we checked?
         if (_status.hasUnderrun) {
-            /* better log it so we know about it */
             Instrumentation.OnUnderrun();
-            /*
-             * clear the error. This flag does not auto clear, this way
-             * we never miss logging it.
-             */
+            //clear the error. This flag does not auto clear, logging already handles this
             _talon.clearMotionProfileHasUnderrun(0);
         }
         // clear MP buffer in case there are old points

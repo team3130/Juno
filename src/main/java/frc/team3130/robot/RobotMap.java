@@ -29,14 +29,16 @@ public class RobotMap {
 
 		//Motion Profiling
 		public static double kChassisMinPointsInBuffer = 5;
-		public static double kChassisMPOutputDeadband = 0.1;
+		public static double kChassisMPOutputDeadband = 0.01;
+		public static int kChassisMPDefaultFireRate = 20;
 
 		public static double kMPChassisP = 0.75;
 		public static double kMPChassisI = 0.0;
 		public static double kMPChassisD = 0.0;
 		public static double kMPChassisF = 1023.0 / 7200.0;
 
-
+		public static double kMPMaxVel = 115.0; //maximum achievable velocity of the drivetrain in in/s NOTE: the actual motion profile should be generated at 80% of this
+		public static double kMPMaxAcc = 30.0; ///maximum achievable acceleration of the drivetrain in in/s^2 NOTE: the actual motion profile should be generated at 80% of this
 
 		public static double kDriveCodesPerRev = 4096;
 		public static double kDistanceToEncoder = kDriveCodesPerRev / (Math.PI * 0.5*(kLWheelDiameter+kRWheelDiameter));

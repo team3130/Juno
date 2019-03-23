@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Chassis.DefaultDrive;
 import frc.team3130.robot.sensors.Navx;
+import frc.team3130.robot.tantanDrive.MotionProfileController;
 import frc.team3130.robot.util.PIDCustom;
 import frc.team3130.robot.util.Util;
 
@@ -34,6 +35,9 @@ public class Chassis extends Subsystem {
     private static Solenoid m_shifter;
 
     private static PIDCustom ChassisPID;
+
+    private static MotionProfileController mLeftMPController;
+    private static MotionProfileController mRightMPController;
 
     //Create and define all standard data types needed
 
@@ -80,6 +84,10 @@ public class Chassis extends Subsystem {
 
         m_leftMotorFront.overrideLimitSwitchesEnable(false);
         m_rightMotorFront.overrideLimitSwitchesEnable(false);
+
+        //Configure the motion profile controllers
+        mLeftMPController = new MotionProfileController(m_leftMotorFront, RobotMap.kChassisMPDefaultFireRate, true);
+        mRightMPController = new MotionProfileController(m_rightMotorFront, RobotMap.kChassisMPDefaultFireRate, false);
     }
 
     public void initDefaultCommand() {
@@ -185,6 +193,10 @@ public class Chassis extends Subsystem {
         }
     }
 
+    public synchronized void writePeriodicOutputs() {
+        mLeftMPController.control();
+        mRightMPController.control();
+    }
     /**
      *
      * @param duration fire rate of the motion profile in ms
