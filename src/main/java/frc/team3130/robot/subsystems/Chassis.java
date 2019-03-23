@@ -36,8 +36,8 @@ public class Chassis extends Subsystem {
 
     private static PIDCustom ChassisPID;
 
-    private static MotionProfileController mLeftMPController;
-    private static MotionProfileController mRightMPController;
+    public static MotionProfileController mLeftMPController;
+    public static MotionProfileController mRightMPController;
 
     //Create and define all standard data types needed
 
