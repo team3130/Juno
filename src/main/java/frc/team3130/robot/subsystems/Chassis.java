@@ -1,5 +1,6 @@
 package frc.team3130.robot.subsystems;
 
+import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -36,12 +37,13 @@ public class Chassis extends Subsystem {
 
     private static PIDCustom ChassisPID;
 
-    private static MotionProfileController mLeftMPController;
-    private static MotionProfileController mRightMPController;
+    public static MotionProfileController mLeftMPController;
+    public static MotionProfileController mRightMPController;
+
+    private static ChassisControlState mChassisState = ChassisControlState.PERCENT_OUTPUT;
 
     //Create and define all standard data types needed
 
-    public static double maxAccel = 0.0;
 
     private Chassis() {
 
@@ -106,6 +108,7 @@ public class Chassis extends Subsystem {
             moveL = Math.copySign(moveL * moveL, moveL);
             moveR = Math.copySign(moveR * moveR, moveR);
         }
+
 
         m_leftMotorFront.set(ControlMode.PercentOutput, moveL);
         m_rightMotorFront.set(ControlMode.PercentOutput, moveR);
@@ -194,8 +197,29 @@ public class Chassis extends Subsystem {
     }
 
     public synchronized void writePeriodicOutputs() {
+        if(mChassisState == ChassisControlState.MOTION_PROFILE){
+            SetValueMotionProfile leftOutput = mLeftMPController.getSetValue();
+            m_leftMotorFront.set(ControlMode.MotionProfile, leftOutput.value);
+            SetValueMotionProfile rightOutput = mRightMPController.getSetValue();
+            m_rightMotorFront.set(ControlMode.MotionProfile, rightOutput.value);
+        }
+
         mLeftMPController.control();
         mRightMPController.control();
+    }
+
+    public synchronized void setControlState(int state){
+        if(state == 0){
+            mChassisState = ChassisControlState.MOTION_PROFILE;
+        }else{
+            mChassisState = ChassisControlState.PERCENT_OUTPUT;
+        }
+
+    }
+
+    public static void reset(){
+        m_leftMotorFront.setSelectedSensorPosition(0);
+        m_rightMotorFront.setSelectedSensorPosition(0);
     }
     /**
      *
@@ -364,5 +388,11 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Chassis Left Output %", m_leftMotorFront.getMotorOutputPercent());
 
     }
+
+    private enum ChassisControlState{
+        PERCENT_OUTPUT,
+        MOTION_PROFILE
+    }
+
 
 }

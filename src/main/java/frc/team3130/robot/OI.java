@@ -17,6 +17,8 @@ import frc.team3130.robot.commands.Groups.RunPreset;
 import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
 import frc.team3130.robot.commands.Intake.TongueToggle;
+import frc.team3130.robot.tantanDrive.Paths.PathStore;
+import frc.team3130.robot.tantanDrive.RunMotionProfile;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -82,7 +84,7 @@ public class OI {
     public static POVTrigger zeroWrist;
 
     public static JoystickButton testArm;
-    public static JoystickButton testElevator;
+    public static JoystickButton testButton;
 
     public static JoystickButton toggleTongue;
 
@@ -148,7 +150,7 @@ public class OI {
 
         zeroWrist = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
 
-        testElevator = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
+        testButton = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
 
         /*
          * Weapons
@@ -173,7 +175,7 @@ public class OI {
         //Map the button to command
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
-        intakePickup.whenPressed(new WristToAngle(175.0));
+        intakePickup.whenPressed(new RunPreset(RobotMap.Presets.Pickup));
         intakeStowed.whenPressed(new WristToAngle(RobotMap.kWristHomingAngle));
 
         shift.whenPressed(new ShiftToggle());
@@ -182,7 +184,7 @@ public class OI {
 
         zeroWrist.whenActive(new ZeroArm());
 
-        testElevator.whenPressed(new ElevatorTestPreference());
+        testButton.whenPressed(new RunMotionProfile(PathStore.Paths.RightCargoF));
 
         //testArm.whenPressed(new TestArm());
 
@@ -220,7 +222,7 @@ public class OI {
     public static JoystickButton deployClimber;
     public static JoystickButton toggleClimber2;
 
-    public static JoystickButton testElevator;
+    public static JoystickButton testButton;
 
 
 
@@ -240,7 +242,7 @@ public class OI {
         deployClimber = new JoystickButton(stickL, 4);
         toggleClimber2 = new JoystickButton(stickL, 7);
 
-        testElevator = new JoystickButton(stickR, 2);
+        testButton = new JoystickButton(stickR, 2);
 
 
 
@@ -256,7 +258,7 @@ public class OI {
 
         deployClimber.whenPressed(new DeployClimber());
 
-        testElevator.whileHeld(new TestElevator());
+        testButton.whileHeld(new TestElevator());
 
 
     }

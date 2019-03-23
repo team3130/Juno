@@ -21,6 +21,7 @@ public class RobotMap {
 
 	//Chassis
 		public static double kChassisWidth = 23.5; //Checked 2/12 Distance between the left and right middle wheels
+		public static double kChassisLengthBumpers = 39.0; //Checked 3/23
 		public static double kLWheelDiameter = 6.0; //Center wheel
 		public static double kRWheelDiameter = 6.0; //Center wheel
 
@@ -32,13 +33,13 @@ public class RobotMap {
 		public static double kChassisMPOutputDeadband = 0.01;
 		public static int kChassisMPDefaultFireRate = 20;
 
-		public static double kMPChassisP = 0.75;
-		public static double kMPChassisI = 0.0;
-		public static double kMPChassisD = 0.0;
-		public static double kMPChassisF = 1023.0 / 7200.0;
+		public static double kMPChassisP = 3.0; //TODO
+		public static double kMPChassisI = 0.0; //TODO
+		public static double kMPChassisD = 0.0; //TODO
+		public static double kMPChassisF = 1.0 / 24980.0; //TODO
 
 		public static double kMPMaxVel = 115.0; //maximum achievable velocity of the drivetrain in in/s NOTE: the actual motion profile should be generated at 80% of this
-		public static double kMPMaxAcc = 30.0; ///maximum achievable acceleration of the drivetrain in in/s^2 NOTE: the actual motion profile should be generated at 80% of this
+		public static double kMPMaxAcc = 60.0; ///maximum achievable acceleration of the drivetrain in in/s^2 NOTE: the actual motion profile should be generated at 80% of this
 
 		public static double kDriveCodesPerRev = 4096;
 		public static double kDistanceToEncoder = kDriveCodesPerRev / (Math.PI * 0.5*(kLWheelDiameter+kRWheelDiameter));
@@ -104,7 +105,8 @@ public class RobotMap {
 			LowestPort ( 18.0, 120.0), //Checked 3/21
 			MiddlePort (42.2, 120.0),//Checked 3/22
 			HighestPort (90.0,120.0),//TODO test when elevator can go all the way up
-			Cargoship(40.6, 190.0); //checked 3/22
+			Cargoship(40.6, 190.0), //checked 3/22
+			Pickup(17.5, 205.0);
 
 			private double height;
 			private double angle;

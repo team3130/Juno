@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Notifier;
 import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
+import frc.team3130.robot.tantanDrive.Paths.Path;
+import frc.team3130.robot.tantanDrive.Paths.RightCargoF_left;
 import frc.team3130.robot.util.Instrumentation;
 
 public class MotionProfileController {
@@ -56,7 +58,7 @@ public class MotionProfileController {
      */
     private static final int kNumLoopsTimeout = 10;
 
-    private static double[][] profile;
+    private static Path profile;
 
     private static int totalCnt;
 
@@ -102,13 +104,14 @@ public class MotionProfileController {
      */
     public MotionProfileController(WPI_TalonSRX talon, int fireRate, boolean isLeft) {
         _talon = talon;
+
+        //is this the left side?
+        this.isLeft = isLeft;
+
         // Set control framerate to half of MP fire rate
         _talon.changeMotionControlFramePeriod(fireRate / 2);
         double nf = (double)(fireRate/2) * 0.001;
         _notifer.startPeriodic(nf);
-
-        //is this the left side?
-        this.isLeft = isLeft;
     }
 
     /**
@@ -215,7 +218,6 @@ public class MotionProfileController {
             }
 
             /* Get the motion profile status every loop */
-            _talon.getMotionProfileStatus(_status);
             _heading = 0.0; //TODO: depreciated
             _pos = _talon.getActiveTrajectoryPosition();
             _vel = _talon.getActiveTrajectoryVelocity();
@@ -228,13 +230,13 @@ public class MotionProfileController {
     /** Start filling the MPs to the talon. */
     private void startFilling() {
         if(totalCnt != 0) {
-            startFilling(profile, totalCnt);
+            startFilling(profile.Points, totalCnt);
         }
     }
 
-    public void setProfile(double[][] profile, int totalCnt){
+    public void setProfile(Path profile){
         this.profile = profile;
-        this.totalCnt = totalCnt;
+        this.totalCnt = profile.kNumPoints;
     }
 
     private void startFilling(double[][] profile, int totalCnt) {
@@ -258,12 +260,12 @@ public class MotionProfileController {
         double ticksPerInch = isLeft ? RobotMap.kLChassisTicksPerInch : RobotMap.kRChassisTicksPerInch;
         for (int i = 0; i < totalCnt; ++i) {
             double positionInches = profile[i][0];
-            double velocityRPM = profile[i][1];
+            double velocityInches = profile[i][1];
             // for each point, fill our structure and pass it to API
             point.position = positionInches * ticksPerInch; //Convert inch distance to encoder ticks
-            point.velocity = velocityRPM * 4096 / 10.0; //Convert RPM to Units/100ms
+            point.velocity = velocityInches * ticksPerInch / 10.0; //Convert inches/s to Units/100ms
             point.headingDeg = 0; //not used
-            point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
+            point.profileSlotSelect0 = 0; // which set of gains would you like to use [0,3]?
             point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
             point.timeDur = (int)profile[i][2];
             point.zeroPos = false;

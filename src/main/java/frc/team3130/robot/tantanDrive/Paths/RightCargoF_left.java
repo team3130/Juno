@@ -1,6 +1,6 @@
 package frc.team3130.robot.tantanDrive.Paths;
 
-public class RightCargoF_left {
+public class RightCargoF_left  {
 
 public static double [][]Points = new double[][]{
 {0.000198, 0.019802, 20},
