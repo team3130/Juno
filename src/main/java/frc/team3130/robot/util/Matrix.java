@@ -1,16 +1,16 @@
 package frc.team3130.robot.util;
 
 public class Matrix {
-    Double[][] body;
+    double[][] body;
     int nRows, nCols;
 
     public Matrix(int nRows, int nCols) {
         this.nRows = nRows;
         this.nCols = nCols;
-        this.body = new Double[nRows][nCols];
+        this.body = new double[nRows][nCols];
     }
 
-    public Matrix(Double[][] values) {
+    public Matrix(double[][] values) {
         this.nRows = values.length;
         this.nCols = values[0].length;
         for (int i = 0; i < this.nRows; ++i) {
@@ -21,15 +21,21 @@ public class Matrix {
         this.body = values;
     }
 
-    public Double get(int i, int j) {
+    public Matrix(double x, double y, double z) {
+        this.nRows = 1;
+        this.nCols = 3;
+        this.body = new double[][]{{x, y, z}};
+    }
+
+    public double get(int i, int j) {
         return this.body[i][j];
     }
 
-    public void put(int i, int j, Double a) {
+    public void put(int i, int j, double a) {
         this.body[i][j] = a;
     }
 
-    public Matrix multiply(Double m) {
+    public Matrix multiply(double m) {
         Matrix result = new Matrix(this.nRows, this.nCols);
         for (int i = 0; i < this.nRows; i++) {
             for (int j = 0; j < this.nCols; j++) {
@@ -46,7 +52,7 @@ public class Matrix {
             }
             Matrix C = new Matrix(1, this.nRows);
             for (int i = 0; i < this.nRows; i++) {
-                Double sum = 0.0;
+                double sum = 0.0;
                 for (int k = 0; k < this.nCols; k++) {
                     sum += this.body[i][k] * other.body[0][k];
                 }
@@ -61,7 +67,7 @@ public class Matrix {
         Matrix C = new Matrix(this.nRows, other.nCols);
         for (int i = 0; i < this.nRows; i++) { // aRow
             for (int j = 0; j < other.nCols; j++) { // bColumn
-                Double sum = 0.0;
+                double sum = 0.0;
                 for (int k = 0; k < this.nCols; k++) { // aColumn
                     sum += this.body[i][k] * other.body[k][j];
                 }
@@ -81,8 +87,8 @@ public class Matrix {
         return sum;
     }
 
-    public Double norm() {
-        Double sum = 0.0;
+    public double norm() {
+        double sum = 0.0;
         for (int i = 0; i < this.nRows; i++) {
             for (int j = 0; j < this.nCols; j++) {
                 sum += this.body[i][j] * this.body[i][j];
@@ -105,8 +111,8 @@ public class Matrix {
         if (rvec.nRows != 1 || rvec.nCols != 3) {
             throw new IllegalArgumentException("Rotattion vector must be 3-dimentional but nRows = " + rvec.nRows + ", nCols = " + rvec.nCols);
         }
-        Double theta = rvec.norm();
-        if (theta.equals(0.0)) return Identity(3);
+        double theta = rvec.norm();
+        if (theta == 0.0) return Identity(3);
 
         Matrix k = rvec.multiply(1/theta);
         Matrix K = new Matrix(3,3);
@@ -129,8 +135,8 @@ public class Matrix {
 
     // This main() is just a unit test. Should print out an identity matrix.
     public static void main(String[] args) {
-        Double[][] k = {{3.1416/6, 3.1416/18, 0.0}};
-        Double[][] t = {{0.0, 0.0, -1.0}};
+        double[][] k = {{3.1416/6, 3.1416/18, 0.0}};
+        double[][] t = {{0.0, 0.0, -1.0}};
         Matrix R = Matrix.Rodrigues(new Matrix(k));
         Matrix e = R.multiply(new Matrix(t));
 
