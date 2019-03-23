@@ -1,22 +1,4 @@
 package frc.team3130.robot.tantanDrive;
-/**
- * The only routines we call on Talon are....
- *
- * changeMotionControlFramePeriod
- *
- * getMotionProfileStatus
- * clearMotionProfileHasUnderrun     to get status and potentially clear the error flag.
- *
- * pushMotionProfileTrajectory
- * clearMotionProfileTrajectories
- * processMotionProfileBuffer        to push/clear, and process the trajectory points.
- *
- * getControlMode                    to check if we are in Motion Profile Control mode.
- *
- * Example of advanced features not demonstrated here...
- * [1] Calling pushMotionProfileTrajectory() continuously while the Talon executes the motion profile, thereby keeping it going indefinitely.
- * [2] Instead of setting the sensor position to zero at the start of each MP, the program could offset the MP's position based on current position.
- */
 
 
 import com.ctre.phoenix.motion.MotionProfileStatus;
@@ -25,6 +7,7 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Notifier;
+import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.util.Instrumentation;
 
@@ -40,11 +23,7 @@ public class MotionProfile {
     /** cache for holding the active trajectory point */
     double _pos=0,_vel=0,_heading=0;
 
-    /**
-     * reference to the talon we plan on manipulating. We will not changeMode()
-     * or call set(), just get motion profile status and make decisions based on
-     * motion profile.
-     */
+
     private WPI_TalonSRX _talon;
     /**
      * State machine to make sure we let enough of the motion profile stream to
@@ -67,16 +46,10 @@ public class MotionProfile {
     private boolean _bStart = false;
 
     /**
-     * Since the CANTalon.set() routine is mode specific, deduce what we want
-     * the set value to be and let the calling module apply it whenever we
-     * decide to switch to MP mode.
+     * Motion Profiling control mode handle
      */
     private SetValueMotionProfile _setValue = SetValueMotionProfile.Disable;
-    /**
-     * How many trajectory points do we wait for before firing the motion
-     * profile.
-     */
-    private static final int kMinPointsInTalon = 5;
+
     /**
      * Just a state timeout to make sure we don't get stuck anywhere. Each loop
      * is about 20ms.
@@ -87,15 +60,34 @@ public class MotionProfile {
 
     private static int totalCnt;
 
+    private static boolean isLeft;
+
+    /*
+     * The only routines we call on Talon are....
+     *
+     * changeMotionControlFramePeriod
+     *
+     * getMotionProfileStatus
+     * clearMotionProfileHasUnderrun     to get status and potentially clear the error flag.
+     *
+     * pushMotionProfileTrajectory
+     * clearMotionProfileTrajectories
+     * processMotionProfileBuffer        to push/clear, and process the trajectory points.
+     *
+     * getControlMode                    to check if we are in Motion Profile Control mode.
+     *
+     * Example of advanced features not demonstrated here...
+     * [1] Calling pushMotionProfileTrajectory() continuously while the Talon executes the motion profile, thereby keeping it going indefinitely.
+     * [2] Instead of setting the sensor position to zero at the start of each MP, the program could offset the MP's position based on current position.
+     */
 
     /**
-     * Lets create a periodic task to funnel our trajectory points into our talon.
-     * It doesn't need to be very accurate, just needs to keep pace with the motion
-     * profiler executer.  Now if you're trajectory points are slow, there is no need
-     * to do this, just call _talon.processMotionProfileBuffer() in your teleop loop.
-     * Generally speaking you want to call it at least twice as fast as the duration
-     * of your trajectory points.  So if they are firing every 20ms, you should call
-     * every 10ms.
+     * Periodic runnable to push points to MP buffer
+     *
+     * Needs to keep pace with the motion profiler executer.
+     * Thus called at twice as fast as the duration of trajectory points to keep up.
+     *
+     * If they are firing every 20ms, runnable should call every 10ms.
      */
     class PeriodicRunnable implements Runnable {
         public void run() {  _talon.processMotionProfileBuffer();    }
@@ -105,15 +97,18 @@ public class MotionProfile {
 
     /**
      *
-     * @param talon talon to use
+     * @param talon the talon to use
      * @param fireRate firing rate of the Motion Profile in ms
      */
-    public MotionProfile(WPI_TalonSRX talon, int fireRate) {
+    public MotionProfile(WPI_TalonSRX talon, int fireRate, boolean isLeft) {
         _talon = talon;
         // Set control framerate to half of MP fire rate
         _talon.changeMotionControlFramePeriod(fireRate / 2);
         double nf = (double)(fireRate/2) * 0.001;
         _notifer.startPeriodic(nf);
+
+        //is this the left side?
+        this.isLeft = isLeft;
     }
 
     /**
@@ -122,36 +117,34 @@ public class MotionProfile {
      */
     public void reset() {
         _talon.clearMotionProfileTrajectories();
-        /* When we do re-enter motionProfile control mode, stay disabled. */
-        _setValue = SetValueMotionProfile.Disable;
-        /* When we do start running our state machine start at the beginning. */
-        _state = 0;
-        _loopTimeout = -1;
-        // If application wanted to start an MP before, ignore and wait for next button press
 
+        //When we do re-enter motionProfile control mode, stay disabled.
+        _setValue = SetValueMotionProfile.Disable;
+
+        //Reset state machine to preMP state
+        _state = 0;
+
+        _loopTimeout = -1;
+
+        // Reset start bool
         _bStart = false;
     }
 
     //TODO: remove instrumentation once done
     /**
-     * Called every loop.
+     * Controller loop to determine setpoint status and handle the MP functionality
      */
     public void control() {
-        /* Get the motion profile status every loop */
+        // Get the motion profile status every loop
         _talon.getMotionProfileStatus(_status);
 
-        /*
-         * track time, this is rudimentary but that's okay
-         */
+        //time tracking
         if (_loopTimeout < 0) {
             /* do nothing, timeout is disabled */
         } else {
-            /* our timeout is nonzero */
+            // Timeout is nonzero
             if (_loopTimeout == 0) {
-                /*
-                 * something is wrong. Talon is not present, unplugged, breaker
-                 * tripped
-                 */
+                //something is wrong. Talon is not present, unplugged, breaker tripped
                 Instrumentation.OnNoProgress();
             } else {
                 --_loopTimeout;
@@ -187,7 +180,7 @@ public class MotionProfile {
                  * points
                  */
                     /* do we have a minimum numberof points in Talon */
-                    if (_status.btmBufferCnt > kMinPointsInTalon) {
+                    if (_status.btmBufferCnt > RobotMap.kChassisMinPointsInBuffer) {
                         /* start (once) the motion profile */
                         _setValue = SetValueMotionProfile.Enable;
                         /* MP will start once the control frame gets scheduled */
@@ -232,9 +225,8 @@ public class MotionProfile {
         }
     }
 
-    /** Start filling the MPs to all of the involved Talons. */
+    /** Start filling the MPs to the talon. */
     private void startFilling() {
-        /* since this example only has one talon, just update that one */
         if(totalCnt != 0) {
             startFilling(profile, totalCnt);
         }
@@ -260,24 +252,21 @@ public class MotionProfile {
              */
             _talon.clearMotionProfileHasUnderrun(0);
         }
-        /*
-         * just in case we are interrupting another MP and there is still buffer
-         * points in memory, clear it.
-         */
+        // clear MP buffer in case there are old points
         _talon.clearMotionProfileTrajectories();
 
-        /* set the base trajectory period to zero, use the individual trajectory period below */
+        // set the base trajectory period to zero, use the individual trajectory period below
         _talon.configMotionProfileTrajectoryPeriod(0, 30);
 
-        /* This is fast since it's just into our TOP buffer */
+        // Ticks per inch of the left or right side
+        double ticksPerInch = isLeft ? RobotMap.kLChassisTicksPerInch : RobotMap.kRChassisTicksPerInch;
         for (int i = 0; i < totalCnt; ++i) {
             double positionInches = profile[i][0];
             double velocityRPM = profile[i][1];
             // for each point, fill our structure and pass it to API
-            //TODO: convert to be feed in profile of distance in inches and velocity in inch/s
-            point.position = positionInches * RobotMap.kChassisTicksPerInch; //Convert Revolutions to Units
+            point.position = positionInches * ticksPerInch; //Convert inch distance to encoder ticks
             point.velocity = velocityRPM * 4096 / 10.0; //Convert RPM to Units/100ms
-            point.headingDeg = 0; /* future feature - not used in this example*/
+            point.headingDeg = 0; //not used
             point.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
             point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
             point.timeDur = (int)profile[i][2];
@@ -301,7 +290,6 @@ public class MotionProfile {
     }
 
     /**
-     *
      * @return the output value to pass to Talon's set() routine. 0 for disable
      *         motion-profile output, 1 for enable motion-profile, 2 for hold
      *         current motion profile trajectory point.

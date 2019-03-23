@@ -24,7 +24,19 @@ public class RobotMap {
 		public static double kLWheelDiameter = 6.0; //Center wheel
 		public static double kRWheelDiameter = 6.0; //Center wheel
 
-		public static double kChassisTicksPerInch = 4096.0 / (2.0 * Math.PI * 3.0);
+		public static double kLChassisTicksPerInch = 4096.0 / (Math.PI * kLWheelDiameter);
+		public static double kRChassisTicksPerInch = 4096.0 / (Math.PI * kRWheelDiameter);
+
+		//Motion Profiling
+		public static double kChassisMinPointsInBuffer = 5;
+		public static double kChassisMPOutputDeadband = 0.1;
+
+		public static double kMPChassisP = 0.75;
+		public static double kMPChassisI = 0.0;
+		public static double kMPChassisD = 0.0;
+		public static double kMPChassisF = 1023.0 / 7200.0;
+
+
 
 		public static double kDriveCodesPerRev = 4096;
 		public static double kDistanceToEncoder = kDriveCodesPerRev / (Math.PI * 0.5*(kLWheelDiameter+kRWheelDiameter));
