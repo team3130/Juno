@@ -70,6 +70,19 @@ public class Robot extends TimedRobot {
       }
     });
     t.start();
+
+    Thread p = new Thread(() -> {
+      while (!Thread.interrupted()) {
+        try {
+          Thread.sleep(20);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        SensorHandler.updateSensors();
+        Arm.GetInstance().writePeriodicOutputs();
+      }
+    });
+    p.start();
   }
 
   /**
@@ -84,7 +97,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SensorHandler.updateSensors();
+
   }
 
   /**
@@ -129,7 +142,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    SensorHandler.updateSensors();
   }
 
 
@@ -155,7 +167,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    SensorHandler.updateSensors();
   }
 
   /**
