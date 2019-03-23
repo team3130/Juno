@@ -11,7 +11,6 @@ import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.tantanDrive.Paths.Path;
 import frc.team3130.robot.tantanDrive.Paths.RightCargoF_left;
-import frc.team3130.robot.util.Instrumentation;
 
 public class MotionProfileController {
 
@@ -133,7 +132,7 @@ public class MotionProfileController {
         _bStart = false;
     }
 
-    //TODO: remove instrumentation once done
+
     /**
      * Controller loop to determine setpoint status and handle the MP functionality
      */
@@ -148,7 +147,7 @@ public class MotionProfileController {
             // Timeout is nonzero
             if (_loopTimeout == 0) {
                 //something is wrong. Talon is not present, unplugged, breaker tripped
-                Instrumentation.OnNoProgress();
+                //Instrumentation.OnNoProgress();
             } else {
                 --_loopTimeout;
             }
@@ -216,14 +215,14 @@ public class MotionProfileController {
                     }
                     break;
             }
-
-            /* Get the motion profile status every loop */
+            /*
+            /* Get the motion profile status every loop
             _heading = 0.0; //TODO: depreciated
             _pos = _talon.getActiveTrajectoryPosition();
             _vel = _talon.getActiveTrajectoryVelocity();
 
-            /* printfs and/or logging */
-            Instrumentation.process(_status, _pos, _vel, _heading);
+            /* printfs and/or logging
+            Instrumentation.process(_status, _pos, _vel, _heading);*/
         }
     }
 
@@ -246,7 +245,7 @@ public class MotionProfileController {
 
         // did we get an underrun condition since last time we checked?
         if (_status.hasUnderrun) {
-            Instrumentation.OnUnderrun();
+            //Instrumentation.OnUnderrun();
             //clear the error. This flag does not auto clear, logging already handles this
             _talon.clearMotionProfileHasUnderrun(0);
         }

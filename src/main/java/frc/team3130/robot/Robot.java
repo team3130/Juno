@@ -93,6 +93,8 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Elevator.resetElevator();
+    Chassis.mLeftMPController.reset();
+    Chassis.mRightMPController.reset();
   }
 
   @Override
