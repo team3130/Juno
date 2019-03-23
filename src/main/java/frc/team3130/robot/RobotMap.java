@@ -36,7 +36,7 @@ public class RobotMap {
 		public static double kMPChassisP = 5.0; //TODO
 		public static double kMPChassisI = 0.0; //TODO
 		public static double kMPChassisD = 0.0; //TODO
-		public static double kMPChassisF = 1023.0 / 24980.0; //TODO
+		public static double kMPChassisF = 1023.0 / 19991.0; //TODO
 
 		public static double kMPMaxVel = 115.0; //maximum achievable velocity of the drivetrain in in/s NOTE: the actual motion profile should be generated at 80% of this
 		public static double kMPMaxAcc = 60.0; ///maximum achievable acceleration of the drivetrain in in/s^2 NOTE: the actual motion profile should be generated at 80% of this
