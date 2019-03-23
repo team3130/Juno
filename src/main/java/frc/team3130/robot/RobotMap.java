@@ -32,7 +32,7 @@ public class RobotMap {
 		public static double kChassisMPOutputDeadband = 0.01;
 		public static int kChassisMPDefaultFireRate = 20;
 
-		public static double kMPChassisP = 1.0; //TODO
+		public static double kMPChassisP = 3.0; //TODO
 		public static double kMPChassisI = 0.0; //TODO
 		public static double kMPChassisD = 0.0; //TODO
 		public static double kMPChassisF = 1023.0 / 24980.0; //TODO
