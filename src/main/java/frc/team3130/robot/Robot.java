@@ -79,7 +79,7 @@ public class Robot extends TimedRobot {
           e.printStackTrace();
         }
         SensorHandler.updateSensors();
-        Arm.GetInstance().writePeriodicOutputs();
+        writePeriodicOutputs();
       }
     });
     p.start();
@@ -227,5 +227,10 @@ public class Robot extends TimedRobot {
     Elevator.outputToSmartDashboard();
     Arm.GetInstance().outputToSmartDashboard();
     Chassis.outputToSmartDashboard();
+  }
+
+  public void writePeriodicOutputs(){
+    Arm.GetInstance().writePeriodicOutputs();
+    Elevator.GetInstance().writePeriodicOutputs();
   }
 }

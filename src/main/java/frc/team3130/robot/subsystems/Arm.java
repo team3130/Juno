@@ -100,7 +100,7 @@ public class Arm extends Subsystem {
      * @param PVBus percentage of input voltage to output
      */
     public static void runWristPVbus(double PVBus){
-        mWristState = WristControlState.PERCENT_OUTPUT;
+        mWristState = WristControlState.RAW_VBUS;
         wristPeriodicIO.setpoint = PVBus;
     }
 
@@ -225,9 +225,11 @@ public class Arm extends Subsystem {
         if (mWristState == WristControlState.MOTION_MAGIC) {
             m_wrist.set(ControlMode.MotionMagic,
                     wristPeriodicIO.setpoint, DemandType.ArbitraryFeedForward, wristPeriodicIO.feedforward);
-        } else {
+        }else if(mWristState == WristControlState.PERCENT_OUTPUT){
             m_wrist.set(ControlMode.PercentOutput,
                     wristPeriodicIO.setpoint, DemandType.ArbitraryFeedForward, wristPeriodicIO.feedforward);
+        }else{
+            m_wrist.set(ControlMode.PercentOutput, wristPeriodicIO.setpoint);
         }
     }
 
@@ -279,6 +281,7 @@ public class Arm extends Subsystem {
     }
 
     private enum WristControlState{
+        RAW_VBUS,
         PERCENT_OUTPUT,
         MOTION_MAGIC
     }

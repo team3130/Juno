@@ -24,25 +24,14 @@ public class Elevator extends Subsystem {
         return m_pInstance;
     }
 
-    private enum ElevatorState{
-        Manual,
-        MotionMagic,
-    }
-
-    public ElevatorState getState(){
-        return state;
-    }
-
-    public void setState(ElevatorState newState){
-        this.state = newState;
-    }
 
     //Create necessary objects
     private static WPI_TalonSRX m_elevatorMaster;
     private static WPI_TalonSRX m_elevatorSlave;
 
-    private volatile ElevatorState state;
     private static PeriodicIO mPeriodicIO = new PeriodicIO();
+
+    private static ElevatorControlState mElevatorState = ElevatorControlState.PERCENT_OUTPUT;
 
     //Create and define all standard data types needed
     private static boolean zeroed = false;
@@ -73,6 +62,7 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
 
         configPIDF(RobotMap.kElevatorP, RobotMap.kElevatorI, RobotMap.kElevatorD, RobotMap.kElevatorF);
+        configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
 
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
@@ -95,7 +85,8 @@ public class Elevator extends Subsystem {
 
     //For testing
     public static void rawElevator(double percent){
-        m_elevatorMaster.set(ControlMode.PercentOutput, percent);
+        mElevatorState = ElevatorControlState.RAW_VBUS;
+        mPeriodicIO.setpoint = percent;
     }
 
     /**
@@ -112,9 +103,8 @@ public class Elevator extends Subsystem {
                 percent = Math.min(-0.2, percent);
             }
         }
-        //Offset the output using normal operation feed forward
-        percent += mPeriodicIO.feedforward;
-        m_elevatorMaster.set(ControlMode.PercentOutput, percent);
+        mElevatorState = ElevatorControlState.PERCENT_OUTPUT;
+        mPeriodicIO.setpoint = percent;
     }
 
     /**
@@ -122,14 +112,8 @@ public class Elevator extends Subsystem {
      * @param height The height setpoint to go to in inches
      */
     public synchronized static void setSimpleMotionMagic(double height){
-        m_elevatorMaster.set(ControlMode.PercentOutput, 0.0); //Set talon to other mode to prevent weird glitches
-        configPIDF(
-                RobotMap.kElevatorP,
-                RobotMap.kElevatorI,
-                RobotMap.kElevatorD,
-                mPeriodicIO.feedforward);
-        configMotionMagic(RobotMap.kElevatorMaxAcc, RobotMap.kElevatorMaxVel);
-        m_elevatorMaster.set(ControlMode.MotionMagic, RobotMap.kElevatorTicksPerInch * (height - RobotMap.kElevatorHomingHeight) );
+        mElevatorState = ElevatorControlState.MOTION_MAGIC;
+        mPeriodicIO.setpoint = RobotMap.kElevatorTicksPerInch * (height - RobotMap.kElevatorHomingHeight);
     }
 
 
@@ -179,27 +163,6 @@ public class Elevator extends Subsystem {
                             (RobotMap.kElevatorTicksPerInch * 386.09);
                 }
             }
-            /*} else if (newPos >= mPeriodicIO.active_trajectory_position){ //elevator is moving up
-                if(newVel > mPeriodicIO.active_trajectory_velocity) {
-                    //elevator is accelerating upward
-                    mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
-                            (RobotMap.kElevatorTicksPerInch * 386.09);
-                }else{
-                    //elevator is accelerating downward
-                    mPeriodicIO.active_trajectory_accel_g = -RobotMap.kElevatorMaxAcc * 10.0 /
-                            (RobotMap.kElevatorTicksPerInch * 386.09);
-                }
-            }else { //elevator is moving downward
-                if (newVel > mPeriodicIO.active_trajectory_velocity) {
-                    //elevator is accelerating downward
-                    mPeriodicIO.active_trajectory_accel_g = -RobotMap.kElevatorMaxAcc * 10.0 /
-                            (RobotMap.kElevatorTicksPerInch * 386.09);
-                } else {
-                    //elevator is accelerating upward
-                    mPeriodicIO.active_trajectory_accel_g = RobotMap.kElevatorMaxAcc * 10.0 /
-                            (RobotMap.kElevatorTicksPerInch * 386.09);
-                }
-            }*/
             //set values for next run
             mPeriodicIO.active_trajectory_velocity = newVel;
             mPeriodicIO.active_trajectory_position = newPos;
@@ -231,6 +194,18 @@ public class Elevator extends Subsystem {
             }
         } else {
             mPeriodicIO.feedforward = 0.0;
+        }
+    }
+
+    public synchronized void writePeriodicOutputs() {
+        if (mElevatorState == ElevatorControlState.MOTION_MAGIC) {
+            m_elevatorMaster.set(ControlMode.MotionMagic,
+                    mPeriodicIO.setpoint, DemandType.ArbitraryFeedForward, mPeriodicIO.feedforward);
+        }else if (mElevatorState == ElevatorControlState.PERCENT_OUTPUT){
+            m_elevatorMaster.set(ControlMode.PercentOutput,
+                    mPeriodicIO.setpoint, DemandType.ArbitraryFeedForward, mPeriodicIO.feedforward);
+        }else {
+            m_elevatorMaster.set(ControlMode.PercentOutput, mPeriodicIO.setpoint);
         }
     }
 
@@ -318,6 +293,12 @@ public class Elevator extends Subsystem {
         SmartDashboard.putBoolean("Elevator Fwd_Switch", m_elevatorMaster.getSensorCollection().isFwdLimitSwitchClosed());
     }
 
+    private enum ElevatorControlState{
+        RAW_VBUS,
+        PERCENT_OUTPUT,
+        MOTION_MAGIC
+    }
+
     public static class PeriodicIO {
         // INPUTS
         public int position_ticks;
@@ -330,6 +311,7 @@ public class Elevator extends Subsystem {
         public double t;
 
         // OUTPUTS
+        public double setpoint;
     }
 
 }
