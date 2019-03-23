@@ -64,7 +64,7 @@ public class RobotMap {
 		public static int kWristMaxAcc = 1400; // 1024
 		public static int kWristMaxVel = 3400; // 1024
 
-		public static double kWristFFEmpty = 0.05; //Checked 3/8
+		public static double kWristFFEmpty = 0.05; //Checked 3/21
 		public static double kWristFFBall = 0.0;
 		public static double kWristFFHatch = 0.0;
 

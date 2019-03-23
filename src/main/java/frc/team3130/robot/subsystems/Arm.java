@@ -24,7 +24,7 @@ public class Arm extends Subsystem {
 
     private static PeriodicIO wristPeriodicIO = new PeriodicIO();
 
-    private WristControlState mWristState = WristControlState.PERCENT_OUTPUT;
+    private static WristControlState mWristState = WristControlState.PERCENT_OUTPUT;
 
     //Create and define all standard data types needed
     private static boolean zeroed;
@@ -75,6 +75,7 @@ public class Arm extends Subsystem {
                 RobotMap.kWristI,
                 RobotMap.kWristD,
                 0.0);
+        configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
     }
 
     @Override
@@ -90,8 +91,10 @@ public class Arm extends Subsystem {
      * @param speed percent value
      */
     public synchronized static void runWrist(double speed){
-        speed += wristPeriodicIO.feedforward;
-        m_wrist.set(ControlMode.PercentOutput, speed);
+        mWristState = WristControlState.PERCENT_OUTPUT;
+        wristPeriodicIO.setpoint = speed;
+        /*speed += wristPeriodicIO.feedforward;
+        m_wrist.set(ControlMode.PercentOutput, speed);*/
     }
 
     /**
@@ -123,13 +126,15 @@ public class Arm extends Subsystem {
      * @param angle The angle setpoint to go to in degrees
      */
     public synchronized static void setWristRelativeAngle(double angle) {
-        configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
+        /*configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
         configPIDF(m_wrist,
                 RobotMap.kWristP,
                 RobotMap.kWristI,
                 RobotMap.kWristD,
-                0.0);
-        m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
+                0.0);*/
+        mWristState = WristControlState.MOTION_MAGIC;
+        wristPeriodicIO.setpoint = RobotMap.kWristTicksPerDeg * angle;
+        //m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
 
     /**
@@ -219,8 +224,6 @@ public class Arm extends Subsystem {
             double wristAccelerationComponent = wristPeriodicIO.active_trajectory_acceleration_rad_per_s2 * ka;
 
             wristPeriodicIO.feedforward = wristGravityComponent + elevatorAccelerationComponent * wristGravityComponent + wristAccelerationComponent;
-
-
         }else{
             wristPeriodicIO.feedforward = 0.0;
         }
