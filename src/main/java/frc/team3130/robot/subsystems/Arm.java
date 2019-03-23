@@ -93,8 +93,6 @@ public class Arm extends Subsystem {
     public synchronized static void runWrist(double speed){
         mWristState = WristControlState.PERCENT_OUTPUT;
         wristPeriodicIO.setpoint = speed;
-        /*speed += wristPeriodicIO.feedforward;
-        m_wrist.set(ControlMode.PercentOutput, speed);*/
     }
 
     /**
@@ -102,7 +100,8 @@ public class Arm extends Subsystem {
      * @param PVBus percentage of input voltage to output
      */
     public static void runWristPVbus(double PVBus){
-        m_wrist.set(ControlMode.PercentOutput, PVBus);
+        mWristState = WristControlState.PERCENT_OUTPUT;
+        wristPeriodicIO.setpoint = PVBus;
     }
 
     /**
@@ -126,15 +125,8 @@ public class Arm extends Subsystem {
      * @param angle The angle setpoint to go to in degrees
      */
     public synchronized static void setWristRelativeAngle(double angle) {
-        /*configMotionMagic(m_wrist, RobotMap.kWristMaxAcc, RobotMap.kWristMaxVel);
-        configPIDF(m_wrist,
-                RobotMap.kWristP,
-                RobotMap.kWristI,
-                RobotMap.kWristD,
-                0.0);*/
         mWristState = WristControlState.MOTION_MAGIC;
         wristPeriodicIO.setpoint = RobotMap.kWristTicksPerDeg * angle;
-        //m_wrist.set(ControlMode.MotionMagic, RobotMap.kWristTicksPerDeg * angle);
     }
 
     /**
