@@ -7,10 +7,8 @@ import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Notifier;
-import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.tantanDrive.Paths.Path;
-import frc.team3130.robot.tantanDrive.Paths.RightCargoF_left;
 
 public class MotionProfileController {
 
@@ -57,11 +55,11 @@ public class MotionProfileController {
      */
     private static final int kNumLoopsTimeout = 10;
 
-    private static Path profile;
+    private Path profile;
 
-    private static int totalCnt;
+    private int totalCnt;
 
-    private static boolean isLeft;
+    private boolean isLeft;
 
     /*
      * The only routines we call on Talon are....
