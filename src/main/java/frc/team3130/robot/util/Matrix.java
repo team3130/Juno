@@ -106,6 +106,8 @@ public class Matrix {
             throw new IllegalArgumentException("Rotattion vector must be 3-dimentional but nRows = " + rvec.nRows + ", nCols = " + rvec.nCols);
         }
         Double theta = rvec.norm();
+        if (theta.equals(0.0)) return Identity(3);
+
         Matrix k = rvec.multiply(1/theta);
         Matrix K = new Matrix(3,3);
         K.put(0, 0, 0.0);
@@ -127,37 +129,19 @@ public class Matrix {
 
     // This main() is just a unit test. Should print out an identity matrix.
     public static void main(String[] args) {
+        Double[][] k = {{3.1416/6, 3.1416/18, 0.0}};
+        Double[][] t = {{0.0, 0.0, -1.0}};
+        Matrix R = Matrix.Rodrigues(new Matrix(k));
+        Matrix e = R.multiply(new Matrix(t));
 
-        Double[][] A = { { 4.00, 3.00 }, { 2.00, 1.00 } };
-        Double[][] B = { { -0.500, 1.500 }, { 1.000, -2.0000 } };
-        Matrix matrixA = new Matrix(A);
-        Matrix matrixB = new Matrix(B);
-        Matrix result = matrixA.multiply(matrixB);
-
-        for (int i = 0; i < result.nRows; i++) {
-            for (int j = 0; j < result.nCols; j++)
-                System.out.print(result.get(i, j) + " ");
+        System.out.format("Rotation matrix rows:%d, cols:%d %n", R.nRows, R.nCols);
+        for (int i = 0; i < R.nRows; i++) {
+            for (int j = 0; j < R.nCols; j++)
+                System.out.format("%9.4f ", R.get(i, j));
             System.out.println();
         }
-
-        Double[][] V = {{1.0, 2.0}};
-        Matrix matrixV = new Matrix(V);
-        System.out.format("Rows %d, Cols %d%n", matrixV.nRows, matrixV.nCols);
-        Matrix result1 = matrixA.multiply(matrixV);
-        for (int i = 0; i < result1.nRows; i++) {
-            for (int j = 0; j < result1.nCols; j++)
-                System.out.print(result1.get(i, j) + " ");
-            System.out.println();
-        }
-
-        Double[][] k = {{1.57, 0.0, 0.0}};
-        Double[][] v = {{0.0, 4.0, 0.0}};
-        Matrix K = new Matrix(k);
-        Matrix vec = new Matrix(v);
-        Matrix R = Matrix.Rodrigues(K);
-        Matrix result2 = R.multiply(vec);
-        System.out.format("R.rows %d, R.cols %d %n", R.nRows, R.nCols);
-        for (int i = 0; i < result2.nCols; i++) System.out.format("%8.3f", result2.get(0, i));
+        System.out.println("Rotated vector");
+        for (int i = 0; i < e.nCols; i++) System.out.format("%9.4f ", e.get(0, i));
         System.out.println();
     }
 }
