@@ -11,7 +11,7 @@ import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.util.Instrumentation;
 
-public class MotionProfile {
+public class MotionProfileController {
 
     /**
      * The status of the motion profile executer and buffer inside the Talon.
@@ -100,7 +100,7 @@ public class MotionProfile {
      * @param talon the talon to use
      * @param fireRate firing rate of the Motion Profile in ms
      */
-    public MotionProfile(WPI_TalonSRX talon, int fireRate, boolean isLeft) {
+    public MotionProfileController(WPI_TalonSRX talon, int fireRate, boolean isLeft) {
         _talon = talon;
         // Set control framerate to half of MP fire rate
         _talon.changeMotionControlFramePeriod(fireRate / 2);
