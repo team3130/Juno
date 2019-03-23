@@ -184,7 +184,7 @@ public class OI {
 
         zeroWrist.whenActive(new ZeroArm());
 
-        testButton.whenPressed(new RunMotionProfile(PathStore.Paths.TuningPath));
+        testButton.whenPressed(new RunMotionProfile(PathStore.Paths.sTest));
 
         //testArm.whenPressed(new TestArm());
 

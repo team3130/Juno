@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -228,9 +229,9 @@ public class Chassis extends Subsystem {
     public static void configMP(int duration) {
 
         //left
-        m_leftMotorFront.config_kP(0, RobotMap.kMPChassisP, 0);
-        m_leftMotorFront.config_kI(0, RobotMap.kMPChassisI, 0);
-        m_leftMotorFront.config_kD(0, RobotMap.kMPChassisD, 0);
+        m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("testP", RobotMap.kMPChassisP), 0);
+        m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("testI",RobotMap.kMPChassisI), 0);
+        m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("testD",RobotMap.kMPChassisD), 0);
         m_leftMotorFront.config_kF(0, RobotMap.kMPChassisF, 0);
         m_leftMotorFront.configNeutralDeadband(RobotMap.kChassisMPOutputDeadband, 0);
         // Status 10 provides the trajectory target for motion profile AND motion magic
@@ -239,9 +240,9 @@ public class Chassis extends Subsystem {
         m_leftMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
 
         //right
-        m_rightMotorFront.config_kP(0, RobotMap.kMPChassisP, 0);
-        m_rightMotorFront.config_kI(0, RobotMap.kMPChassisI, 0);
-        m_rightMotorFront.config_kD(0, RobotMap.kMPChassisD, 0);
+        m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("testP",RobotMap.kMPChassisP), 0);
+        m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("testI",RobotMap.kMPChassisI), 0);
+        m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("testD",RobotMap.kMPChassisD), 0);
         m_rightMotorFront.config_kF(0, RobotMap.kMPChassisF, 0);
         m_rightMotorFront.configNeutralDeadband(RobotMap.kChassisMPOutputDeadband, 0);
         // Status 10 provides the trajectory target for motion profile AND motion magic
@@ -374,6 +375,9 @@ public class Chassis extends Subsystem {
     public static void outputToSmartDashboard() {
         SmartDashboard.putNumber("Chassis Right Velocity", m_rightMotorFront.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("Chassis Left Velocity", m_leftMotorFront.getSelectedSensorVelocity(0));
+
+        SmartDashboard.putNumber("Chassis Right Vel Traj", m_rightMotorFront.getActiveTrajectoryVelocity(0));
+        SmartDashboard.putNumber("Chassis Left Vel Traj", m_leftMotorFront.getActiveTrajectoryVelocity(0));
 
         SmartDashboard.putNumber("Chassis Right Speed", getSpeedR());
         SmartDashboard.putNumber("Chassis Left Speed", getSpeedL());
