@@ -44,7 +44,6 @@ public class Chassis extends Subsystem {
 
     //Create and define all standard data types needed
 
-    public static double maxAccel = 0.0;
 
     private Chassis() {
 
