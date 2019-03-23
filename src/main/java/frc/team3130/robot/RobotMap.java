@@ -23,6 +23,9 @@ public class RobotMap {
 		public static double kChassisWidth = 23.5; //Checked 2/12 Distance between the left and right middle wheels
 		public static double kLWheelDiameter = 6.0; //Center wheel
 		public static double kRWheelDiameter = 6.0; //Center wheel
+
+		public static double kChassisTicksPerInch = 4096.0 / (2.0 * Math.PI * 3.0);
+
 		public static double kDriveCodesPerRev = 4096;
 		public static double kDistanceToEncoder = kDriveCodesPerRev / (Math.PI * 0.5*(kLWheelDiameter+kRWheelDiameter));
 		public static double kVelocityToEncoder = kDistanceToEncoder / 10.0; 		// Per 100ms

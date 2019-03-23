@@ -40,6 +40,8 @@ public class Chassis extends Subsystem {
     //Create and define all standard data types needed
     public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
 
+    public static double maxAccel = 0.0;
+
     private Chassis() {
 
         m_leftMotorFront = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORFRONT);
@@ -156,7 +158,7 @@ public class Chassis extends Subsystem {
      */
     public static double getDistanceL()
     {
-        return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
+        return m_leftMotorFront.getSelectedSensorPosition(0) / RobotMap.kChassisTicksPerInch ;
     }
 
     /**
@@ -165,7 +167,7 @@ public class Chassis extends Subsystem {
      */
     public static double getDistanceR()
     {
-        return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
+        return m_rightMotorFront.getSelectedSensorPosition(0) / RobotMap.kChassisTicksPerInch;
     }
 
     /**
@@ -278,7 +280,7 @@ public class Chassis extends Subsystem {
     public static double getSpeedL()
     {
         // The raw speed units will be in the sensor's native ticks per 100ms.
-        return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
+        return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) / RobotMap.kChassisTicksPerInch;
     }
 
     /**
@@ -288,7 +290,7 @@ public class Chassis extends Subsystem {
     public static double getSpeedR()
     {
         // The raw speed units will be in the sensor's native ticks per 100ms.
-        return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
+        return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) / RobotMap.kChassisTicksPerInch;
     }
 
     /**
@@ -334,12 +336,19 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Chassis Right Velocity", m_rightMotorFront.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("Chassis Left Velocity", m_leftMotorFront.getSelectedSensorVelocity(0));
 
+        SmartDashboard.putNumber("Chassis Right Speed", getSpeedR());
+        SmartDashboard.putNumber("Chassis Left Speed", getSpeedL());
+
+        SmartDashboard.putNumber("Chassis Distance R", getDistanceR());
+        SmartDashboard.putNumber("Chassis Distance L", getDistanceL());
 
         SmartDashboard.putNumber("Chassis Right Sensor Value", m_rightMotorFront.getSelectedSensorPosition());
         SmartDashboard.putNumber("Chassis Left Sensor Value", m_leftMotorFront.getSelectedSensorPosition());
 
         SmartDashboard.putNumber("Chassis Right Output %", m_rightMotorFront.getMotorOutputPercent());
         SmartDashboard.putNumber("Chassis Left Output %", m_leftMotorFront.getMotorOutputPercent());
+
+        SmartDashboard.putNumber("Chassis Accel", maxAccel);
 
     }
 

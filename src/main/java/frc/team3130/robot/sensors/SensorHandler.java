@@ -1,10 +1,13 @@
 package frc.team3130.robot.sensors;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Arm;
+import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.subsystems.Elevator;
 import frc.team3130.robot.subsystems.Intake;
+import frc.team3130.robot.util.Epsilon;
 import frc.team3130.robot.vision.Limelight;
 
 public class SensorHandler {
@@ -18,11 +21,16 @@ public class SensorHandler {
     private static boolean lastHatch;
     private static boolean lastBall;
     private static boolean lastElevator;
+    private static boolean isLast;
+    private static boolean isLastE;
+    private static double startTime;
 
     public SensorHandler(){
         lastBall = false;
         lastHatch = false;
         lastElevator = false;
+        isLast = false;
+        isLastE = false;
     }
 
     public static void updateSensors(){
@@ -61,6 +69,14 @@ public class SensorHandler {
                 Arm.setZeroedState(true);
         }
 
+        if(Epsilon.epsilonEquals(OI.driverGamepad.getRawAxis(1), 0.0, RobotMap.kDriveDeadband) && !isLast){
+            startTime = Timer.getFPGATimestamp();
+            isLast = true;
+        }
+        if(Chassis.GetInstance().getSpeedR() > 115.0 && !isLastE){
+            Chassis.GetInstance().maxAccel = Timer.getFPGATimestamp() - startTime;
+            isLastE = true;
+        }
         Elevator.GetInstance().readPeriodicInputs();
         Arm.GetInstance().readPeriodicInputs();
         OI.GetInstance().checkTriggers();
