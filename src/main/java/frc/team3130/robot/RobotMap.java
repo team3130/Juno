@@ -80,17 +80,17 @@ public class RobotMap {
 
 	//Placement Presets
 		public enum Presets{
-			LowestHatch (15.0 , 90.0),
-			MiddleHatch (53.0, 90.0),
-			HighestHatch(86.0,90.0),
-			LowestTongue(23.0, 90.0),
-			MiddleTongue(61.0, 90.0),
-			HighestTongue(93.0, 90.0),
+			LowestHatch (19.7 , 90.0),
+			MiddleHatch (45.0, 90.0),
+			HighestHatch(86.0,90.0), 
+			LowestTongue(19.7, 90.0), //Checked 3/22
+			MiddleTongue(45.0, 90.0), //Checked 3/22
+			HighestTongue(93.0, 90.0), //TODO test when elevator can go all the way up
 			Station(19.5, 90.0), //Checked 3/21
-			LowestPort ( 20.0, 120.0),
-			MiddlePort (55.0, 120.0),
-			HighestPort (90.0,120.0),
-			Cargoship(35.0, 170.0); //FIXME
+			LowestPort ( 18.0, 120.0), //Checked 3/21
+			MiddlePort (42.2, 124.0),//Checked 3/22
+			HighestPort (90.0,120.0),//TODO test when elevator can go all the way up
+			Cargoship(40.6, 190.0); //checked 3/22
 
 			private double height;
 			private double angle;
