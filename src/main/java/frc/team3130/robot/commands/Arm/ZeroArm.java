@@ -37,9 +37,9 @@ public class ZeroArm extends Command {
     // Called once after isFinished returns true
     protected void end() {
         if(!Arm.hasBeenZeroed()){ //Limit switch was never triggered, assume the Wrist made it all the way back to 90 degrees
-            Arm.zeroSensors(RobotMap.kWristBackwardMax);
+            Arm.zeroSensors(RobotMap.kWristHomingAngle);
         }
-        Arm.setWristRelativeAngle(90.0); //Go to stowed position
+        Arm.setWristRelativeAngle(RobotMap.kWristHomingAngle); //Go to stowed position
     }
 
     // Called when another command which requires one or more of the same

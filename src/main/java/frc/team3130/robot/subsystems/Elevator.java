@@ -38,8 +38,6 @@ public class Elevator extends Subsystem {
     }
 
     //Create necessary objects
-    private static Solenoid m_shifter;
-
     private static WPI_TalonSRX m_elevatorMaster;
     private static WPI_TalonSRX m_elevatorSlave;
 
@@ -66,7 +64,7 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0);
 
         m_elevatorMaster.overrideLimitSwitchesEnable(true);
-        m_elevatorMaster.overrideSoftLimitsEnable(false);
+        m_elevatorMaster.overrideSoftLimitsEnable(true);
 
         m_elevatorMaster.configVoltageCompSaturation(12.0, 0);
         m_elevatorMaster.enableVoltageCompensation(true);
@@ -79,10 +77,8 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
         m_elevatorMaster.configForwardSoftLimitEnable(true);
-        m_elevatorMaster.configForwardSoftLimitThreshold(Preferences.getInstance().getInt("Elevator Softlimit", 65535));
+        m_elevatorMaster.configForwardSoftLimitThreshold(52000);
 
-        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_ELEVATORSHIFT);
-        m_shifter.set(false); //false should be high gear or normal running mode
 
         /**
          * Upward is positive motor direction
@@ -107,19 +103,17 @@ public class Elevator extends Subsystem {
      * @param percent
      */
     public static void runElevator(double percent){
-        if(!getShift()) { //Only apply power modification if in high gear
-            boolean isGoingDown = percent < 0;
-            //When the elevator is going down
-            if (isGoingDown) {
-                //Also, if we are in the extra slow zone, multiply by reduction ratio
-                if (getHeightOffGround() < RobotMap.kElevatorSlowZone) {
-                    percent *= Math.abs(getHeightOffGround() / RobotMap.kElevatorSlowZone);
-                    percent = Math.min(-0.2, percent);
-                }
+        boolean isGoingDown = percent < 0;
+        //When the elevator is going down
+        if (isGoingDown) {
+            //Also, if we are in the extra slow zone, multiply by reduction ratio
+            if (getHeightOffGround() < RobotMap.kElevatorSlowZone) {
+                percent *= Math.abs(getHeightOffGround() / RobotMap.kElevatorSlowZone);
+                percent = Math.min(-0.2, percent);
             }
-            //Offset the output using normal operation feed forward
-            percent += mPeriodicIO.feedforward;
         }
+        //Offset the output using normal operation feed forward
+        percent += mPeriodicIO.feedforward;
         m_elevatorMaster.set(ControlMode.PercentOutput, percent);
     }
 
@@ -146,19 +140,6 @@ public class Elevator extends Subsystem {
         setSimpleMotionMagic(getHeightOffGround());
     }
 
-    /**
-     * Shifts the elevator gear box into an absolute gear
-     * @param shiftVal false is high gear, true is low gear
-     */
-    public static void shift(boolean shiftVal)
-    {
-        if(shiftVal){
-            m_elevatorMaster.overrideLimitSwitchesEnable(false);
-        }else{
-            m_elevatorMaster.overrideLimitSwitchesEnable(true);
-        }
-        m_shifter.set(shiftVal);
-    }
 
     /**
      * Reset the elevator by clearing the motion profile buffer and putting it in percent output mode at 0%
@@ -232,7 +213,7 @@ public class Elevator extends Subsystem {
 
         //Calculate the feed forward necessary this loop
         double currHeight = getHeightOffGround();
-        if (currHeight > RobotMap.kElevatorHeightEpsilon && !getShift()) { //above epsilon and in high gear
+        if (currHeight > RobotMap.kElevatorHeightEpsilon) { //above epsilon
             if(Intake.GetInstance().getState() == Intake.IntakeState.Empty){
                 mPeriodicIO.feedforward = RobotMap.kElevatorFFEmpty;
             }else if(Intake.GetInstance().getState() == Intake.IntakeState.HasBall){
@@ -260,14 +241,6 @@ public class Elevator extends Subsystem {
      */
     public static double getHeightOffGround(){
         return mPeriodicIO.position_ticks / RobotMap.kElevatorTicksPerInch + RobotMap.kElevatorHomingHeight; //Returns height from ground in inches
-    }
-
-    /**
-     * Returns the gear elevator is in
-     * @return false is high, true is low
-     */
-    public static boolean getShift(){
-        return m_shifter.get();
     }
 
     /**

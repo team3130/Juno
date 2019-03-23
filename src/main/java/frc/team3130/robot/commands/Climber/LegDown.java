@@ -43,6 +43,7 @@ public class LegDown extends Command {
     // Called once after isFinished returns true
     protected void end() {
         Climber.downLeg(0);
+        Climber.holdLeg();
     }
 
     // Called when another command which requires one or more of the same

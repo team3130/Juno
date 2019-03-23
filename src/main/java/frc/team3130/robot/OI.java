@@ -11,9 +11,8 @@ import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.ArmsDown;
 import frc.team3130.robot.commands.Climber.LegDown;
 import frc.team3130.robot.commands.Climber.LegDrive;
-import frc.team3130.robot.commands.Elevator.ElevatorShift;
+import frc.team3130.robot.commands.Elevator.ElevatorTestPreference;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
-import frc.team3130.robot.commands.Groups.DepositHatch;
 import frc.team3130.robot.commands.Groups.RunPreset;
 import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
@@ -80,8 +79,6 @@ public class OI {
     public static JoystickButton shift;
     public static JoystickButton startAiming;
 
-    public static JoystickButton depositHatch;
-
     public static POVTrigger zeroWrist;
 
     public static JoystickButton testArm;
@@ -144,8 +141,6 @@ public class OI {
         shift = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RJOYSTICKPRESS);
         startAiming = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RBUMPER);
 
-        depositHatch = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
-
         elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
 
         intakeStowed = new JoystickButton(driverGamepad, RobotMap.LST_BTN_X);
@@ -155,10 +150,12 @@ public class OI {
 
         zeroWrist = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
 
+        testElevator = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
+
         /*
          * Weapons
          */
-        lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
+        //lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
         toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_RJOYSTICKPRESS);
 
         highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
@@ -177,11 +174,10 @@ public class OI {
 
 
         //Map the button to command
-        depositHatch.whileHeld(new DepositHatch());
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         intakePickup.whenPressed(new WristToAngle(175.0));
-        intakeStowed.whenPressed(new WristToAngle(90.0));
+        intakeStowed.whenPressed(new WristToAngle(RobotMap.kWristHomingAngle));
 
         shift.whenPressed(new ShiftToggle());
 
@@ -189,7 +185,7 @@ public class OI {
 
         zeroWrist.whenActive(new ZeroArm());
 
-        //testElevator.whenPressed(new ElevatorTestPreference());
+        testElevator.whenPressed(new ElevatorTestPreference());
 
         //testArm.whenPressed(new TestArm());
 

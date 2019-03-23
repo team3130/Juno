@@ -30,7 +30,7 @@ public class RunElevator extends Command {
         if (Math.abs(stick) >= RobotMap.kElevatorManualDeadband ){
             double moveSpeed = RobotMap.kElevatorManualMultipler * Util.applyDeadband(stick, RobotMap.kElevatorManualDeadband);
             Elevator.runElevator(moveSpeed);
-            if(!Elevator.getShift())changeHeight = true;
+            changeHeight = true;
         } else if (changeHeight){
             Elevator.holdHeight();
             changeHeight = false;
