@@ -55,7 +55,7 @@ public class RobotMap {
 		public static double kWristManualDeadband = 0.1;
 		public static double kWristManualMultipler = 0.5;
 
-		public static double kWristHomingAngle = 91.0; //FIXME Checked 3/21
+		public static double kWristHomingAngle = 93.0; //Checked 3/22
 
 		public static double kWristP = 3.0; //Checked 3/21
 		public static double kWristI = 0.001; //Checked 3/21
@@ -64,7 +64,7 @@ public class RobotMap {
 		public static int kWristMaxAcc = 1400; // 1024
 		public static int kWristMaxVel = 3400; // 1024
 
-		public static double kWristFFEmpty = 0.05; //Checked 3/21
+		public static double kWristFFEmpty = 0.1; //Checked 3/22
 		public static double kWristFFBall = 0.0;
 		public static double kWristFFHatch = 0.0;
 
@@ -80,15 +80,12 @@ public class RobotMap {
 
 	//Placement Presets
 		public enum Presets{
-			LowestHatch (19.7 , 90.0),
-			MiddleHatch (45.0, 90.0),
-			HighestHatch(86.0,90.0), 
 			LowestTongue(19.7, 90.0), //Checked 3/22
 			MiddleTongue(45.0, 90.0), //Checked 3/22
 			HighestTongue(93.0, 90.0), //TODO test when elevator can go all the way up
-			Station(19.5, 90.0), //Checked 3/21
+			Station(17.7, 90.0), //Checked 3/22
 			LowestPort ( 18.0, 120.0), //Checked 3/21
-			MiddlePort (42.2, 124.0),//Checked 3/22
+			MiddlePort (42.2, 120.0),//Checked 3/22
 			HighestPort (90.0,120.0),//TODO test when elevator can go all the way up
 			Cargoship(40.6, 190.0); //checked 3/22
 

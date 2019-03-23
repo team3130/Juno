@@ -93,6 +93,8 @@ public class OI {
     public static JoystickButton intakePickup;
 
     public static JoystickButton lowBall;
+    public static JoystickButton middleBall;
+    public static JoystickButton highBall;
     public static JoystickButton toCargoship;
 
     public static POVTrigger highTongue;
@@ -100,14 +102,10 @@ public class OI {
     public static POVTrigger lowTongue;
     public static POVTrigger toStation;
 
-    public static JoystickButton highHatch;
-    public static JoystickButton middleHatch;
-    public static JoystickButton lowHatch;
 
     private static Command ballOutCommand = new BallOut();
     private static Command ballInCommand = new BallIn();
 
-    private static Command highBall = new RunPreset(RobotMap.Presets.HighestPort);
 
     private static JoystickButton armDeploy;
     private static JoystickTrigger legDown;
@@ -155,17 +153,16 @@ public class OI {
         /*
          * Weapons
          */
-        //lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
-        toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_RJOYSTICKPRESS);
 
-        highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
+        //highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
         middleTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_W);
         lowTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_S);
         toStation = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_E);
 
-        highHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
-        middleHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
-        lowHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+        lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
+        middleBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
+        //highBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+        toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_B);
 
         armDeploy = new JoystickButton(weaponsGamepad, RobotMap.BTN_DROP_ARMS);
         legDown = new JoystickTrigger(weaponsGamepad, RobotMap.AXS_DROP_LEG, 0.1);
@@ -192,16 +189,14 @@ public class OI {
         toggleTongue.whenPressed(new TongueToggle());
 
         lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
+        middleBall.whenPressed(new RunPreset(RobotMap.Presets.MiddlePort));
+        //highBall.whenPressed(new RunPreset(RobotMap.Presets.HighestPort));
         toCargoship.whenPressed(new RunPreset(RobotMap.Presets.Cargoship));
 
-        highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
+        //highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
         middleTongue.whenActive(new RunPreset(RobotMap.Presets.MiddleTongue));
         lowTongue.whenActive(new RunPreset(RobotMap.Presets.LowestTongue));
         toStation.whenActive(new RunPreset(RobotMap.Presets.Station));
-
-        highHatch.whenPressed(new RunPreset(RobotMap.Presets.HighestHatch));
-        middleHatch.whenPressed(new RunPreset(RobotMap.Presets.MiddleHatch));
-        lowHatch.whenPressed(new RunPreset(RobotMap.Presets.LowestHatch));
 
         armDeploy.whileHeld(new ArmsDown());
         legDown.whileActive(new LegDown());
