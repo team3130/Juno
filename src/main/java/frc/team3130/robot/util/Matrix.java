@@ -87,6 +87,16 @@ public class Matrix {
         return sum;
     }
 
+    public Matrix sub(Matrix other) {
+        Matrix sum = new Matrix(this.nRows, this.nCols);
+        for (int i = 0; i < this.nRows; i++) {
+            for (int j = 0; j < this.nCols; j++) {
+                sum.body[i][j] = this.body[i][j] - (i < other.nRows && j < other.nCols ? other.body[i][j] : 0.0);
+            }
+        }
+        return sum;
+    }
+
     public double norm() {
         double sum = 0.0;
         for (int i = 0; i < this.nRows; i++) {
