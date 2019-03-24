@@ -256,7 +256,7 @@ public class MotionProfileController {
             point.velocity = velocityInches * ticksPerInch / 10.0; //Convert inches/s to Units/100ms
             point.headingDeg = 0; //not used
             point.profileSlotSelect0 = 0; // which set of gains would you like to use [0,3]?
-            point.profileSlotSelect1 = 0; // future feature  **DO NOT USE** cascaded PID [0,1], leave zero
+            point.profileSlotSelect1 = 0; // future feature **DO NOT USE** cascaded PID [0,1], leave zero
             point.timeDur = (int)profile[i][2];
             point.zeroPos = false;
             if (i == 0)
