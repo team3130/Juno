@@ -69,13 +69,14 @@ public class Chassis extends Subsystem {
 
         m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
 
-        m_shifter.set(false); //robot init should start robot in high gear (disabled also should be high gear)
+        m_shifter.set(false);
 
         ChassisPID = new PIDCustom(RobotMap.kChassisHighP, RobotMap.kChassisHighI, RobotMap.kChassisHighD);
 
         /**
          * For all motors, forward is the positive direction
          *
+         * Shift false is low gear
          */
 
         m_rightMotorFront.setInverted(false);
@@ -143,51 +144,48 @@ public class Chassis extends Subsystem {
 
     /**
      * Shifts the drivetrain gear box into an absolute gear
-     * @param shiftVal false is high gear, true is low gear
+     * @param shiftVal true is high gear, false is low gear
      */
     public static void shift(boolean shiftVal)
     {
         m_shifter.set(shiftVal);
     }
 
-    public static boolean getShift() {
-        return m_shifter.get();
-    }
     /**
-     * Returns if robot is in low gear
-     * @return true means robot is in low gear, false if it's in high gear
+     * Tell the Chassis to hold a relative angle
+     * @param angle angle to hold in degrees
      */
-    public static boolean isLowGear(){
-        return m_shifter.get();
-    }
-
-    /**
-     * Gets absolute distance traveled by the left side of the robot
-     * @return The absolute distance of the left side in inches
-     */
-    public static double getDistanceL()
+    public static void holdAngle(double angle)
     {
-        return m_leftMotorFront.getSelectedSensorPosition(0) / RobotMap.kLChassisTicksPerInch;
+        //TODO: Rework
     }
 
     /**
-     * Gets absolute distance traveled by the right side of the robot
-     * @return The absolute distance of the right side in inches
+     * Reset the drivetrain encoder positions to 0
      */
-    public static double getDistanceR()
+    public static void reset(){
+        m_leftMotorFront.setSelectedSensorPosition(0);
+        m_rightMotorFront.setSelectedSensorPosition(0);
+    }
+
+    public static void talonsToCoast(boolean coast)
     {
-        return m_rightMotorFront.getSelectedSensorPosition(0) / RobotMap.kRChassisTicksPerInch;
+        if (coast){
+            m_leftMotorFront.setNeutralMode(NeutralMode.Coast);
+            m_leftMotorRear.setNeutralMode(NeutralMode.Coast);
+            m_rightMotorFront.setNeutralMode(NeutralMode.Coast);
+            m_rightMotorRear.setNeutralMode(NeutralMode.Coast);
+        } else {
+            m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
+            m_leftMotorRear.setNeutralMode(NeutralMode.Brake);
+            m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
+            m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
+        }
     }
 
     /**
-     * Gets the absolute distance traveled by the robot
-     * @return The absolute distance traveled of robot in inches
+     * Set the Chassis PID values
      */
-    public static double getDistance()
-    {
-        return (getDistanceL() + getDistanceR()) / 2.0; //the average of the left and right distances
-    }
-
     public static void setPIDValues()
     {
         if(getShift()) { //Chassis is in high gear
@@ -218,39 +216,7 @@ public class Chassis extends Subsystem {
 
     }
 
-    public static void reset(){
-        m_leftMotorFront.setSelectedSensorPosition(0);
-        m_rightMotorFront.setSelectedSensorPosition(0);
-    }
-    /**
-     *
-     * @param duration fire rate of the motion profile in ms
-     */
-    public static void configMP(int duration) {
-
-        //left
-        m_leftMotorFront.config_kP(0, RobotMap.kMPChassisP, 0);
-        m_leftMotorFront.config_kI(0, RobotMap.kMPChassisI, 0);
-        m_leftMotorFront.config_kD(0, RobotMap.kMPChassisD, 0);
-        m_leftMotorFront.config_kF(0, RobotMap.kMPChassisF, 0);
-        m_leftMotorFront.configNeutralDeadband(RobotMap.kChassisMPOutputDeadband, 0);
-        // Status 10 provides the trajectory target for motion profile AND motion magic
-        m_leftMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, duration, 0);
-        //Profile already assumes base time is 0
-        m_leftMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
-
-        //right
-        m_rightMotorFront.config_kP(0, RobotMap.kMPChassisP, 0);
-        m_rightMotorFront.config_kI(0, RobotMap.kMPChassisI, 0);
-        m_rightMotorFront.config_kD(0, RobotMap.kMPChassisD, 0);
-        m_rightMotorFront.config_kF(0, RobotMap.kMPChassisF, 0);
-        m_rightMotorFront.configNeutralDeadband(RobotMap.kChassisMPOutputDeadband, 0);
-        // Status 10 provides the trajectory target for motion profile AND motion magic
-        m_rightMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, duration, 0);
-        //Profile already assumes base time is 0
-        m_rightMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
-    }
-
+    //Sensor Related
     /**
      * Returns the absolute angle of the drivetrain in relation to the robot's orientation upon last reset.
      * @return angle in degrees
@@ -272,27 +238,46 @@ public class Chassis extends Subsystem {
     }
 
     /**
-     * Tell the Chassis to hold a relative angle
-     * @param angle angle to hold in degrees
+     * Returns the shift state of the Chassis
+     * @return
      */
-    public static void holdAngle(double angle)
-    {
-        //TODO: Rework
+    public static boolean getShift() {
+        return m_shifter.get();
     }
 
-    public static void talonsToCoast(boolean coast)
+    /**
+     * Returns if robot is in low gear
+     * @return true means robot is in low gear, false if it's in high gear
+     */
+    public static boolean isLowGear(){
+        return !m_shifter.get();
+    }
+
+    /**
+     * Gets absolute distance traveled by the left side of the robot
+     * @return The absolute distance of the left side in inches
+     */
+    public static double getDistanceL()
     {
-        if (coast){
-            m_leftMotorFront.setNeutralMode(NeutralMode.Coast);
-            m_leftMotorRear.setNeutralMode(NeutralMode.Coast);
-            m_rightMotorFront.setNeutralMode(NeutralMode.Coast);
-            m_rightMotorRear.setNeutralMode(NeutralMode.Coast);
-        } else {
-            m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
-            m_leftMotorRear.setNeutralMode(NeutralMode.Brake);
-            m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
-            m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
-        }
+        return m_leftMotorFront.getSelectedSensorPosition(0) / RobotMap.kLChassisTicksPerInch;
+    }
+
+    /**
+     * Gets absolute distance traveled by the right side of the robot
+     * @return The absolute distance of the right side in inches
+     */
+    public static double getDistanceR()
+    {
+        return m_rightMotorFront.getSelectedSensorPosition(0) / RobotMap.kRChassisTicksPerInch;
+    }
+
+    /**
+     * Gets the absolute distance traveled by the robot
+     * @return The absolute distance traveled of robot in inches
+     */
+    public static double getDistance()
+    {
+        return (getDistanceL() + getDistanceR()) / 2.0; //the average of the left and right distances
     }
 
     /**
@@ -371,6 +356,37 @@ public class Chassis extends Subsystem {
      * @return Returns the right main drive Talon
      */
     public static WPI_TalonSRX getFrontR(){ return m_rightMotorFront; }
+
+    //Configs
+    /**
+     * Configure the drivetrain for motion profiling
+     * @param duration fire rate of the motion profile in ms
+     */
+    public static void configMP(int duration) {
+
+        //left
+        m_leftMotorFront.config_kP(0, RobotMap.kMPChassisP, 0);
+        m_leftMotorFront.config_kI(0, RobotMap.kMPChassisI, 0);
+        m_leftMotorFront.config_kD(0, RobotMap.kMPChassisD, 0);
+        m_leftMotorFront.config_kF(0, RobotMap.kMPChassisF, 0);
+        m_leftMotorFront.configNeutralDeadband(RobotMap.kChassisMPOutputDeadband, 0);
+        // Status 10 provides the trajectory target for motion profile AND motion magic
+        m_leftMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, duration, 0);
+        //Profile already assumes base time is 0
+        m_leftMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
+
+        //right
+        m_rightMotorFront.config_kP(0, RobotMap.kMPChassisP, 0);
+        m_rightMotorFront.config_kI(0, RobotMap.kMPChassisI, 0);
+        m_rightMotorFront.config_kD(0, RobotMap.kMPChassisD, 0);
+        m_rightMotorFront.config_kF(0, RobotMap.kMPChassisF, 0);
+        m_rightMotorFront.configNeutralDeadband(RobotMap.kChassisMPOutputDeadband, 0);
+        // Status 10 provides the trajectory target for motion profile AND motion magic
+        m_rightMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, duration, 0);
+        //Profile already assumes base time is 0
+        m_rightMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
+    }
+
 
     public static void outputToSmartDashboard() {
         SmartDashboard.putNumber("Chassis Right Velocity", m_rightMotorFront.getSelectedSensorVelocity(0));
