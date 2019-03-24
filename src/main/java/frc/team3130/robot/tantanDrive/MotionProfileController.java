@@ -50,7 +50,7 @@ public class MotionProfileController {
      */
     private final int kNumLoopsTimeout = 10;
 
-    private Path profile;
+    private double[][] profile;
 
     private int totalCnt;
 
@@ -214,11 +214,11 @@ public class MotionProfileController {
 
     /**
      * Set the path profile that the motion profile controller should use
-     * @param profile Path object the MP controller should use
+     * @param profile Double array of path points that the MP controller should use
      */
-    public void setProfile(Path profile){
+    public void setProfile(double[][] profile){
         this.profile = profile;
-        this.totalCnt = profile.kNumPoints;
+        this.totalCnt = profile.length;
     }
 
     /**
@@ -226,7 +226,7 @@ public class MotionProfileController {
      */
     private void startFilling() {
         if(totalCnt != 0) {
-            startFilling(profile.Points, totalCnt);
+            startFilling(profile, totalCnt);
         }
     }
 

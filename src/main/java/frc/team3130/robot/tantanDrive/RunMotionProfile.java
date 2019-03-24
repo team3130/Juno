@@ -10,14 +10,14 @@ import frc.team3130.robot.tantanDrive.Paths.PathStore;
  *
  */
 public class RunMotionProfile extends Command {
-    private Path leftPath;
-    private Path rightPath;
+    private double[][] leftPath;
+    private double[][] rightPath;
 
-    public RunMotionProfile(PathStore.Paths thisSet) {
+    public RunMotionProfile(Path thisPath) {
         //Put in the instance of whatever subsystem u need here
         requires(Chassis.GetInstance());
-        leftPath = new Path(thisSet.getLeft());
-        rightPath = new Path(thisSet.getRight());
+        leftPath = thisPath.getLeft();
+        rightPath = thisPath.getRight();
     }
 
     // Called just before this Command runs the first time
