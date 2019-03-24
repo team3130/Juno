@@ -4,7 +4,6 @@ import com.ctre.phoenix.motion.SetValueMotionProfile;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.tantanDrive.Paths.Path;
-import frc.team3130.robot.tantanDrive.Paths.PathStore;
 
 /**
  *

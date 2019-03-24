@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Notifier;
 import frc.team3130.robot.RobotMap;
-import frc.team3130.robot.tantanDrive.Paths.Path;
 
 public class MotionProfileController {
 
