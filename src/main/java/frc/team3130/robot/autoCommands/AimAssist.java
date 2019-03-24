@@ -64,7 +64,7 @@ public class AimAssist extends Command {
         goStraight *= RobotMap.kDistanceToEncoder;
         goLeft *= RobotMap.kDistanceToEncoder;
 
-        Chassis.configMP();
+        Chassis.configMP(10);
         double currentVelocity = 0.5*(Chassis.getRawSpeedL()+Chassis.getRawSpeedR());
         CubicPath path = new CubicPath( maxAcceleration, cruiseVelocity)
                 .withDuration(0.1) // 10ms = 0.1 * 100ms

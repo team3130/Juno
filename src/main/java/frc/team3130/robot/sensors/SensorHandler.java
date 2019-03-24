@@ -23,6 +23,7 @@ public class SensorHandler {
         lastBall = false;
         lastHatch = false;
         lastElevator = false;
+
     }
 
     public static void updateSensors(){

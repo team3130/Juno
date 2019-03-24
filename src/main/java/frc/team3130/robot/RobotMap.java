@@ -20,9 +20,27 @@ public class RobotMap {
 	 */
 
 	//Chassis
-		public static double kChassisWidth = 23.5; //Checked 2/12 Distance between the left and right middle wheels
-		public static double kLWheelDiameter = 6.0; //Center wheel
-		public static double kRWheelDiameter = 6.0; //Center wheel
+		public static double kChassisWidth = 23.0; //Checked 3/23 Distance between the left and right middle wheels
+		public static double kChassisLengthBumpers = 39.0; //Checked 3/23
+		public static double kLWheelDiameter = 5.9; //Center wheel
+		public static double kRWheelDiameter = 5.9; //Center wheel
+
+		public static double kLChassisTicksPerInch = 4096.0 / (Math.PI * kLWheelDiameter);
+		public static double kRChassisTicksPerInch = 4096.0 / (Math.PI * kRWheelDiameter);
+
+		//Motion Profiling
+		public static double kChassisMinPointsInBuffer = 5;
+		public static double kChassisMPOutputDeadband = 0.01;
+		public static int kChassisMPDefaultFireRate = 20;
+
+		public static double kMPChassisP = 5.0; //TODO
+		public static double kMPChassisI = 0.0; //TODO
+		public static double kMPChassisD = 0.0; //TODO
+		public static double kMPChassisF = 1023.0 / 20330.0; //TODO
+
+		public static double kMPMaxVel = 115.0; //maximum achievable velocity of the drivetrain in in/s NOTE: the actual motion profile should be generated at 80% of this
+		public static double kMPMaxAcc = 60.0; ///maximum achievable acceleration of the drivetrain in in/s^2 NOTE: the actual motion profile should be generated at 80% of this
+
 		public static double kDriveCodesPerRev = 4096;
 		public static double kDistanceToEncoder = kDriveCodesPerRev / (Math.PI * 0.5*(kLWheelDiameter+kRWheelDiameter));
 		public static double kVelocityToEncoder = kDistanceToEncoder / 10.0; 		// Per 100ms
@@ -55,7 +73,7 @@ public class RobotMap {
 		public static double kWristManualDeadband = 0.1;
 		public static double kWristManualMultipler = 0.5;
 
-		public static double kWristHomingAngle = 91.0; //FIXME Checked 3/21
+		public static double kWristHomingAngle = 93.0; //Checked 3/22
 
 		public static double kWristP = 3.0; //Checked 3/21
 		public static double kWristI = 0.001; //Checked 3/21
@@ -64,7 +82,7 @@ public class RobotMap {
 		public static int kWristMaxAcc = 1400; // 1024
 		public static int kWristMaxVel = 3400; // 1024
 
-		public static double kWristFFEmpty = 0.05; //Checked 3/8
+		public static double kWristFFEmpty = 0.1; //Checked 3/22
 		public static double kWristFFBall = 0.0;
 		public static double kWristFFHatch = 0.0;
 
@@ -80,17 +98,15 @@ public class RobotMap {
 
 	//Placement Presets
 		public enum Presets{
-			LowestHatch (15.0 , 90.0),
-			MiddleHatch (53.0, 90.0),
-			HighestHatch(86.0,90.0),
-			LowestTongue(23.0, 90.0),
-			MiddleTongue(61.0, 90.0),
-			HighestTongue(93.0, 90.0),
-			Station(19.5, 90.0), //Checked 3/21
-			LowestPort ( 20.0, 120.0),
-			MiddlePort (55.0, 120.0),
-			HighestPort (90.0,120.0),
-			Cargoship(35.0, 170.0); //FIXME
+			LowestTongue(19.7, 90.0), //Checked 3/22
+			MiddleTongue(45.0, 90.0), //Checked 3/22
+			HighestTongue(93.0, 90.0), //TODO test when elevator can go all the way up
+			Station(17.7, 90.0), //Checked 3/22
+			LowestPort ( 18.0, 120.0), //Checked 3/21
+			MiddlePort (42.2, 120.0),//Checked 3/22
+			HighestPort (90.0,120.0),//TODO test when elevator can go all the way up
+			Cargoship(40.6, 190.0), //checked 3/22
+			Pickup(17.5, 205.0);
 
 			private double height;
 			private double angle;

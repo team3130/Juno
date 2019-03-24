@@ -70,6 +70,19 @@ public class Robot extends TimedRobot {
       }
     });
     t.start();
+
+    Thread p = new Thread(() -> {
+      while (!Thread.interrupted()) {
+        try {
+          Thread.sleep(20);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+        SensorHandler.updateSensors();
+        writePeriodicOutputs();
+      }
+    });
+    p.start();
   }
 
   /**
@@ -80,11 +93,13 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     Elevator.resetElevator();
+    Chassis.mLeftMPController.reset();
+    Chassis.mRightMPController.reset();
   }
 
   @Override
   public void disabledPeriodic() {
-    SensorHandler.updateSensors();
+
   }
 
   /**
@@ -114,6 +129,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     Elevator.resetElevator();
     Arm.resetArm();
+    Intake.retractTongue();
     //determine the auton to run
     //determineAuton();
     //start that command
@@ -129,7 +145,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
-    SensorHandler.updateSensors();
   }
 
 
@@ -146,6 +161,9 @@ public class Robot extends TimedRobot {
     }
     Elevator.resetElevator();
     Arm.resetArm();
+    Elevator.holdHeight();
+    Arm.holdAngleWrist();
+    Intake.retractTongue();
   }
 
 
@@ -155,7 +173,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    SensorHandler.updateSensors();
   }
 
   /**
@@ -216,5 +233,11 @@ public class Robot extends TimedRobot {
     Elevator.outputToSmartDashboard();
     Arm.GetInstance().outputToSmartDashboard();
     Chassis.outputToSmartDashboard();
+  }
+
+  public void writePeriodicOutputs(){
+    Arm.GetInstance().writePeriodicOutputs();
+    Elevator.GetInstance().writePeriodicOutputs();
+    Chassis.GetInstance().writePeriodicOutputs();
   }
 }

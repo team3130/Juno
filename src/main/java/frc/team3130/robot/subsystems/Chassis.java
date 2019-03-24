@@ -1,18 +1,19 @@
 package frc.team3130.robot.subsystems;
 
+import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team3130.robot.Robot;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Chassis.DefaultDrive;
 import frc.team3130.robot.sensors.Navx;
+import frc.team3130.robot.tantanDrive.MotionProfileController;
 import frc.team3130.robot.util.PIDCustom;
 import frc.team3130.robot.util.Util;
 
@@ -37,8 +38,13 @@ public class Chassis extends Subsystem {
 
     private static PIDCustom ChassisPID;
 
+    public static MotionProfileController mLeftMPController;
+    public static MotionProfileController mRightMPController;
+
+    private static ChassisControlState mChassisState = ChassisControlState.PERCENT_OUTPUT;
+
     //Create and define all standard data types needed
-    public static final double InchesPerRev = ((RobotMap.kLWheelDiameter + RobotMap.kRWheelDiameter)/ 2.0) * Math.PI;
+
 
     private Chassis() {
 
@@ -81,6 +87,10 @@ public class Chassis extends Subsystem {
 
         m_leftMotorFront.overrideLimitSwitchesEnable(false);
         m_rightMotorFront.overrideLimitSwitchesEnable(false);
+
+        //Configure the motion profile controllers
+        mLeftMPController = new MotionProfileController(m_leftMotorFront, RobotMap.kChassisMPDefaultFireRate, true);
+        mRightMPController = new MotionProfileController(m_rightMotorFront, RobotMap.kChassisMPDefaultFireRate, false);
     }
 
     public void initDefaultCommand() {
@@ -99,6 +109,7 @@ public class Chassis extends Subsystem {
             moveL = Math.copySign(moveL * moveL, moveL);
             moveR = Math.copySign(moveR * moveR, moveR);
         }
+
 
         m_leftMotorFront.set(ControlMode.PercentOutput, moveL);
         m_rightMotorFront.set(ControlMode.PercentOutput, moveR);
@@ -156,7 +167,7 @@ public class Chassis extends Subsystem {
      */
     public static double getDistanceL()
     {
-        return (m_leftMotorFront.getSelectedSensorPosition(0)/RobotMap.kDriveCodesPerRev) * InchesPerRev ;
+        return m_leftMotorFront.getSelectedSensorPosition(0) / RobotMap.kLChassisTicksPerInch;
     }
 
     /**
@@ -165,7 +176,7 @@ public class Chassis extends Subsystem {
      */
     public static double getDistanceR()
     {
-        return (m_rightMotorFront.getSensorCollection().getQuadraturePosition()/RobotMap.kDriveCodesPerRev) * InchesPerRev;
+        return m_rightMotorFront.getSelectedSensorPosition(0) / RobotMap.kRChassisTicksPerInch;
     }
 
     /**
@@ -186,26 +197,57 @@ public class Chassis extends Subsystem {
         }
     }
 
-    public static void configMP() {
+    public synchronized void writePeriodicOutputs() {
+        if(mChassisState == ChassisControlState.MOTION_PROFILE){
+            SetValueMotionProfile leftOutput = mLeftMPController.getSetValue();
+            m_leftMotorFront.set(ControlMode.MotionProfile, leftOutput.value);
+            SetValueMotionProfile rightOutput = mRightMPController.getSetValue();
+            m_rightMotorFront.set(ControlMode.MotionProfile, rightOutput.value);
+        }
 
-        m_leftMotorFront.config_kP(0, 0.75, 0);
-        m_leftMotorFront.config_kI(0, 0.0, 0);
-        m_leftMotorFront.config_kD(0, 0.0, 0);
-        m_leftMotorFront.config_kF(0, 1023.0 / 7200.0, 0);
-        m_leftMotorFront.configNeutralDeadband(0.1, 0);
-        /* Status 10 provides the trajectory target for motion profile AND motion magic */
-        m_leftMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-        /* Our profile uses 10ms timing so do not add the base duration */
+        mLeftMPController.control();
+        mRightMPController.control();
+    }
+
+    public synchronized void setControlState(int state){
+        if(state == 0){
+            mChassisState = ChassisControlState.MOTION_PROFILE;
+        }else{
+            mChassisState = ChassisControlState.PERCENT_OUTPUT;
+        }
+
+    }
+
+    public static void reset(){
+        m_leftMotorFront.setSelectedSensorPosition(0);
+        m_rightMotorFront.setSelectedSensorPosition(0);
+    }
+    /**
+     *
+     * @param duration fire rate of the motion profile in ms
+     */
+    public static void configMP(int duration) {
+
+        //left
+        m_leftMotorFront.config_kP(0, Preferences.getInstance().getDouble("testP", RobotMap.kMPChassisP), 0);
+        m_leftMotorFront.config_kI(0, Preferences.getInstance().getDouble("testI",RobotMap.kMPChassisI), 0);
+        m_leftMotorFront.config_kD(0, Preferences.getInstance().getDouble("testD",RobotMap.kMPChassisD), 0);
+        m_leftMotorFront.config_kF(0, RobotMap.kMPChassisF, 0);
+        m_leftMotorFront.configNeutralDeadband(RobotMap.kChassisMPOutputDeadband, 0);
+        // Status 10 provides the trajectory target for motion profile AND motion magic
+        m_leftMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, duration, 0);
+        //Profile already assumes base time is 0
         m_leftMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
 
-        m_rightMotorFront.config_kP(0, 0.75, 0);
-        m_rightMotorFront.config_kI(0, 0.0, 0);
-        m_rightMotorFront.config_kD(0, 0.0, 0);
-        m_rightMotorFront.config_kF(0, 1023.0 / 7200.0, 0);
-        m_rightMotorFront.configNeutralDeadband(0.1, 0);
-        /* Status 10 provides the trajectory target for motion profile AND motion magic */
-        m_rightMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 0);
-        /* Our profile uses 10ms timing so do not add the base duration */
+        //right
+        m_rightMotorFront.config_kP(0, Preferences.getInstance().getDouble("testP",RobotMap.kMPChassisP), 0);
+        m_rightMotorFront.config_kI(0, Preferences.getInstance().getDouble("testI",RobotMap.kMPChassisI), 0);
+        m_rightMotorFront.config_kD(0, Preferences.getInstance().getDouble("testD",RobotMap.kMPChassisD), 0);
+        m_rightMotorFront.config_kF(0, RobotMap.kMPChassisF, 0);
+        m_rightMotorFront.configNeutralDeadband(RobotMap.kChassisMPOutputDeadband, 0);
+        // Status 10 provides the trajectory target for motion profile AND motion magic
+        m_rightMotorFront.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, duration, 0);
+        //Profile already assumes base time is 0
         m_rightMotorFront.configMotionProfileTrajectoryPeriod(0, 0);
     }
 
@@ -278,7 +320,7 @@ public class Chassis extends Subsystem {
     public static double getSpeedL()
     {
         // The raw speed units will be in the sensor's native ticks per 100ms.
-        return 10.0 * m_leftMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
+        return 10.0 * getRawSpeedL() / RobotMap.kLChassisTicksPerInch;
     }
 
     /**
@@ -288,7 +330,7 @@ public class Chassis extends Subsystem {
     public static double getSpeedR()
     {
         // The raw speed units will be in the sensor's native ticks per 100ms.
-        return 10.0 * m_rightMotorFront.getSelectedSensorVelocity(0) * InchesPerRev / RobotMap.kDriveCodesPerRev;
+        return 10.0 * getRawSpeedR() / RobotMap.kRChassisTicksPerInch;
     }
 
     /**
@@ -304,7 +346,7 @@ public class Chassis extends Subsystem {
      *
      * @return Raw absolute encoder ticks of the left side of the robot
      */
-    public static double GetRawL(){
+    public static double getRawL(){
         return m_leftMotorFront.getSelectedSensorPosition(0);
     }
 
@@ -312,7 +354,7 @@ public class Chassis extends Subsystem {
      *
      * @return Raw absolute encoder ticks of the right side of the robot
      */
-    public static double GetRawR(){
+    public static double getRawR(){
         return m_rightMotorFront.getSelectedSensorPosition(0);
     }
 
@@ -334,6 +376,14 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Chassis Right Velocity", m_rightMotorFront.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("Chassis Left Velocity", m_leftMotorFront.getSelectedSensorVelocity(0));
 
+        SmartDashboard.putNumber("Chassis Right Vel Traj", m_rightMotorFront.getActiveTrajectoryVelocity(0));
+        SmartDashboard.putNumber("Chassis Left Vel Traj", m_leftMotorFront.getActiveTrajectoryVelocity(0));
+
+        SmartDashboard.putNumber("Chassis Right Speed", getSpeedR());
+        SmartDashboard.putNumber("Chassis Left Speed", getSpeedL());
+
+        SmartDashboard.putNumber("Chassis Distance R", getDistanceR());
+        SmartDashboard.putNumber("Chassis Distance L", getDistanceL());
 
         SmartDashboard.putNumber("Chassis Right Sensor Value", m_rightMotorFront.getSelectedSensorPosition());
         SmartDashboard.putNumber("Chassis Left Sensor Value", m_leftMotorFront.getSelectedSensorPosition());
@@ -342,5 +392,11 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber("Chassis Left Output %", m_leftMotorFront.getMotorOutputPercent());
 
     }
+
+    private enum ChassisControlState{
+        PERCENT_OUTPUT,
+        MOTION_PROFILE
+    }
+
 
 }

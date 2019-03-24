@@ -17,6 +17,8 @@ import frc.team3130.robot.commands.Groups.RunPreset;
 import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
 import frc.team3130.robot.commands.Intake.TongueToggle;
+import frc.team3130.robot.tantanDrive.Paths.PathStore;
+import frc.team3130.robot.tantanDrive.RunMotionProfile;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
@@ -82,7 +84,7 @@ public class OI {
     public static POVTrigger zeroWrist;
 
     public static JoystickButton testArm;
-    public static JoystickButton testElevator;
+    public static JoystickButton testButton;
 
     public static JoystickButton toggleTongue;
 
@@ -93,6 +95,8 @@ public class OI {
     public static JoystickButton intakePickup;
 
     public static JoystickButton lowBall;
+    public static JoystickButton middleBall;
+    public static JoystickButton highBall;
     public static JoystickButton toCargoship;
 
     public static POVTrigger highTongue;
@@ -100,14 +104,10 @@ public class OI {
     public static POVTrigger lowTongue;
     public static POVTrigger toStation;
 
-    public static JoystickButton highHatch;
-    public static JoystickButton middleHatch;
-    public static JoystickButton lowHatch;
 
     private static Command ballOutCommand = new BallOut();
     private static Command ballInCommand = new BallIn();
 
-    private static Command highBall = new RunPreset(RobotMap.Presets.HighestPort);
 
     private static JoystickButton armDeploy;
     private static JoystickTrigger legDown;
@@ -150,22 +150,21 @@ public class OI {
 
         zeroWrist = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
 
-        testElevator = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
+        testButton = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
 
         /*
          * Weapons
          */
-        //lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_LBUMPER);
-        toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_RJOYSTICKPRESS);
 
-        highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
+        //highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
         middleTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_W);
         lowTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_S);
         toStation = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_E);
 
-        highHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
-        middleHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
-        lowHatch = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+        lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
+        middleBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
+        //highBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
+        toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_B);
 
         armDeploy = new JoystickButton(weaponsGamepad, RobotMap.BTN_DROP_ARMS);
         legDown = new JoystickTrigger(weaponsGamepad, RobotMap.AXS_DROP_LEG, 0.1);
@@ -176,7 +175,7 @@ public class OI {
         //Map the button to command
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
-        intakePickup.whenPressed(new WristToAngle(175.0));
+        intakePickup.whenPressed(new RunPreset(RobotMap.Presets.Pickup));
         intakeStowed.whenPressed(new WristToAngle(RobotMap.kWristHomingAngle));
 
         shift.whenPressed(new ShiftToggle());
@@ -185,23 +184,21 @@ public class OI {
 
         zeroWrist.whenActive(new ZeroArm());
 
-        testElevator.whenPressed(new ElevatorTestPreference());
+        testButton.whenPressed(new RunMotionProfile(PathStore.Paths.sTest));
 
         //testArm.whenPressed(new TestArm());
 
         toggleTongue.whenPressed(new TongueToggle());
 
         lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
+        middleBall.whenPressed(new RunPreset(RobotMap.Presets.MiddlePort));
+        //highBall.whenPressed(new RunPreset(RobotMap.Presets.HighestPort));
         toCargoship.whenPressed(new RunPreset(RobotMap.Presets.Cargoship));
 
-        highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
+        //highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
         middleTongue.whenActive(new RunPreset(RobotMap.Presets.MiddleTongue));
         lowTongue.whenActive(new RunPreset(RobotMap.Presets.LowestTongue));
         toStation.whenActive(new RunPreset(RobotMap.Presets.Station));
-
-        highHatch.whenPressed(new RunPreset(RobotMap.Presets.HighestHatch));
-        middleHatch.whenPressed(new RunPreset(RobotMap.Presets.MiddleHatch));
-        lowHatch.whenPressed(new RunPreset(RobotMap.Presets.LowestHatch));
 
         armDeploy.whileHeld(new ArmsDown());
         legDown.whileActive(new LegDown());
@@ -225,7 +222,7 @@ public class OI {
     public static JoystickButton deployClimber;
     public static JoystickButton toggleClimber2;
 
-    public static JoystickButton testElevator;
+    public static JoystickButton testButton;
 
 
 
@@ -245,7 +242,7 @@ public class OI {
         deployClimber = new JoystickButton(stickL, 4);
         toggleClimber2 = new JoystickButton(stickL, 7);
 
-        testElevator = new JoystickButton(stickR, 2);
+        testButton = new JoystickButton(stickR, 2);
 
 
 
@@ -261,7 +258,7 @@ public class OI {
 
         deployClimber.whenPressed(new DeployClimber());
 
-        testElevator.whileHeld(new TestElevator());
+        testButton.whileHeld(new TestElevator());
 
 
     }
