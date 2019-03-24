@@ -19,25 +19,20 @@ public class MotionProfileController {
      */
     private MotionProfileStatus _status = new MotionProfileStatus();
 
-    /** cache for holding the active trajectory point */
-    double _pos=0,_vel=0,_heading=0;
-
-
     private WPI_TalonSRX _talon;
     /**
      * State machine to make sure we let enough of the motion profile stream to
      * talon before we fire it.
      */
     private int _state = 0;
+
     /**
-     * Any time you have a state machine that waits for external events, its a
-     * good idea to add a timeout. Set to -1 to disable. Set to nonzero to count
-     * down to '0' which will print an error message. Counting loops is not a
-     * very accurate method of tracking timeout, but this is just conservative
-     * timeout. Getting time-stamps would certainly work too, this is just
-     * simple (no need to worry about timer overflows).
+     * State machine timeout. Set to -1 to disable. Set to nonzero to count
+     * down to '0' which will print an error message. Getting time-stamps would
+     * certainly work too, this is just simple (prevents issue of timer overflow).
      */
     private int _loopTimeout = -1;
+
     /**
      * If start() gets called, this flag is set and in the control() we will
      * service it.
@@ -50,10 +45,10 @@ public class MotionProfileController {
     private SetValueMotionProfile _setValue = SetValueMotionProfile.Disable;
 
     /**
-     * Just a state timeout to make sure we don't get stuck anywhere. Each loop
+     * A state timeout to make sure we don't get stuck anywhere. Each loop
      * is about 20ms.
      */
-    private static final int kNumLoopsTimeout = 10;
+    private final int kNumLoopsTimeout = 10;
 
     private Path profile;
 
@@ -62,7 +57,7 @@ public class MotionProfileController {
     private boolean isLeft;
 
     /*
-     * The only routines we call on Talon are....
+     * The only routines handled in this class....
      *
      * changeMotionControlFramePeriod
      *
@@ -140,12 +135,11 @@ public class MotionProfileController {
 
         //time tracking
         if (_loopTimeout < 0) {
-            /* do nothing, timeout is disabled */
+            // do nothing, timeout is disabled
         } else {
             // Timeout is nonzero
             if (_loopTimeout == 0) {
                 //something is wrong. Talon is not present, unplugged, breaker tripped
-                //Instrumentation.OnNoProgress();
             } else {
                 --_loopTimeout;
             }
@@ -162,33 +156,35 @@ public class MotionProfileController {
              * do.
              */
             switch (_state) {
-                case 0: /* wait for application to tell us to start an MP */
+                case 0: //Wait for application to tell us to start an MP
                     if (_bStart) {
                         _bStart = false;
 
                         _setValue = SetValueMotionProfile.Disable;
+
+                        //Start sending the motion profile to the talon buffer
                         startFilling();
-                        /*
-                         * MP is being sent to CAN bus, wait a small amount of time
-                         */
+
+                        //MP is being sent to CAN bus, wait a small amount of time
                         _state = 1;
                         _loopTimeout = kNumLoopsTimeout;
                     }
                     break;
-                case 1: /*
+                case 1:
+                /*
                  * wait for MP to stream to Talon, really just the first few
                  * points
                  */
-                    /* do we have a minimum numberof points in Talon */
+                    //Check to see if we have a minimum number of points in the buffer
                     if (_status.btmBufferCnt > RobotMap.kChassisMinPointsInBuffer) {
-                        /* start (once) the motion profile */
+                        // start (once) the motion profile
                         _setValue = SetValueMotionProfile.Enable;
-                        /* MP will start once the control frame gets scheduled */
+                        // MP will start once the control frame gets scheduled
                         _state = 2;
                         _loopTimeout = kNumLoopsTimeout;
                     }
                     break;
-                case 2: /* check the status of the MP */
+                case 2: // wait on end status
                     /*
                      * if talon is reporting things are good, keep adding to our
                      * timeout. Really this is so that you can unplug your talon in
@@ -204,7 +200,7 @@ public class MotionProfileController {
                      */
                     if (_status.activePointValid && _status.isLast) {
                         /*
-                         * because we set the last point's isLast to true, we will
+                         * We set the last point's isLast to true, so we will
                          * get here when the MP is done
                          */
                         _setValue = SetValueMotionProfile.Hold;
@@ -213,40 +209,37 @@ public class MotionProfileController {
                     }
                     break;
             }
-            /*
-            /* Get the motion profile status every loop
-            _heading = 0.0; //TODO: depreciated
-            _pos = _talon.getActiveTrajectoryPosition();
-            _vel = _talon.getActiveTrajectoryVelocity();
-
-            /* printfs and/or logging
-            Instrumentation.process(_status, _pos, _vel, _heading);*/
         }
     }
 
-    /** Start filling the MPs to the talon. */
+    /**
+     * Set the path profile that the motion profile controller should use
+     * @param profile Path object the MP controller should use
+     */
+    public void setProfile(Path profile){
+        this.profile = profile;
+        this.totalCnt = profile.kNumPoints;
+    }
+
+    /**
+     * Start filling the MPs to the talon.
+     */
     private void startFilling() {
         if(totalCnt != 0) {
             startFilling(profile.Points, totalCnt);
         }
     }
 
-    public void setProfile(Path profile){
-        this.profile = profile;
-        this.totalCnt = profile.kNumPoints;
-    }
-
     private void startFilling(double[][] profile, int totalCnt) {
-
         // create an empty point
         TrajectoryPoint point = new TrajectoryPoint();
 
         // did we get an underrun condition since last time we checked?
         if (_status.hasUnderrun) {
-            //Instrumentation.OnUnderrun();
             //clear the error. This flag does not auto clear, logging already handles this
             _talon.clearMotionProfileHasUnderrun(0);
         }
+
         // clear MP buffer in case there are old points
         _talon.clearMotionProfileTrajectories();
 
@@ -255,6 +248,7 @@ public class MotionProfileController {
 
         // Ticks per inch of the left or right side
         double ticksPerInch = isLeft ? RobotMap.kLChassisTicksPerInch : RobotMap.kRChassisTicksPerInch;
+
         for (int i = 0; i < totalCnt; ++i) {
             double positionInches = profile[i][0];
             double velocityInches = profile[i][1];
@@ -263,22 +257,22 @@ public class MotionProfileController {
             point.velocity = velocityInches * ticksPerInch / 10.0; //Convert inches/s to Units/100ms
             point.headingDeg = 0; //not used
             point.profileSlotSelect0 = 0; // which set of gains would you like to use [0,3]?
-            point.profileSlotSelect1 = 0; /* future feature  - not used in this example - cascaded PID [0,1], leave zero */
+            point.profileSlotSelect1 = 0; // future feature  **DO NOT USE** cascaded PID [0,1], leave zero
             point.timeDur = (int)profile[i][2];
             point.zeroPos = false;
             if (i == 0)
-                point.zeroPos = true; /* set this to true on the first point */
+                point.zeroPos = true;
 
             point.isLastPoint = false;
             if ((i + 1) == totalCnt)
-                point.isLastPoint = true; /* set this to true on the last point  */
+                point.isLastPoint = true;
 
             _talon.pushMotionProfileTrajectory(point);
         }
     }
+
     /**
-     * Called by application to signal Talon to start the buffered MP (when it's
-     * able to).
+     * Called by application to signal Talon to start the buffered MP.
      */
     public void startMotionProfile() {
         _bStart = true;
