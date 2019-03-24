@@ -22,8 +22,8 @@ public class RobotMap {
 	//Chassis
 		public static double kChassisWidth = 23.0; //Checked 3/23 Distance between the left and right middle wheels
 		public static double kChassisLengthBumpers = 39.0; //Checked 3/23
-		public static double kLWheelDiameter = 6.0; //Center wheel
-		public static double kRWheelDiameter = 6.0; //Center wheel
+		public static double kLWheelDiameter = 5.9; //Center wheel
+		public static double kRWheelDiameter = 5.9; //Center wheel
 
 		public static double kLChassisTicksPerInch = 4096.0 / (Math.PI * kLWheelDiameter);
 		public static double kRChassisTicksPerInch = 4096.0 / (Math.PI * kRWheelDiameter);
@@ -36,7 +36,7 @@ public class RobotMap {
 		public static double kMPChassisP = 5.0; //TODO
 		public static double kMPChassisI = 0.0; //TODO
 		public static double kMPChassisD = 0.0; //TODO
-		public static double kMPChassisF = 1023.0 / 19991.0; //TODO
+		public static double kMPChassisF = 1023.0 / 20330.0; //TODO
 
 		public static double kMPMaxVel = 115.0; //maximum achievable velocity of the drivetrain in in/s NOTE: the actual motion profile should be generated at 80% of this
 		public static double kMPMaxAcc = 60.0; ///maximum achievable acceleration of the drivetrain in in/s^2 NOTE: the actual motion profile should be generated at 80% of this
