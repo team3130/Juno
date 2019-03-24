@@ -105,22 +105,6 @@ public class Arm extends Subsystem {
     }
 
     /**
-     * Gets the raw encoder position
-     * @return the current raw encoder position
-     */
-    public static int getRawPosition(){
-        return m_wrist.getSensorCollection().getQuadraturePosition();
-    }
-
-    /**
-     * Gets the angle of the Wrist motor in relation to the arm
-     * @return Angle of Wrist in degrees in relation to the arm (not relative the ground)
-     */
-    public synchronized static double getRelativeWristAngle(){
-        return m_wrist.getSelectedSensorPosition(0) / RobotMap.kWristTicksPerDeg;
-    }
-
-    /**
      *  Move the arm Wrist motor to an angle relative to the arm
      * @param angle The angle setpoint to go to in degrees
      */
@@ -144,13 +128,22 @@ public class Arm extends Subsystem {
         m_wrist.set(ControlMode.PercentOutput, 0.0);
     }
 
+
+    //Sensor Related
     /**
-     * Reset the Wrist encoder to a given angle
-     * @param angle the angle to reset the wrist to in degrees
+     * Gets the raw encoder position
+     * @return the current raw encoder position
      */
-    public static synchronized void zeroSensors(double angle){
-        m_wrist.setSelectedSensorPosition((int) (angle * RobotMap.kWristTicksPerDeg));
-        zeroed = true;
+    public static int getRawPosition(){
+        return m_wrist.getSensorCollection().getQuadraturePosition();
+    }
+
+    /**
+     * Gets the angle of the Wrist motor in relation to the arm
+     * @return Angle of Wrist in degrees in relation to the arm (not relative the ground)
+     */
+    public synchronized static double getRelativeWristAngle(){
+        return m_wrist.getSelectedSensorPosition(0) / RobotMap.kWristTicksPerDeg;
     }
 
     public static synchronized boolean hasBeenZeroed(){
@@ -159,6 +152,15 @@ public class Arm extends Subsystem {
 
     public static synchronized void setZeroedState(boolean isZeroed){
         zeroed = isZeroed;
+    }
+
+    /**
+     * Reset the Wrist encoder to a given angle
+     * @param angle the angle to reset the wrist to in degrees
+     */
+    public static synchronized void zeroSensors(double angle){
+        m_wrist.setSelectedSensorPosition((int) (angle * RobotMap.kWristTicksPerDeg));
+        zeroed = true;
     }
 
     public static boolean isRevLimitClosed(){
@@ -277,7 +279,7 @@ public class Arm extends Subsystem {
 
         SmartDashboard.putNumber("Wrist Feed Forward", wristPeriodicIO.feedforward);
 
-        SmartDashboard.putNumber("Wrist Active Arbitrary FF", m_wrist.getActiveTrajectoryArbFeedFwd(0));
+        //SmartDashboard.putNumber("Wrist Active Arbitrary FF", m_wrist.getActiveTrajectoryArbFeedFwd(0));
     }
 
     private enum WristControlState{

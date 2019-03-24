@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Starting position", startPos);
 
+    //Smartdash output thread
     Thread t = new Thread(() -> {
       while (!Thread.interrupted()) {
         try {
@@ -71,6 +72,7 @@ public class Robot extends TimedRobot {
     });
     t.start();
 
+    //Thread to read in sensor inputs and handle state machines
     Thread p = new Thread(() -> {
       while (!Thread.interrupted()) {
         try {
@@ -92,7 +94,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    Elevator.resetElevator();
     Chassis.mLeftMPController.reset();
     Chassis.mRightMPController.reset();
   }
@@ -127,11 +128,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    Elevator.resetElevator();
-    Arm.resetArm();
-    Intake.retractTongue();
-    //determine the auton to run
-    //determineAuton();
+    resetSubsystems();
+    //determineAuton(); //determine the auton to run
     //start that command
     /*
     if (autonomousCommand != null) {
@@ -154,16 +152,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     /* This makes sure that the autonomous stops running when teleop starts running. If you want the autonomous to
-       continue until interrupted by another command, remove this line or comment it out.
-    */
+       continue until interrupted by another command, remove this line or comment it out. */
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
-    Elevator.resetElevator();
-    Arm.resetArm();
+    resetSubsystems();
     Elevator.holdHeight();
     Arm.holdAngleWrist();
-    Intake.retractTongue();
+
   }
 
 
@@ -239,5 +235,11 @@ public class Robot extends TimedRobot {
     Arm.GetInstance().writePeriodicOutputs();
     Elevator.GetInstance().writePeriodicOutputs();
     Chassis.GetInstance().writePeriodicOutputs();
+  }
+
+  public void resetSubsystems(){
+    Elevator.resetElevator();
+    Arm.resetArm();
+    Intake.retractTongue();
   }
 }

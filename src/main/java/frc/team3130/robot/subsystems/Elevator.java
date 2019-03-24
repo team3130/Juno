@@ -275,22 +275,22 @@ public class Elevator extends Subsystem {
         SmartDashboard.putNumber("Elevator Velocity", m_elevatorMaster.getSelectedSensorVelocity(0));
         SmartDashboard.putNumber("Elevator Height", getHeightOffGround());
 
-        SmartDashboard.putNumber("Elevator m1current", m_elevatorMaster.getOutputCurrent() );
-        SmartDashboard.putNumber("Elevator m2current", m_elevatorSlave.getOutputCurrent() );
+        //SmartDashboard.putNumber("Elevator m1current", m_elevatorMaster.getOutputCurrent() );
+        //SmartDashboard.putNumber("Elevator m2current", m_elevatorSlave.getOutputCurrent() );
 
         SmartDashboard.putNumber("Elevator Sensor Value", mPeriodicIO.position_ticks);
         SmartDashboard.putNumber("Elevator Output %", mPeriodicIO.output_percent);
 
-        SmartDashboard.putNumber("Elevator Slave Output %", m_elevatorMaster.getMotorOutputPercent());
+        //SmartDashboard.putNumber("Elevator Slave Output %", m_elevatorMaster.getMotorOutputPercent());
 
-        SmartDashboard.putNumber("Elevator Current Trajectory Point", mPeriodicIO.active_trajectory_position);
+        //SmartDashboard.putNumber("Elevator Current Trajectory Point", mPeriodicIO.active_trajectory_position);
         SmartDashboard.putNumber("Elevator Traj Vel", mPeriodicIO.active_trajectory_velocity);
         SmartDashboard.putNumber("Elevator Traj Accel", mPeriodicIO.active_trajectory_accel_g);
 
         SmartDashboard.putNumber("Elevator Feed Forward", mPeriodicIO.feedforward);
 
-        SmartDashboard.putBoolean("Elevator Rev_Switch",m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed());
-        SmartDashboard.putBoolean("Elevator Fwd_Switch", m_elevatorMaster.getSensorCollection().isFwdLimitSwitchClosed());
+        //SmartDashboard.putBoolean("Elevator Rev_Switch",m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed());
+        SmartDashboard.putBoolean("Elevator Fwd_Switch", isRevLimitClosed());
     }
 
     private enum ElevatorControlState{
