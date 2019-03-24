@@ -86,7 +86,7 @@ public class RobotMap {
 		public static double kWristFFBall = 0.0;
 		public static double kWristFFHatch = 0.0;
 
-		public static double kWristFinishDeadband = 1.0;
+		public static double kWristFinishDeadband = 2.0;
 
 		public static double kWristZeroTimeout = 5.0;
 
@@ -138,7 +138,7 @@ public class RobotMap {
 		public static double kElevatorFFAddition2 = 0.0;
 
 		//Manual
-		public static double kElevatorManualDeadband = 0.06;
+		public static double kElevatorManualDeadband = 0.09;
 		public static double kElevatorManualMultipler = 0.8;
 
 		public static double kElevatorP = 1.2; //Checked 3/21
@@ -148,7 +148,7 @@ public class RobotMap {
 		public static int kElevatorMaxAcc = 1900; //Checked 3/21
 		public static int kElevatorMaxVel = 2300; //Checked 3/21
 
-		public static double kElevatorFinishDeadband = 1.0;
+		public static double kElevatorFinishDeadband = 1.0; //Acceptable distance away from setpoint to finish setpoint command
 
 		public static double kElevatorFFEmpty = 0.04; //Checked 3/21
 		public static double kElevatorFFWithHatch = 0.09; //Checked 3/21
