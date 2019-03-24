@@ -43,18 +43,20 @@ public class AimAssist extends Command {
                 e.printStackTrace();
                 return false;
             }
+            target = Limelight.getTargetVector(true);
         }
 
+        System.out.format("Got LimeLight: %8.3f %8.3f %8.3f%n", target.get(0,0), target.get(0,1), target.get(0,2));
         double goSlope = Limelight.getTargetRotationTan();
         double rotation = Math.atan(goSlope);
-        double goStraight = -target.get(0, 1);
+        double goStraight = -target.get(0, 2);
         goStraight -= (RobotMap.kLimelightBumper+RobotMap.kLimelightForward) * Math.cos(rotation);
         goStraight += RobotMap.kLimelightForward;
         double goLeft = -target.get(0, 0);
         goLeft -= (RobotMap.kLimelightBumper+RobotMap.kLimelightForward) * Math.sin(rotation);
         goLeft -= RobotMap.kLimelightOffset;
 
-        System.out.format("Robot is going to Go %8.3f'' straight and left %8.3f with slope %8.3f%n",
+        System.out.format("Robot is going to Go %8.3f ahead and %8.3f left with slope %8.3f%n",
                 goStraight, goLeft, goSlope);
 
         // Basic sanity check

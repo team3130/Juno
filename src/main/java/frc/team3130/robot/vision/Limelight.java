@@ -60,20 +60,23 @@ public class Limelight {
     }
 
     public static Matrix getTargetVector(boolean isHatch) {
-        if(area == 0.0) return null;
+        if(area == 0.0) {
+            return null;
+        }
         Matrix t = new Matrix(
                 Math.tan(x_targetOffsetAngle),
                 Math.tan(y_targetOffsetAngle),
-                1
+                -1.0
         );
         double hTarget;
         if(isHatch){
-            hTarget = RobotMap.HATCHVISIONTARGET;
+            hTarget = RobotMap.HATCHVISIONTARGET - RobotMap.kLimelightHeight;
         }else{
-            hTarget = RobotMap.PORTVISIONTARGET;
+            hTarget = RobotMap.PORTVISIONTARGET - RobotMap.kLimelightHeight;
         }
         Matrix e = R.multiply(t);
-        return e.multiply(hTarget/e.get(0, 1)).add(new Matrix(0.0, -hTarget, 0.0));
+        System.out.format("e-vector: %8.3f %8.3f %8.3f  %n", e.get(0,0), e.get(0,1), e.get(0,2));
+        return e.multiply(0.1467*hTarget/e.get(0, 1));
     }
 
     public static double getTargetRotationTan() {

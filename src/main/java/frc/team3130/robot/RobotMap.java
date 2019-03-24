@@ -171,8 +171,8 @@ public class RobotMap {
 	/**
 	 * Field parameters
 	 */
-	public static final double HATCHVISIONTARGET = 31.25;
-	public static final double PORTVISIONTARGET = 38.75;
+	public static final double HATCHVISIONTARGET = -31.25;
+	public static final double PORTVISIONTARGET = -38.75;
 	
 	public static final double PORTBOTTOM = 27.5;
 	public static final double PORTMIDDLE = 55.5;
