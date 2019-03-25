@@ -25,7 +25,7 @@ public class DefaultDrive extends Command {
     double turnSpeed = OI.driverGamepad.getRawAxis(4); //arcade drive has left as positive, but we want right to be positive
 
     
-    double turnThrottle = (0.65);
+    double turnThrottle = (0.70);
     Chassis.driveArcade(moveSpeed, turnSpeed * turnThrottle, true);
   }
 
