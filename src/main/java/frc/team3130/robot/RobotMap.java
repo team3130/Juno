@@ -162,7 +162,7 @@ public class RobotMap {
 
 	//Limelight
 	public static double kLimelightTiltAngle = -30.0; //Checked 2/19
-	public static double kLimelightHeight = 38.875; // Height of camera aperture from the ground
+	public static double kLimelightHeight = 39; // Height of camera aperture from the ground
 	public static double kLimelightCalibrateDist = 36;	// Exact horizontal distance between hatch target and lens
 	public static double kLimelightOffset = 10.375;    // Offset to the right side (inches)
 	public static double kLimelightBumper = 12;   // Depth of the camera from the front bumper (inches)

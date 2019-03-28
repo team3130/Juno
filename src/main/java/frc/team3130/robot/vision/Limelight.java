@@ -24,7 +24,7 @@ public class Limelight {
     private static NetworkTableEntry ta;
     private static NetworkTableEntry ts; // Skew or rotation (-90 degrees to 0 degrees)
 
-    private static double kLimelightTiltAngle = -0.294; // Radians
+    private static double kLimelightTiltAngle = -0.2857; // Radians
     private static double x_targetOffsetAngle = 0.0;
     private static double y_targetOffsetAngle = 0.0;
     private static double area = 0.0;
@@ -76,7 +76,7 @@ public class Limelight {
         }
         Matrix e = R.multiply(t);
         System.out.format("e-vector: %8.3f %8.3f %8.3f  %n", e.get(0,0), e.get(0,1), e.get(0,2));
-        return e.multiply(0.1467*hTarget/e.get(0, 1));
+        return e.multiply(0.11*hTarget/e.get(0, 1));
     }
 
     public static double getTargetRotationTan() {
