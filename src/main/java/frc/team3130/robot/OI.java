@@ -11,6 +11,7 @@ import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.ArmsDown;
 import frc.team3130.robot.commands.Climber.LegDown;
 import frc.team3130.robot.commands.Climber.LegDrive;
+import frc.team3130.robot.commands.Climber.ToggleClimbing;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.RunPreset;
 import frc.team3130.robot.commands.Intake.BallIn;
@@ -107,7 +108,7 @@ public class OI {
     private static Command ballOutCommand = new BallOut();
     private static Command ballInCommand = new BallIn();
 
-
+    private static JoystickButton toggleClimbing;
     private static JoystickButton armDeploy;
     private static JoystickTrigger legDown;
     private static JoystickTrigger legDrive;
@@ -165,6 +166,7 @@ public class OI {
         //highBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
         toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_B);
 
+        toggleClimbing = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_MENU);
         armDeploy = new JoystickButton(weaponsGamepad, RobotMap.BTN_DROP_ARMS);
         legDown = new JoystickTrigger(weaponsGamepad, RobotMap.AXS_DROP_LEG, 0.1);
         legDrive = new JoystickTrigger(weaponsGamepad, RobotMap.AXS_DRIVE_LEG, 0.1);
@@ -199,6 +201,7 @@ public class OI {
         lowTongue.whenActive(new RunPreset(RobotMap.Presets.LowestTongue));
         toStation.whenActive(new RunPreset(RobotMap.Presets.Station));
 
+        toggleClimbing.whenPressed(new ToggleClimbing());
         armDeploy.whileHeld(new ArmsDown());
         legDown.whileActive(new LegDown());
         legUp.whileHeld(new LegDown(true));

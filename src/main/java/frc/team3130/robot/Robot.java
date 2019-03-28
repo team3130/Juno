@@ -229,6 +229,7 @@ public class Robot extends TimedRobot {
     Elevator.outputToSmartDashboard();
     Arm.GetInstance().outputToSmartDashboard();
     Chassis.outputToSmartDashboard();
+    Climber.outputToSmartDashboard();
   }
 
   public void writePeriodicOutputs(){

@@ -22,7 +22,7 @@ public class LegDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Climber.driveLeg(OI.weaponsGamepad.getRawAxis(RobotMap.AXS_DRIVE_LEG));
+        Climber.runLegDrive(OI.weaponsGamepad.getRawAxis(RobotMap.AXS_DRIVE_LEG));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,7 +32,7 @@ public class LegDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Climber.driveLeg(0);
+        Climber.runLegDrive(0);
     }
 
     // Called when another command which requires one or more of the same

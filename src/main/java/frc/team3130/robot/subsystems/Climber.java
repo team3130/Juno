@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 
 public class Climber extends Subsystem {
@@ -21,8 +22,10 @@ public class Climber extends Subsystem {
     private static Solenoid pistons;
 
     private static WPI_TalonSRX m_legDown;
-
     private static WPI_TalonSRX m_legDrive;
+
+    //Create and define all standard data types needed
+    private static boolean climbEnabled;
 
 
     private Climber(){
@@ -33,25 +36,32 @@ public class Climber extends Subsystem {
 
         m_legDown.configFactoryDefault();
 
+        m_legDown.overrideLimitSwitchesEnable(false);
+        m_legDown.overrideSoftLimitsEnable(false);
+
         m_legDown.configVoltageCompSaturation(12.0, 0);
         m_legDown.enableVoltageCompensation(true);
-        /*m_legDown.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-        m_legDown.config_kP(0, .1, 10);
-        m_legDown.config_kI(0, 0, 10);
-        m_legDown.config_kD(0, 0, 10);*/
+        m_legDown.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        m_legDown.config_kP(0, .1, 0);
+        m_legDown.config_kI(0, 0, 0);
+        m_legDown.config_kD(0, 0, 0);
 
         m_legDrive.configFactoryDefault();
+        m_legDrive.overrideLimitSwitchesEnable(false);
+        m_legDrive.overrideSoftLimitsEnable(false);
+
+        climbEnabled = false;
     }
 
     public void initDefaultCommand() {
     }
 
-    public static void driveLeg(double PVbus){
-        m_legDrive.set(ControlMode.PercentOutput, PVbus);
+    public static void runLegDrive(double percent){
+        m_legDrive.set(ControlMode.PercentOutput, percent);
     }
 
-    public static void downLeg(double pVbus){
-        m_legDown.set(ControlMode.PercentOutput, pVbus);
+    public static void downLeg(double percent){
+        m_legDown.set(ControlMode.PercentOutput, percent);
     }
 
     public static void deployArms(boolean deploy)
@@ -60,7 +70,19 @@ public class Climber extends Subsystem {
     }
 
     public static void holdLeg(){
-        //m_legDown.set(ControlMode.Position, m_legDown.getSelectedSensorPosition());
+        m_legDown.set(ControlMode.Position, m_legDown.getSelectedSensorPosition());
+    }
+
+    public static void setClimbEnabled(boolean climbEnabled) {
+        Climber.climbEnabled = climbEnabled;
+    }
+
+    public static boolean isClimbEnabled() {
+        return climbEnabled;
+    }
+
+    public static void outputToSmartDashboard() {
+        SmartDashboard.putBoolean("Climb Enabled", isClimbEnabled());
     }
 }
 
