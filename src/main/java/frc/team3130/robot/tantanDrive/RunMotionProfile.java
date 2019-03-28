@@ -4,19 +4,20 @@ import com.ctre.phoenix.motion.SetValueMotionProfile;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.tantanDrive.Paths.Path;
+import frc.team3130.robot.tantanDrive.Paths.PathStore;
 
 /**
  *
  */
 public class RunMotionProfile extends Command {
-    private double[][] leftPath;
-    private double[][] rightPath;
+    private Path leftPath;
+    private Path rightPath;
 
-    public RunMotionProfile(Path thisPath) {
+    public RunMotionProfile(PathStore.Paths thisSet) {
         //Put in the instance of whatever subsystem u need here
         requires(Chassis.GetInstance());
-        leftPath = thisPath.getLeft();
-        rightPath = thisPath.getRight();
+        leftPath = new Path(thisSet.getLeft());
+        rightPath = new Path(thisSet.getRight());
     }
 
     // Called just before this Command runs the first time

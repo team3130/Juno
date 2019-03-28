@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Notifier;
 import frc.team3130.robot.RobotMap;
+import frc.team3130.robot.tantanDrive.Paths.Path;
 
 public class MotionProfileController {
 
@@ -49,7 +50,7 @@ public class MotionProfileController {
      */
     private final int kNumLoopsTimeout = 10;
 
-    private double[][] profile;
+    private Path profile;
 
     private int totalCnt;
 
@@ -213,11 +214,11 @@ public class MotionProfileController {
 
     /**
      * Set the path profile that the motion profile controller should use
-     * @param profile Double array of path points that the MP controller should use
+     * @param profile Path object the MP controller should use
      */
-    public void setProfile(double[][] profile){
+    public void setProfile(Path profile){
         this.profile = profile;
-        this.totalCnt = profile.length;
+        this.totalCnt = profile.kNumPoints;
     }
 
     /**
@@ -225,7 +226,7 @@ public class MotionProfileController {
      */
     private void startFilling() {
         if(totalCnt != 0) {
-            startFilling(profile, totalCnt);
+            startFilling(profile.Points, totalCnt);
         }
     }
 
