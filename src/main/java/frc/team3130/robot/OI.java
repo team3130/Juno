@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.autoCommands.AimAssist;
-import frc.team3130.robot.autoCommands.RightFrontCargoshipHatch;
 import frc.team3130.robot.commands.Arm.WristToAngle;
 import frc.team3130.robot.commands.Arm.ZeroArm;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
@@ -18,7 +17,6 @@ import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
 import frc.team3130.robot.commands.Intake.TongueToggle;
 import frc.team3130.robot.tantanDrive.Paths.PathStore;
-import frc.team3130.robot.tantanDrive.Paths.SCurve;
 import frc.team3130.robot.tantanDrive.RunMotionProfile;
 
 public class OI {
