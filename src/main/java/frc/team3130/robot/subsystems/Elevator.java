@@ -67,7 +67,7 @@ public class Elevator extends Subsystem {
         m_elevatorMaster.set(ControlMode.PercentOutput, 0);
 
         m_elevatorMaster.configForwardSoftLimitEnable(true);
-        m_elevatorMaster.configForwardSoftLimitThreshold(52000);
+        m_elevatorMaster.configForwardSoftLimitThreshold(52000); //FIXME
 
 
         /**
@@ -289,8 +289,8 @@ public class Elevator extends Subsystem {
 
         SmartDashboard.putNumber("Elevator Feed Forward", mPeriodicIO.feedforward);
 
-        //SmartDashboard.putBoolean("Elevator Rev_Switch",m_elevatorMaster.getSensorCollection().isRevLimitSwitchClosed());
-        SmartDashboard.putBoolean("Elevator Fwd_Switch", isRevLimitClosed());
+        SmartDashboard.putBoolean("Elevator Rev_Switch", isRevLimitClosed());
+        //SmartDashboard.putBoolean("Elevator Fwd_Switch", isFwdLimitClosed());
     }
 
     private enum ElevatorControlState{
