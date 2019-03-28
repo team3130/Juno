@@ -178,7 +178,7 @@ public class OI {
 
         shift.whenPressed(new ShiftToggle());
 
-        startAiming.whileHeld(new AimAssist());
+        //startAiming.whileHeld(new AimAssist());
 
         zeroWrist.whenActive(new ZeroArm());
 
