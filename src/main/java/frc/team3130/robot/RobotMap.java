@@ -22,14 +22,14 @@ public class RobotMap {
 	//Chassis
 		public static double kChassisWidth = 23.0; //Checked 3/23 Distance between the left and right middle wheels
 		public static double kChassisLengthBumpers = 39.0; //Checked 3/23
-		public static double kLWheelDiameter = 5.9; //Center wheel
-		public static double kRWheelDiameter = 5.9; //Center wheel
+		public static double kLWheelDiameter = 5.9; //FIXME Center wheel
+		public static double kRWheelDiameter = 5.9; //FIXME Center wheel
 
 		public static double kLChassisTicksPerInch = 4096.0 / (Math.PI * kLWheelDiameter);
 		public static double kRChassisTicksPerInch = 4096.0 / (Math.PI * kRWheelDiameter);
 
 		//Motion Profiling
-		public static double kChassisMinPointsInBuffer = 5;
+		public static double kChassisMinPointsInBuffer = 10;
 		public static double kChassisMPOutputDeadband = 0.01;
 		public static int kChassisMPDefaultFireRate = 20;
 
@@ -73,7 +73,7 @@ public class RobotMap {
 		public static double kWristManualDeadband = 0.1;
 		public static double kWristManualMultipler = 0.5;
 
-		public static double kWristHomingAngle = 93.0; //Checked 3/22
+		public static double kWristHomingAngle = 93.0; //FIXME Checked 3/22
 
 		public static double kWristP = 3.0; //Checked 3/21
 		public static double kWristI = 0.001; //Checked 3/21
@@ -100,11 +100,11 @@ public class RobotMap {
 		public enum Presets{
 			LowestTongue(19.7, 90.0), //Checked 3/22
 			MiddleTongue(45.0, 90.0), //Checked 3/22
-			HighestTongue(93.0, 90.0), //TODO test when elevator can go all the way up
+			HighestTongue(93.0, 90.0), //FIXME test when elevator can go all the way up
 			Station(17.7, 90.0), //Checked 3/22
 			LowestPort ( 18.0, 120.0), //Checked 3/21
 			MiddlePort (42.2, 120.0),//Checked 3/22
-			HighestPort (90.0,120.0),//TODO test when elevator can go all the way up
+			HighestPort (90.0,120.0),//FIXME test when elevator can go all the way up
 			Cargoship(40.6, 190.0), //checked 3/22
 			Pickup(17.5, 205.0);
 
@@ -155,7 +155,7 @@ public class RobotMap {
 		public static double kElevatorFFWithBall = 0.07; //Checked 3/21
 
 		public static double kElevatorHeightEpsilon = 6.0; //Checked 2/17 min height is 1 inch off ground
-		public static double kElevatorHomingHeight = 7.5; //Checked 3/21 height of elevator off ground when at home position
+		public static double kElevatorHomingHeight = 7.5; //FIXME Checked 3/21 height of elevator off ground when at home position
 		public static double kElevatorMaxHeight = 60.1; //FIXME Checked 3/21
 
 		public static double kElevatorTicksPerInch =  (4096.0)/ (2.0*Math.PI * 0.66); //Updated 3/21 || 4096 ticks per revolution of output shaft

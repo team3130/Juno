@@ -17,7 +17,7 @@ public class DriveOffPlatform extends CommandGroup {
         requires(Chassis.GetInstance());
         requires(Elevator.GetInstance());
 
-        driveForward = new OpenLoopDrive(-0.3, -0.3, 4.0);
+        driveForward = new OpenLoopDrive(0.3, 0.3, 3.0);
 
         addSequential(driveForward, 5.0); //TODO: tune auton routine
     }
