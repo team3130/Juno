@@ -17,6 +17,7 @@ import frc.team3130.robot.commands.Groups.RunPreset;
 import frc.team3130.robot.commands.Intake.BallIn;
 import frc.team3130.robot.commands.Intake.BallOut;
 import frc.team3130.robot.commands.Intake.TongueToggle;
+import frc.team3130.robot.tantanDrive.Paths.PathStore;
 import frc.team3130.robot.tantanDrive.Paths.SCurve;
 import frc.team3130.robot.tantanDrive.RunMotionProfile;
 
@@ -184,7 +185,7 @@ public class OI {
 
         zeroWrist.whenActive(new ZeroArm());
 
-        testButton.whenPressed(new RightFrontCargoshipHatch());
+        testButton.whenPressed(new RunMotionProfile(PathStore.Paths.CircleTest));
 
         //testArm.whenPressed(new TestArm());
 

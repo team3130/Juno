@@ -8,6 +8,7 @@ import frc.team3130.robot.commands.Groups.DepositHatch;
 import frc.team3130.robot.subsystems.Chassis;
 import frc.team3130.robot.subsystems.Elevator;
 import frc.team3130.robot.subsystems.Intake;
+import frc.team3130.robot.tantanDrive.Paths.PathStore;
 import frc.team3130.robot.tantanDrive.Paths.RightCargoF;
 import frc.team3130.robot.tantanDrive.RunMotionProfile;
 
@@ -27,7 +28,7 @@ public class RightFrontCargoshipHatch extends CommandGroup {
 		requires(Elevator.GetInstance());
 		
 		elevatorToHeight = new ElevatorToHeight(RobotMap.Presets.LowestTongue.getHeight());
-		toCargoship = new RunMotionProfile(new RightCargoF());
+		toCargoship = new RunMotionProfile(PathStore.Paths.RightCargoF);
 		depositHatch = new DepositHatch();
 		backUp = new OpenLoopDrive(-0.5,-0.5, 0.7);
 
