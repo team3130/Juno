@@ -248,11 +248,4 @@ public class RobotMap {
 	public static final int LST_AXS_RJOYSTICKX = 4;
 	public static final int LST_AXS_RJOYSTICKY = 5;
 
-	/**
-	 * Climber Button names
-	 */
-	public static final int BTN_DROP_ARMS = LST_BTN_WINDOW;
-	public static final int BTN_UP_LEG = LST_BTN_RBUMPER;
-	public static final int AXS_DROP_LEG = LST_AXS_LTRIGGER;
-	public static final int AXS_DRIVE_LEG = LST_AXS_RTRIGGER;
 }

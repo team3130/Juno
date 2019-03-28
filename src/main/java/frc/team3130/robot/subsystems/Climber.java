@@ -81,6 +81,11 @@ public class Climber extends Subsystem {
         return climbEnabled;
     }
 
+    public static void resetLeg(){
+        m_legDrive.set(ControlMode.PercentOutput, 0.0);
+        m_legDown.set(ControlMode.PercentOutput, 0.0);
+    }
+
     public static void outputToSmartDashboard() {
         SmartDashboard.putBoolean("Climb Enabled", isClimbEnabled());
     }

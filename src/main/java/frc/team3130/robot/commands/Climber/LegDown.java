@@ -9,15 +9,8 @@ import frc.team3130.robot.subsystems.Climber;
  *
  */
 public class LegDown extends Command {
-    private boolean default1;
 
     public LegDown(){
-        default1=false;
-        requires(Climber.GetInstance());
-    }
-
-    public LegDown(boolean def) {
-        this.default1=def;
         requires(Climber.GetInstance());
     }
 
@@ -28,11 +21,8 @@ public class LegDown extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        if(default1){
-            Climber.downLeg(-.5);
-        }else{
-            Climber.downLeg(OI.weaponsGamepad.getRawAxis(RobotMap.AXS_DROP_LEG));
-        }
+        if(Climber.isClimbEnabled())
+            Climber.downLeg(OI.weaponsGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -42,8 +32,10 @@ public class LegDown extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Climber.downLeg(0);
-        Climber.holdLeg();
+        if(Climber.isClimbEnabled()) {
+            Climber.downLeg(0.0);
+            Climber.holdLeg();
+        }
     }
 
     // Called when another command which requires one or more of the same
