@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.autoCommands.AimAssist;
+import frc.team3130.robot.autoCommands.RightFrontCargoshipHatch;
 import frc.team3130.robot.commands.Arm.WristToAngle;
 import frc.team3130.robot.commands.Arm.ZeroArm;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
@@ -183,7 +184,7 @@ public class OI {
 
         zeroWrist.whenActive(new ZeroArm());
 
-        testButton.whenPressed(new RunMotionProfile(new SCurve()));
+        testButton.whenPressed(new RightFrontCargoshipHatch());
 
         //testArm.whenPressed(new TestArm());
 
