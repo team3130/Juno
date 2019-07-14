@@ -24,7 +24,7 @@ public class BasicActuate extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	cylinder.toggleState();
+    	cylinder.actuate(true);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -38,7 +38,7 @@ public class BasicActuate extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	cylinder.toggleState();
+    	cylinder.actuate(false);
     }
 
     // Called when another command which requires one or more of the same

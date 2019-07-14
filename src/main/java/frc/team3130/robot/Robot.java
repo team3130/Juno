@@ -33,9 +33,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    //Instantiate driver station input interface
-    OI.GetInstance();
-
     //Instantiate subsystems
     Chassis.GetInstance();
     Climber.GetInstance();
@@ -43,6 +40,9 @@ public class Robot extends TimedRobot {
     bcIntakeActuate = new BasicCylinder(RobotMap.PNM_INTAKE, "Intake", "Actuator");
     btBallMotor = new BasicTalonSRX(RobotMap.CAN_BALLMOTOR, "Intake", "Ball Motor");
     btHatchMotor = new BasicTalonSRX(RobotMap.CAN_HATCHMOTOR, "Intake", "Hatch Motor");
+
+    //Instantiate driver station input interface
+    OI.GetInstance();    
 
     //Instantiate sensors
     SensorHandler.GetInstance();

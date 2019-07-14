@@ -132,8 +132,8 @@ public class OI {
         legUp = new JoystickButton(weaponsGamepad, RobotMap.BTN_UP_LEG);
 
         intakeBallIn = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_IN);
-        intakeBallIn = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_IN);
-        intakeHatchOut = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_OUT);
+        intakeHatchIn = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_IN);
+        intakeBallOut = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_OUT);
         intakeHatchOut = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_OUT);
         intakeActuate = new JoystickButton(driverGamepad, RobotMap.BTN_INTAKE_TOGGLE);
 
@@ -160,11 +160,12 @@ public class OI {
         legUp.whileHeld(new LegDown(true));
         legDrive.whileActive(new LegDrive());
 
-        intakeBallIn.whileActive(new BasicSpinMotor(Robot.btBallMotor, 0.5));
-        intakeHatchIn.whileActive(new BasicSpinMotor(Robot.btHatchMotor, 0.5));
+        BasicActuate intakeExtend = new BasicActuate(Robot.bcIntakeActuate);
+        intakeBallIn.whileActive(new BasicSpinMotor(Robot.btBallMotor, 0.75));
+        intakeHatchIn.whileActive(new BasicSpinMotor(Robot.btHatchMotor, 0.75));
         intakeBallOut.whileActive(new BasicSpinMotor(Robot.btBallMotor, -0.5));
         intakeHatchOut.whileActive(new BasicSpinMotor(Robot.btHatchMotor, -0.5));
-        intakeActuate.whenPressed(new BasicActuate(Robot.bcIntakeActuate));
+        intakeActuate.toggleWhenPressed(intakeExtend);
     }
 
 
