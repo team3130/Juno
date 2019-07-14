@@ -1,6 +1,5 @@
 package frc.team3130.robot;
 
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -24,7 +23,9 @@ public class Robot extends TimedRobot {
   Command autonomousCommand = null;
   private SendableChooser<String> chooser  = new SendableChooser<String>();
   public static SendableChooser<String> startPos = new SendableChooser<String>();
-
+  public static BasicCylinder bcIntakeActuate;
+  public static BasicTalonSRX btBallMotor;
+  public static BasicTalonSRX btHatchMotor;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -39,6 +40,9 @@ public class Robot extends TimedRobot {
     Chassis.GetInstance();
     Climber.GetInstance();
     Elevator.GetInstance();
+    bcIntakeActuate = new BasicCylinder(RobotMap.PNM_INTAKE, "Intake", "Actuator");
+    btBallMotor = new BasicTalonSRX(RobotMap.CAN_BALLMOTOR, "Intake", "Ball Motor");
+    btHatchMotor = new BasicTalonSRX(RobotMap.CAN_HATCHMOTOR, "Intake", "Hatch Motor");
 
     //Instantiate sensors
     SensorHandler.GetInstance();

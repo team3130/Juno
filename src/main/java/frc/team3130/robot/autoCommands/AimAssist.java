@@ -99,8 +99,8 @@ public class AimAssist extends Command {
     @Override
     protected boolean isFinished() {
         return Chassis.getFrontL().isMotionProfileFinished() &&
-                Chassis.getFrontR().isMotionProfileFinished() &&
-                !OI.startAiming.get();
+                Chassis.getFrontR().isMotionProfileFinished();
+                //!OI.startAiming.get();
     }
 
     // Called once after isFinished returns true

@@ -193,7 +193,7 @@ public class RobotMap {
 	public static final int CAN_LEFTMOTORREAR = 5;
 
 	//public static final int (nada yet) = 6;
-	public static final int CAN_ARMWRIST = 7;
+	public static final int CAN_HATCHMOTOR = 7;
 
 	public static final int CAN_BALLMOTOR = 8;
 
@@ -206,9 +206,9 @@ public class RobotMap {
 	/**
 	 * Pneumatics ports
 	*/
-	public static final int PNM_SHIFT = 0;
-	public static final int PNM_TONGUEPISTON = 3;
+	public static final int PNM_SHIFT = 4;
 	public static final int PNM_CLIMBARMS = 1;
+	public static final int PNM_INTAKE = 0;
 
 	/**
 	 * Gamepad Button List
@@ -256,4 +256,11 @@ public class RobotMap {
 	public static final int BTN_UP_LEG = LST_BTN_RBUMPER;
 	public static final int AXS_DROP_LEG = LST_AXS_LTRIGGER;
 	public static final int AXS_DRIVE_LEG = LST_AXS_RTRIGGER;
+
+	/**
+	 * Intake Button names
+	 */
+	public static final int AXS_INTAKE_IN = LST_AXS_RTRIGGER; //Driver
+	public static final int AXS_INTAKE_OUT = LST_AXS_LTRIGGER; //Driver
+	public static final int BTN_INTAKE_TOGGLE = LST_BTN_RBUMPER; //Driver
 }

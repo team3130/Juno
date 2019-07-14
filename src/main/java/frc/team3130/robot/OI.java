@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.autoCommands.AimAssist;
+import frc.team3130.robot.commands.BasicActuate;
+import frc.team3130.robot.commands.BasicSpinMotor;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.ArmsDown;
 import frc.team3130.robot.commands.Climber.LegDown;
@@ -73,39 +75,30 @@ public class OI {
     public static Joystick weaponsGamepad;
 
     public static JoystickButton shift;
-    public static JoystickButton startAiming;
 
-    public static POVTrigger zeroWrist;
 
     public static JoystickButton testArm;
     public static JoystickButton testButton;
 
-    public static JoystickButton toggleTongue;
 
     public static POVTrigger elevGround;
 
-
-    public static JoystickButton intakeStowed;
-    public static JoystickButton intakePickup;
 
     public static JoystickButton lowBall;
     public static JoystickButton middleBall;
     public static JoystickButton highBall;
     public static JoystickButton toCargoship;
 
-    public static POVTrigger highTongue;
-    public static POVTrigger middleTongue;
-    public static POVTrigger lowTongue;
-    public static POVTrigger toStation;
-
-
-
     private static JoystickButton armDeploy;
     private static JoystickTrigger legDown;
     private static JoystickTrigger legDrive;
     private static JoystickButton legUp;
 
-
+    private static JoystickTrigger intakeBallIn;
+    private static JoystickTrigger intakeHatchIn;
+    private static JoystickTrigger intakeBallOut;
+    private static JoystickTrigger intakeHatchOut;
+    private static JoystickButton intakeActuate;
 
     //Settings for gamepad
     private OI(){
@@ -116,16 +109,9 @@ public class OI {
          * Driver
          */
         shift = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RJOYSTICKPRESS);
-        startAiming = new JoystickButton(driverGamepad, RobotMap.LST_BTN_RBUMPER);
 
         elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
 
-        intakeStowed = new JoystickButton(driverGamepad, RobotMap.LST_BTN_X);
-        intakePickup = new JoystickButton(driverGamepad, RobotMap.LST_BTN_A);
-
-        toggleTongue = new JoystickButton(driverGamepad, RobotMap.LST_BTN_Y);
-
-        zeroWrist = new POVTrigger(driverGamepad, RobotMap.LST_POV_N);
 
         testButton = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
 
@@ -134,9 +120,6 @@ public class OI {
          */
 
         //highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
-        middleTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_W);
-        lowTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_S);
-        toStation = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_E);
 
         lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
         middleBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
@@ -148,15 +131,18 @@ public class OI {
         legDrive = new JoystickTrigger(weaponsGamepad, RobotMap.AXS_DRIVE_LEG, 0.1);
         legUp = new JoystickButton(weaponsGamepad, RobotMap.BTN_UP_LEG);
 
+        intakeBallIn = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_IN);
+        intakeBallIn = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_IN);
+        intakeHatchOut = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_OUT);
+        intakeHatchOut = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_OUT);
+        intakeActuate = new JoystickButton(driverGamepad, RobotMap.BTN_INTAKE_TOGGLE);
 
         //Map the button to command
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
-        intakePickup.whenPressed(new RunPreset(RobotMap.Presets.Pickup));
 
         shift.whenPressed(new ShiftToggle());
 
-        startAiming.whileHeld(new AimAssist());
 
 
         //testArm.whenPressed(new TestArm());
@@ -168,14 +154,17 @@ public class OI {
         toCargoship.whenPressed(new RunPreset(RobotMap.Presets.Cargoship));
 
         //highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
-        middleTongue.whenActive(new RunPreset(RobotMap.Presets.MiddleTongue));
-        lowTongue.whenActive(new RunPreset(RobotMap.Presets.LowestTongue));
-        toStation.whenActive(new RunPreset(RobotMap.Presets.Station));
 
         armDeploy.whileHeld(new ArmsDown());
         legDown.whileActive(new LegDown());
         legUp.whileHeld(new LegDown(true));
         legDrive.whileActive(new LegDrive());
+
+        intakeBallIn.whileActive(new BasicSpinMotor(Robot.btBallMotor, 0.5));
+        intakeHatchIn.whileActive(new BasicSpinMotor(Robot.btHatchMotor, 0.5));
+        intakeBallOut.whileActive(new BasicSpinMotor(Robot.btBallMotor, -0.5));
+        intakeHatchOut.whileActive(new BasicSpinMotor(Robot.btHatchMotor, -0.5));
+        intakeActuate.whenPressed(new BasicActuate(Robot.bcIntakeActuate));
     }
 
 
