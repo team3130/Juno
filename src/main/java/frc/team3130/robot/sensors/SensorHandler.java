@@ -2,9 +2,7 @@ package frc.team3130.robot.sensors;
 
 import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;
-import frc.team3130.robot.subsystems.Arm;
 import frc.team3130.robot.subsystems.Elevator;
-import frc.team3130.robot.subsystems.Intake;
 import frc.team3130.robot.vision.Limelight;
 
 public class SensorHandler {
@@ -27,21 +25,6 @@ public class SensorHandler {
     }
 
     public static void updateSensors(){
-        //Intake
-        boolean ballSensor = false/*ball sensor*/; //TODO: read in sensors
-        boolean hatchSensor = false /*hatch sensor*/;
-        if(ballSensor && ballSensor != lastBall){
-            Intake.GetInstance().setState(Intake.IntakeState.HasBall);
-            lastBall = true;
-            lastHatch = false;
-        }else if(hatchSensor && hatchSensor != lastHatch){
-            Intake.GetInstance().setState(Intake.IntakeState.HasHatch);
-            lastHatch = true;
-            lastBall = false;
-        }else{
-            Intake.GetInstance().setState(Intake.IntakeState.Empty);
-            lastHatch = false; lastBall = false;
-        }
 
         //Elevator
         if(Elevator.isRevLimitClosed()){
@@ -56,15 +39,7 @@ public class SensorHandler {
                 lastElevator = false;
         }
 
-        //Wrist
-        if(!Arm.hasBeenZeroed() && Arm.isRevLimitClosed()){
-                Arm.zeroSensors(RobotMap.kWristHomingAngle);
-                Arm.setZeroedState(true);
-        }
-
         Elevator.GetInstance().readPeriodicInputs();
-        Arm.GetInstance().readPeriodicInputs();
-        OI.GetInstance().checkTriggers();
         Limelight.updateData();
     }
 }

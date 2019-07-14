@@ -5,18 +5,12 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.autoCommands.AimAssist;
-import frc.team3130.robot.autoCommands.RightFrontCargoshipHatch;
-import frc.team3130.robot.commands.Arm.WristToAngle;
-import frc.team3130.robot.commands.Arm.ZeroArm;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.ArmsDown;
 import frc.team3130.robot.commands.Climber.LegDown;
 import frc.team3130.robot.commands.Climber.LegDrive;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.RunPreset;
-import frc.team3130.robot.commands.Intake.BallIn;
-import frc.team3130.robot.commands.Intake.BallOut;
-import frc.team3130.robot.commands.Intake.TongueToggle;
 import frc.team3130.robot.tantanDrive.Paths.SCurve;
 import frc.team3130.robot.tantanDrive.RunMotionProfile;
 
@@ -105,29 +99,12 @@ public class OI {
     public static POVTrigger toStation;
 
 
-    private static Command ballOutCommand = new BallOut();
-    private static Command ballInCommand = new BallIn();
-
 
     private static JoystickButton armDeploy;
     private static JoystickTrigger legDown;
     private static JoystickTrigger legDrive;
     private static JoystickButton legUp;
 
-
-    public void checkTriggers() {
-        //Driver
-        if (Math.abs(OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_LTRIGGER)) >= RobotMap.kIntakeTriggerDeadband) {
-            ballOutCommand.start();
-        }else{
-            ballOutCommand.cancel();
-        }
-        if (Math.abs(OI.driverGamepad.getRawAxis(RobotMap.LST_AXS_RTRIGGER)) >= RobotMap.kIntakeTriggerDeadband) {
-            ballInCommand.start();
-        }else{
-            ballInCommand.cancel();
-        }
-    }
 
 
     //Settings for gamepad
@@ -176,19 +153,14 @@ public class OI {
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
         intakePickup.whenPressed(new RunPreset(RobotMap.Presets.Pickup));
-        intakeStowed.whenPressed(new WristToAngle(RobotMap.kWristHomingAngle));
 
         shift.whenPressed(new ShiftToggle());
 
         startAiming.whileHeld(new AimAssist());
 
-        zeroWrist.whenActive(new ZeroArm());
-
-        testButton.whenPressed(new RightFrontCargoshipHatch());
 
         //testArm.whenPressed(new TestArm());
 
-        toggleTongue.whenPressed(new TongueToggle());
 
         lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
         middleBall.whenPressed(new RunPreset(RobotMap.Presets.MiddlePort));

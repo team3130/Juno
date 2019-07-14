@@ -37,7 +37,6 @@ public class Robot extends TimedRobot {
 
     //Instantiate subsystems
     Chassis.GetInstance();
-    Intake.GetInstance();
     Climber.GetInstance();
     Elevator.GetInstance();
 
@@ -158,7 +157,6 @@ public class Robot extends TimedRobot {
     }
     resetSubsystems();
     Elevator.holdHeight();
-    Arm.holdAngleWrist();
 
   }
 
@@ -227,19 +225,15 @@ public class Robot extends TimedRobot {
   public void outputToSmartDashboard(){
     Limelight.outputToSmartDashboard();
     Elevator.outputToSmartDashboard();
-    Arm.GetInstance().outputToSmartDashboard();
     Chassis.outputToSmartDashboard();
   }
 
   public void writePeriodicOutputs(){
-    Arm.GetInstance().writePeriodicOutputs();
     Elevator.GetInstance().writePeriodicOutputs();
     Chassis.GetInstance().writePeriodicOutputs();
   }
 
   public void resetSubsystems(){
     Elevator.resetElevator();
-    Arm.resetArm();
-    Intake.retractTongue();
   }
 }
