@@ -263,4 +263,9 @@ public class RobotMap {
 	public static final int AXS_INTAKE_IN = LST_AXS_RTRIGGER; //Driver
 	public static final int AXS_INTAKE_OUT = LST_AXS_LTRIGGER; //Driver
 	public static final int BTN_INTAKE_TOGGLE = LST_BTN_RBUMPER; //Driver
+
+	/**
+	 * Limelight Button Names
+	 */
+	public static final int BTN_AIM_HATCH = LST_BTN_LBUMPER;
 }

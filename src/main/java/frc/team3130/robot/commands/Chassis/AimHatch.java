@@ -1,6 +1,8 @@
 package frc.team3130.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team3130.robot.OI;
+import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Chassis;
 
 /**
@@ -8,13 +10,15 @@ import frc.team3130.robot.subsystems.Chassis;
  */
 public class AimHatch extends Command {
     public AimHatch() {
-        requires(Chassis.GetInstance());
+        requires(Chassis.GetInstance()) ;
         //requires();
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
-        Chassis.holdAngle();
+    protected void initialize()
+    {
+        if(OI.driverGamepad.getRawButton(RobotMap.BTN_AIM_HATCH))
+        Chassis.holdAngle(0);
     }
 
     // Called repeatedly when this Command is scheduled to run

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.autoCommands.AimAssist;
 import frc.team3130.robot.commands.BasicActuate;
 import frc.team3130.robot.commands.BasicSpinMotor;
+import frc.team3130.robot.commands.Chassis.AimHatch;
 import frc.team3130.robot.commands.Chassis.ShiftToggle;
 import frc.team3130.robot.commands.Climber.ArmsDown;
 import frc.team3130.robot.commands.Climber.LegDown;
@@ -100,6 +101,8 @@ public class OI {
     private static JoystickTrigger intakeHatchOut;
     private static JoystickButton intakeActuate;
 
+    private static JoystickButton aimHatch;
+
     //Settings for gamepad
     private OI(){
         driverGamepad = new Joystick(0);
@@ -137,6 +140,8 @@ public class OI {
         intakeHatchOut = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_OUT);
         intakeActuate = new JoystickButton(driverGamepad, RobotMap.BTN_INTAKE_TOGGLE);
 
+        aimHatch = new JoystickButton(driverGamepad, RobotMap.BTN_AIM_HATCH);
+
         //Map the button to command
         elevGround.whenActive(new ElevatorToHeight(8.6));
 
@@ -166,6 +171,8 @@ public class OI {
         intakeBallOut.whileActive(new BasicSpinMotor(Robot.btBallMotor, -0.5));
         intakeHatchOut.whileActive(new BasicSpinMotor(Robot.btHatchMotor, -0.5));
         intakeActuate.toggleWhenPressed(intakeExtend);
+
+        aimHatch.toggleWhenPressed(new AimHatch());
     }
 
 
