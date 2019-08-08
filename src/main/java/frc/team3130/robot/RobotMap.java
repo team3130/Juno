@@ -267,5 +267,5 @@ public class RobotMap {
 	/**
 	 * Limelight Button Names
 	 */
-	public static final int BTN_AIM_HATCH = LST_BTN_LBUMPER;
+	public static final int BTN_AIM_HATCH = LST_BTN_B;
 }
