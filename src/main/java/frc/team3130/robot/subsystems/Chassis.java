@@ -117,6 +117,11 @@ public class Chassis extends Subsystem {
 
     }
 
+    public static void driveStraight(double forward){
+        driveArcade(forward,ChassisPID.getOutput(getAngle()),false);
+
+    }
+
     /**
      * Drive the robot using arcade mode
      * @param moveThrottle Base forward and backward speed to move at. Positive is forward
@@ -157,7 +162,10 @@ public class Chassis extends Subsystem {
      */
     public static void holdAngle(double angle)
     {
-        //TODO: Rework
+        double absAngle = getAngle()+angle;
+        ChassisPID.setSetpoint(absAngle);
+        //out = ChassisPID.getOutput(Navx.getAngle(), absAngle);
+        //driveArcade(0,out,false);
     }
 
     /**

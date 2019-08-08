@@ -25,6 +25,7 @@ public class BasicActuate extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	cylinder.actuate(true);
+        System. out. print("Extending cylinder");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -39,6 +40,7 @@ public class BasicActuate extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	cylinder.actuate(false);
+        System. out. print("Stop extending");
     }
 
     // Called when another command which requires one or more of the same
