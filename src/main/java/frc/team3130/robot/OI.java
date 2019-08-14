@@ -172,7 +172,7 @@ public class OI {
         intakeHatchOut.whileActive(new BasicSpinMotor(Robot.btHatchMotor, -0.5));
         intakeActuate.toggleWhenPressed(intakeExtend);
 
-        aimHatch.toggleWhenPressed(new AimHatch());
+        aimHatch.whileActive(new AimHatch());
     }
 
 
