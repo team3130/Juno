@@ -37,7 +37,7 @@ public class PIDCustom {
     //**********************************
     // Constructor functions
     //**********************************
-
+    public double getSetpoint(){return setpoint;}
     /**
      * Create a PID controller class object.
      * See setP, setI, setD methods for more detailed parameters.

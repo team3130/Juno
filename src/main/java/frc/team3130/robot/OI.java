@@ -124,10 +124,10 @@ public class OI {
 
         //highTongue = new POVTrigger(weaponsGamepad, RobotMap.LST_POV_N);
 
-        lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
-        middleBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
+        //lowBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_Y);
+        //middleBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_X);
         //highBall = new JoystickButton(weaponsGamepad, RobotMap.LST_BTN_A);
-        toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_B);
+        //toCargoship = new JoystickButton(weaponsGamepad , RobotMap.LST_BTN_B);
 
         armDeploy = new JoystickButton(weaponsGamepad, RobotMap.BTN_DROP_ARMS);
         legDown = new JoystickTrigger(weaponsGamepad, RobotMap.AXS_DROP_LEG, 0.1);
@@ -153,10 +153,10 @@ public class OI {
         //testArm.whenPressed(new TestArm());
 
 
-        lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
-        middleBall.whenPressed(new RunPreset(RobotMap.Presets.MiddlePort));
+        //lowBall.whenPressed(new RunPreset(RobotMap.Presets.LowestPort));
+        //middleBall.whenPressed(new RunPreset(RobotMap.Presets.MiddlePort));
         //highBall.whenPressed(new RunPreset(RobotMap.Presets.HighestPort));
-        toCargoship.whenPressed(new RunPreset(RobotMap.Presets.Cargoship));
+        //toCargoship.whenPressed(new RunPreset(RobotMap.Presets.Cargoship));
 
         //highTongue.whenActive(new RunPreset(RobotMap.Presets.HighestTongue));
 

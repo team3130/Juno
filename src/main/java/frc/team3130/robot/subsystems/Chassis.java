@@ -118,7 +118,15 @@ public class Chassis extends Subsystem {
     }
 
     public static void driveStraight(double forward){
-        driveArcade(forward,ChassisPID.getOutput(getAngle()),false);
+        double angle = ChassisPID.getOutput(getAngle());
+        driveArcade(forward,angle,false);
+        System.out.println("PID: "+angle);
+        System.out.println("Angle: "+getAngle());
+        System.out.println("Setpoint: "+ChassisPID.getSetpoint());
+
+
+
+
 
     }
 
