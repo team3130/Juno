@@ -116,7 +116,7 @@ public class OI {
         elevGround = new POVTrigger(driverGamepad, RobotMap.LST_POV_S);
 
 
-        testButton = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
+        //testButton = new JoystickButton(driverGamepad, RobotMap.LST_BTN_B);
 
         /*
          * Weapons
@@ -172,7 +172,7 @@ public class OI {
         intakeHatchOut.whileActive(new BasicSpinMotor(Robot.btHatchMotor, -0.5));
         intakeActuate.toggleWhenPressed(intakeExtend);
 
-        aimHatch.whileActive(new AimHatch());
+        //aimHatch.whileActive(new AimHatch());
     }
 
 
