@@ -184,31 +184,12 @@ public class RobotMap {
 	/**
 	 * CAN IDs
 	 */
-	public static final int CAN_PNMMODULE = 1;
 
-	public static final int CAN_RIGHTMOTORFRONT = 2;
-	public static final int CAN_RIGHTMOTORREAR = 3;
-
-    public static final int CAN_LEFTMOTORFRONT = 4;
-	public static final int CAN_LEFTMOTORREAR = 5;
-
-	//public static final int (nada yet) = 6;
-	public static final int CAN_ARMWRIST = 7;
-
-	public static final int CAN_BALLMOTOR = 8;
-
-	public static final int CAN_ELEVATOR1 = 10;
-	public static final int CAN_ELEVATOR2 = 11;
-
-	public static final int CAN_CLIMBERLEG = 12;
-	public static final int CAN_CLIMBERDRIVE = 13;
 
 	/**
 	 * Pneumatics ports
 	*/
-	public static final int PNM_SHIFT = 0;
-	public static final int PNM_TONGUEPISTON = 3;
-	public static final int PNM_CLIMBARMS = 1;
+
 
 	/**
 	 * Gamepad Button List

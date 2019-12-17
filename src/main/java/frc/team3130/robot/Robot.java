@@ -7,10 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team3130.robot.autoCommands.DriveOffPlatform;
-import frc.team3130.robot.sensors.SensorHandler;
 import frc.team3130.robot.subsystems.*;
-import frc.team3130.robot.vision.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,13 +34,9 @@ public class Robot extends TimedRobot {
 
     //Instantiate subsystems
     Chassis.GetInstance();
-    Intake.GetInstance();
-    Climber.GetInstance();
-    Elevator.GetInstance();
 
-    //Instantiate sensors
-    SensorHandler.GetInstance();
-    Limelight.GetInstance();
+
+
 
     //Auton mode chooser
     chooser.setDefaultOption("Default Auto", "Default Auto");
@@ -67,7 +60,6 @@ public class Robot extends TimedRobot {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        outputToSmartDashboard();
       }
     });
     t.start();
@@ -80,8 +72,7 @@ public class Robot extends TimedRobot {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        SensorHandler.updateSensors();
-        writePeriodicOutputs();
+
       }
     });
     p.start();
@@ -94,8 +85,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    Chassis.mLeftMPController.reset();
-    Chassis.mRightMPController.reset();
+
   }
 
   @Override
@@ -126,16 +116,8 @@ public class Robot extends TimedRobot {
    * the switch structure below with additional strings. If using the
    * SendableChooser make sure to add them to the chooser code above as well.
    */
-  @Override
-  public void autonomousInit() {
-    resetSubsystems();
-    //determineAuton(); //determine the auton to run
-    //start that command
-    /*
-    if (autonomousCommand != null) {
-      autonomousCommand.start();
-    }*/
-  }
+
+
 
   /**
    * This function is called periodically during autonomous.
@@ -156,9 +138,6 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
-    resetSubsystems();
-    Elevator.holdHeight();
-    Arm.holdAngleWrist();
 
   }
 
@@ -192,54 +171,9 @@ public class Robot extends TimedRobot {
       return;
     }
 
-    switch(theChosenOne){
-      case "Drive Off Platform":
-        autonomousCommand = new DriveOffPlatform();
-        break;
-        /*
-      case "Cargo":
-        if(start.equals("Left")) {
-          autonomousCommand = new CargoLeft();
-        }
-        else {
-          autonomousCommand = new CargoRight();
-        }
-        break;
-      case "Rocket":
-        if(start.equals("Left")) {
-          autonomousCommand = new RocketLeft();
-        }
-        else{
-          autonomousCommand = new RocketRight();
-        }
-        */
-      case "No Auto":
-        autonomousCommand = null;
-        break;
 
-      default:
-        autonomousCommand = null;
-
-    }
   }
 
 
-  public void outputToSmartDashboard(){
-    Limelight.outputToSmartDashboard();
-    Elevator.outputToSmartDashboard();
-    Arm.GetInstance().outputToSmartDashboard();
-    Chassis.outputToSmartDashboard();
-  }
 
-  public void writePeriodicOutputs(){
-    Arm.GetInstance().writePeriodicOutputs();
-    Elevator.GetInstance().writePeriodicOutputs();
-    Chassis.GetInstance().writePeriodicOutputs();
-  }
-
-  public void resetSubsystems(){
-    Elevator.resetElevator();
-    Arm.resetArm();
-    Intake.retractTongue();
-  }
 }

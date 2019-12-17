@@ -13,9 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Chassis.DefaultDrive;
 import frc.team3130.robot.sensors.Navx;
-import frc.team3130.robot.tantanDrive.MotionProfileController;
-import frc.team3130.robot.util.PIDCustom;
-import frc.team3130.robot.util.Util;
 
 
 public class Chassis extends Subsystem {
@@ -36,10 +33,7 @@ public class Chassis extends Subsystem {
 
     private static Solenoid m_shifter;
 
-    private static PIDCustom ChassisPID;
 
-    public static MotionProfileController mLeftMPController;
-    public static MotionProfileController mRightMPController;
 
     private static ChassisControlState mChassisState = ChassisControlState.PERCENT_OUTPUT;
 
@@ -48,30 +42,6 @@ public class Chassis extends Subsystem {
 
     private Chassis() {
 
-        m_leftMotorFront = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORFRONT);
-        m_leftMotorRear = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORREAR);
-    	m_rightMotorFront = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORFRONT);
-        m_rightMotorRear = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORREAR);
-
-        m_leftMotorFront.configFactoryDefault();
-        m_leftMotorRear.configFactoryDefault();
-        m_rightMotorFront.configFactoryDefault();
-        m_rightMotorRear.configFactoryDefault();
-        
-        m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
-        m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
-        m_leftMotorRear.setNeutralMode(NeutralMode.Brake);
-        m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
-
-
-        m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
-        m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
-
-        m_shifter = new Solenoid(RobotMap.CAN_PNMMODULE, RobotMap.PNM_SHIFT);
-
-        m_shifter.set(false);
-
-        ChassisPID = new PIDCustom(RobotMap.kChassisHighP, RobotMap.kChassisHighI, RobotMap.kChassisHighD);
 
         /**
          * For all motors, forward is the positive direction
@@ -79,20 +49,7 @@ public class Chassis extends Subsystem {
          * Shift false is low gear
          */
 
-        m_rightMotorFront.setInverted(false);
-        m_leftMotorFront.setInverted(true);
-        m_rightMotorRear.setInverted(false);
-        m_leftMotorRear.setInverted(true);
-
-        m_rightMotorFront.setSensorPhase(false);
-
-        m_leftMotorFront.overrideLimitSwitchesEnable(false);
-        m_rightMotorFront.overrideLimitSwitchesEnable(false);
-
-        //Configure the motion profile controllers
-        mLeftMPController = new MotionProfileController(m_leftMotorFront, RobotMap.kChassisMPDefaultFireRate, true);
-        mRightMPController = new MotionProfileController(m_rightMotorFront, RobotMap.kChassisMPDefaultFireRate, false);
-    }
+      }
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -100,20 +57,6 @@ public class Chassis extends Subsystem {
     }
 
     public static void driveTank(double moveL, double moveR, boolean squaredInputs) {
-        moveL = Util.limit(moveL, 1.0);
-        moveL = Util.applyDeadband(moveL, RobotMap.kDriveDeadband);
-
-        moveR = Util.limit(moveR, 1.0);
-        moveR = Util.applyDeadband(moveR, RobotMap.kDriveDeadband);
-
-        if(squaredInputs){
-            moveL = Math.copySign(moveL * moveL, moveL);
-            moveR = Math.copySign(moveR * moveR, moveR);
-        }
-
-
-        m_leftMotorFront.set(ControlMode.PercentOutput, moveL);
-        m_rightMotorFront.set(ControlMode.PercentOutput, moveR);
 
     }
 
@@ -124,22 +67,8 @@ public class Chassis extends Subsystem {
      * @param squaredInputs Whether or not to use squared inputs
      */
     public static void driveArcade(double moveThrottle, double turnThrottle, boolean squaredInputs) {
-        moveThrottle = Util.limit(moveThrottle, 1.0);
-        moveThrottle = Util.applyDeadband(moveThrottle, RobotMap.kDriveDeadband);
 
-        turnThrottle = Util.limit(turnThrottle, 1.0);
-        turnThrottle = Util.applyDeadband(turnThrottle, RobotMap.kDriveDeadband);
 
-        if(squaredInputs){
-            moveThrottle = Math.copySign(moveThrottle * moveThrottle, moveThrottle);
-            turnThrottle = Math.copySign(turnThrottle * turnThrottle, turnThrottle);
-        }
-
-        double leftMotorOutput = moveThrottle + turnThrottle;
-        double rightMotorOutput = moveThrottle - turnThrottle;
-
-        m_leftMotorFront.set(ControlMode.PercentOutput, Util.limit(leftMotorOutput, 1.0));
-        m_rightMotorFront.set(ControlMode.PercentOutput, Util.limit(rightMotorOutput, 1.0));
     }
 
     /**
@@ -189,22 +118,18 @@ public class Chassis extends Subsystem {
     public static void setPIDValues()
     {
         if(getShift()) { //Chassis is in high gear
-            ChassisPID.setPID(RobotMap.kChassisHighP, RobotMap.kChassisHighI, RobotMap.kChassisHighD);
+
         }else{
-            ChassisPID.setPID(RobotMap.kChassisLowP, RobotMap.kChassisLowI, RobotMap.kChassisLowD);
+
         }
     }
 
     public synchronized void writePeriodicOutputs() {
         if(mChassisState == ChassisControlState.MOTION_PROFILE){
-            SetValueMotionProfile leftOutput = mLeftMPController.getSetValue();
-            m_leftMotorFront.set(ControlMode.MotionProfile, leftOutput.value);
-            SetValueMotionProfile rightOutput = mRightMPController.getSetValue();
-            m_rightMotorFront.set(ControlMode.MotionProfile, rightOutput.value);
+
         }
 
-        mLeftMPController.control();
-        mRightMPController.control();
+
     }
 
     public synchronized void setControlState(int state){
