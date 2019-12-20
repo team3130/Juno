@@ -12,8 +12,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.commands.Chassis.DefaultDrive;
-import frc.team3130.robot.sensors.Navx;
-
 
 public class Chassis extends Subsystem {
 
@@ -39,15 +37,31 @@ public class Chassis extends Subsystem {
 
     //Create and define all standard data types needed
 
-
     private Chassis() {
-
 
         /**
          * For all motors, forward is the positive direction
          *
          * Shift false is low gear
          */
+
+        m_leftMotorFront = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORFRONT);
+        m_leftMotorRear = new WPI_TalonSRX(RobotMap.CAN_LEFTMOTORREAR);
+        m_rightMotorFront = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORFRONT);
+        m_rightMotorRear = new WPI_TalonSRX(RobotMap.CAN_RIGHTMOTORREAR);
+
+        m_leftMotorFront.configFactoryDefault();
+        m_leftMotorRear.configFactoryDefault();
+        m_rightMotorFront.configFactoryDefault();
+        m_rightMotorRear.configFactoryDefault();
+
+        m_leftMotorFront.setNeutralMode(NeutralMode.Brake);
+        m_rightMotorFront.setNeutralMode(NeutralMode.Brake);
+        m_leftMotorRear.setNeutralMode(NeutralMode.Brake);
+        m_rightMotorRear.setNeutralMode(NeutralMode.Brake);
+
+        m_leftMotorRear.set(ControlMode.Follower, RobotMap.CAN_LEFTMOTORFRONT);
+        m_rightMotorRear.set(ControlMode.Follower, RobotMap.CAN_RIGHTMOTORFRONT);
 
       }
 

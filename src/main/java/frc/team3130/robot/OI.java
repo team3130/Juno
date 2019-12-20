@@ -72,11 +72,9 @@ public class OI {
 
     //Settings for gamepad
     private OI(){
-
+driverGamepad = new Joystick(0);
+weaponsGamepad = new Joystick(1);
     }
-
-
-
 
     //Settings for Joysticks
     /** public static JoystickButton shift;
