@@ -155,27 +155,6 @@ public class Chassis extends Subsystem {
 
     }
 
-    //Sensor Related
-    /**
-     * Returns the absolute angle of the drivetrain in relation to the robot's orientation upon last reset.
-     * @return angle in degrees
-     */
-    public static double getAngle()
-    {
-        if(Navx.getNavxPresent())
-        {
-            //Gyro is present so use it's heading, has drift
-            return Navx.getAngle();
-        }else {
-            //Means that angle use wants a driftless angle measure that lasts.
-            return (getDistanceR() - getDistanceL()) * 180 / (RobotMap.kChassisWidth * Math.PI);
-            /*
-             *  Angle is 180 degrees times encoder difference over Pi * the distance between the wheels
-             *	Made from geometry and relation between angle fraction and arc fraction with semicircles.
-             */
-        }
-    }
-
     /**
      * Returns the shift state of the Chassis
      * @return
