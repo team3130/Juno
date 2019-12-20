@@ -7,7 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team3130.robot.autoCommands.DriveOffPlatform;
+import frc.team3130.robot.sensors.SensorHandler;
 import frc.team3130.robot.subsystems.*;
+import frc.team3130.robot.vision.Limelight;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -155,7 +158,7 @@ public class Robot extends TimedRobot {
     if (autonomousCommand != null) {
       autonomousCommand.cancel();
     }
-
+    resetSubsystems();
   }
 
 
@@ -191,6 +194,55 @@ public class Robot extends TimedRobot {
 
   }
 
+    switch(theChosenOne){
+    case "Drive Off Platform":
+      autonomousCommand = new DriveOffPlatform();
+      break;
+        /*
+      case "Cargo":
+        if(start.equals("Left")) {
+          autonomousCommand = new CargoLeft();
+        }
+        else {
+          autonomousCommand = new CargoRight();
+        }
+        break;
+      case "Rocket":
+        if(start.equals("Left")) {
+          autonomousCommand = new RocketLeft();
+        }
+        else{
+          autonomousCommand = new RocketRight();
+        }
+        */
+    case "No Auto":
+      autonomousCommand = null;
+      break;
 
+    default:
+      autonomousCommand = null;
+
+  }
+}
+
+
+  public void outputToSmartDashboard(){
+    Limelight.outputToSmartDashboard();
+    Elevator.outputToSmartDashboard();
+    Arm.GetInstance().outputToSmartDashboard();
+    Chassis.outputToSmartDashboard();
+  }
+
+  public void writePeriodicOutputs(){
+    Arm.GetInstance().writePeriodicOutputs();
+    Elevator.GetInstance().writePeriodicOutputs();
+    Chassis.GetInstance().writePeriodicOutputs();
+  }
+
+  public void resetSubsystems(){
+    Elevator.resetElevator();
+    Arm.resetArm();
+    Intake.retractTongue();
+  }
 
 }
