@@ -34,11 +34,15 @@ public class Robot extends TimedRobot {
 
     //Instantiate subsystems
     Chassis.GetInstance();
-
-
+    Intake.GetInstance();
+    Climber.GetInstance();
+    Elevator.GetInstance();
+    SensorHandler.GetInstance();
+    Limelight.GetInstance();
 
 
     //Auton mode chooser
+    //Instantiate sensors
     chooser.setDefaultOption("Default Auto", "Default Auto");
     chooser.addOption("Drive Off Platform", "Drive Off Platform");
     chooser.addOption("No Auton", "No Auton");
@@ -64,6 +68,8 @@ public class Robot extends TimedRobot {
     });
     t.start();
 
+    outputToSmartDashboard();
+
     //Thread to read in sensor inputs and handle state machines
     Thread p = new Thread(() -> {
       while (!Thread.interrupted()) {
@@ -72,7 +78,8 @@ public class Robot extends TimedRobot {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-
+        SensorHandler.updateSensors();
+        writePeriodicOutputs();
       }
     });
     p.start();
