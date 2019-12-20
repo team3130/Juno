@@ -186,11 +186,11 @@ public class RobotMap {
 	 */
 	public static final int CAN_PNMMODULE = 1;
 
-	public static final int CAN_RIGHTMOTORFRONT = 2;
-	public static final int CAN_RIGHTMOTORREAR = 3;
+	public static final int CAN_RIGHTMOTORFRONT = 5;
+	public static final int CAN_RIGHTMOTORREAR = 4;
 
-    public static final int CAN_LEFTMOTORFRONT = 4;
-	public static final int CAN_LEFTMOTORREAR = 5;
+    public static final int CAN_LEFTMOTORFRONT = 6;
+	public static final int CAN_LEFTMOTORREAR = 3;
 
 	//public static final int (nada yet) = 6;
 	public static final int CAN_HATCHMOTOR = 7;
