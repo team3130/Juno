@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import frc.team3130.robot.sensors.SensorHandler;
 import frc.team3130.robot.subsystems.*;
 
 /**
@@ -35,10 +37,14 @@ public class Robot extends TimedRobot {
     //Instantiate subsystems
     Chassis.GetInstance();
 
-
-
+  Intake.GetInstance();
+  Climber.GetInstance();
+  Elevator.GetInstance();
 
     //Auton mode chooser
+    //Initiate sensors
+    SensorHandler.GetInstance();
+    Limelight.GetInstance();
     chooser.setDefaultOption("Default Auto", "Default Auto");
     chooser.addOption("Drive Off Platform", "Drive Off Platform");
     chooser.addOption("No Auton", "No Auton");
@@ -75,6 +81,8 @@ public class Robot extends TimedRobot {
 
       }
     });
+    SensorHandler.updateSensors();
+    writePeriodicOutputs();
     p.start();
   }
 
@@ -87,6 +95,8 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
 
   }
+  Chassis.mleftMpController.reset();
+  Chassis.mrightMPController.reset();
 
   @Override
   public void disabledPeriodic() {
@@ -116,13 +126,20 @@ public class Robot extends TimedRobot {
    * the switch structure below with additional strings. If using the
    * SendableChooser make sure to add them to the chooser code above as well.
    */
-
+ @Override// We initialize the robot for Auton and reset other components so it doesn't blow up
+ public void autonomousInit() {
+   resetSubsytems();
+   //I don't know what lines 133-135 do, but they were comments and not deleted, so they probably were important or something
+   //determineAuton();
+   /* if (autonomousCommand != null) {
+    autonomousCommand.start():
+ }
 
 
   /**
    * This function is called periodically during autonomous.
    */
-  @Override
+  @Overri                                                                                                                                                                                                                    de
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
   }
@@ -140,6 +157,9 @@ public class Robot extends TimedRobot {
     }
 
   }
+  resetSubsystems();
+  Elevator.holdHeight();
+  Arm.holdAngleWrist();
 
 
   /**
@@ -173,6 +193,8 @@ public class Robot extends TimedRobot {
 
 
   }
+
+    }
 
 
 
