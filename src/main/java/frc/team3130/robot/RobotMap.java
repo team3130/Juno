@@ -184,12 +184,20 @@ public class RobotMap {
 	/**
 	 * CAN IDs
 	 */
+	public static final int CAN_PNMMODULE = 1;
 
+	public static final int CAN_RIGHTMOTORFRONT = 2;
+	public static final int CAN_RIGHTMOTORREAR = 3;
+
+	public static final int CAN_LEFTMOTORFRONT = 4;
+	public static final int CAN_LEFTMOTORREAR =5;
+
+	//public static final int (nada yet) = 6;
 
 	/**
 	 * Pneumatics ports
 	*/
-
+public static final int PWM_SHIFT = 0;
 
 	/**
 	 * Gamepad Button List
