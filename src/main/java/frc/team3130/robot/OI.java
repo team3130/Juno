@@ -1,9 +1,7 @@
 package frc.team3130.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import edu.wpi.first.wpilibj.command.Command;
 
 public class OI {
     private class JoystickTrigger extends Trigger {
