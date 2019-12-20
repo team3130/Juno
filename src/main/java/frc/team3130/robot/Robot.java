@@ -92,7 +92,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-
+    Chassis.mLeftMPController.reset();
+    Chassis.mRightMPController.reset();
   }
 
   @Override
@@ -124,7 +125,16 @@ public class Robot extends TimedRobot {
    * SendableChooser make sure to add them to the chooser code above as well.
    */
 
-
+  @Override
+  public void autonomousInit() {
+    resetSubsystems();
+    //determineAuton(); //determine the auton to run
+    //start that command
+    /*
+    if (autonomousCommand != null) {
+      autonomousCommand.start();
+    }*/
+  }
 
   /**
    * This function is called periodically during autonomous.
