@@ -14,6 +14,7 @@ import frc.team3130.robot.commands.Climber.LegDown;
 import frc.team3130.robot.commands.Climber.LegDrive;
 import frc.team3130.robot.commands.Elevator.ElevatorToHeight;
 import frc.team3130.robot.commands.Groups.RunPreset;
+import frc.team3130.robot.commands.Shooter.SpinShooter;
 import frc.team3130.robot.tantanDrive.Paths.SCurve;
 import frc.team3130.robot.tantanDrive.RunMotionProfile;
 
@@ -100,6 +101,7 @@ public class OI {
     private static JoystickTrigger intakeBallOut;
     private static JoystickTrigger intakeHatchOut;
     private static JoystickButton intakeActuate;
+    private static JoystickButton fireShooter;
 
     private static JoystickButton aimHatch;
 
@@ -140,6 +142,8 @@ public class OI {
         intakeHatchOut = new JoystickTrigger(driverGamepad, RobotMap.AXS_INTAKE_OUT);
         intakeActuate = new JoystickButton(driverGamepad, RobotMap.BTN_INTAKE_TOGGLE);
 
+        fireShooter = new JoystickButton(driverGamepad, RobotMap.LST_BTN_X);
+
         aimHatch = new JoystickButton(driverGamepad, RobotMap.BTN_AIM_HATCH);
 
         //Map the button to command
@@ -164,6 +168,8 @@ public class OI {
         legDown.whileActive(new LegDown());
         legUp.whileHeld(new LegDown(true));
         legDrive.whileActive(new LegDrive());
+
+        fireShooter.whileActive(new SpinShooter());
 
         BasicActuate intakeExtend = new BasicActuate(Robot.bcIntakeActuate);
         intakeBallIn.whileActive(new BasicSpinMotor(Robot.btBallMotor, 0.75));

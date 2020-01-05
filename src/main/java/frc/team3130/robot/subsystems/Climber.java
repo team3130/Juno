@@ -50,13 +50,13 @@ public class Climber extends Subsystem {
         m_legDrive.set(ControlMode.PercentOutput, PVbus);
     }
 
-    public static void downLeg(double pVbus){
+        public static void downLeg(double pVbus){
         m_legDown.set(ControlMode.PercentOutput, pVbus);
     }
 
-    public static void deployArms(boolean deploy)
-    {
-        pistons.set(deploy);
+        public static void deployArms(boolean deploy)
+        {
+            pistons.set(deploy);
     }
 
     public static void holdLeg(){

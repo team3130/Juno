@@ -203,6 +203,10 @@ public class RobotMap {
 	public static final int CAN_CLIMBERLEG = 12;
 	public static final int CAN_CLIMBERDRIVE = 13;
 
+	public static final int CAN_SHOOTERLEFT = 14;
+	public static final int CAN_SHOOTERRIGHT = 15;
+	public static final int CAN_SHOOTERTOP = 16;
+
 	/**
 	 * Pneumatics ports
 	*/
