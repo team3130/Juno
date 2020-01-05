@@ -9,7 +9,6 @@ package frc.team3130.robot.commands.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.subsystems.BasicTalonSRX;
-import edu.wpi.first.wpilibj.command.Command;
 import frc.team3130.robot.OI;
 import frc.team3130.robot.RobotMap;
 import frc.team3130.robot.subsystems.Shooter;
@@ -45,22 +44,25 @@ public class SpinShooter extends Command {
     }
 
     // Called just before this Command runs the first time
-    protected void initialize() {
-    	motor.spinMotor(percent);
+    protected void initialize(){
     }
 
+
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
+    protected void execute() { Shooter.shooterSpin(OI.driverGamepad.getRawAxis(RobotMap.LST_BTN_X));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        if(!OI.driverGamepad.getRawButton(RobotMap.LST_BTN_X) == true)
+        {return true;}
+        return !OI.driverGamepad.getRawButton(RobotMap.LST_BTN_X);
     }
 
     // Called once after isFinished returns true
     protected void end() {
-	    motor.spinMotor(0);
+        Shooter.shooterTopSpin(0);
+        Shooter.shooterSpin(0);
     }
 
     // Called when another command which requires one or more of the same

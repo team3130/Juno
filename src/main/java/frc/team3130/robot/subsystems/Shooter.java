@@ -1,5 +1,6 @@
 package frc.team3130.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team3130.robot.RobotMap;
@@ -46,7 +47,13 @@ public class Shooter extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
-
-
-
+    public static void shooterSpin (double spin){
+        spin=1.0;
+        m_shooterLeft.set(spin);
+        m_shooterRight.set(spin);
+    }
+    public static void shooterTopSpin (double topSpin){
+        topSpin = .5;
+        m_shooterTop.set(topSpin);
+    }
 }
