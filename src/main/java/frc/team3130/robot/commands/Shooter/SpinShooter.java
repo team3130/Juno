@@ -17,9 +17,12 @@ import frc.team3130.robot.subsystems.Shooter;
 /**
  *
  */
+
+
 public class SpinShooter extends Command {
 
-	private double percent;
+    public SpinShooter(){requires(Shooter.GetInstance());}
+    private double percent;
 	private BasicTalonSRX motor;
 
 	/**
