@@ -48,12 +48,22 @@ public class Shooter extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     public static void shooterSpin (double spin){
-        spin=1.0;
+        spin=0.7;
+        m_shooterLeft.set(spin);
+        m_shooterRight.set(spin);
+    }
+    public static void shooterStopSpin (double spin){
+        spin=0;
         m_shooterLeft.set(spin);
         m_shooterRight.set(spin);
     }
     public static void shooterTopSpin (double topSpin){
         topSpin = .5;
+        m_shooterTop.set(topSpin);
+    }
+
+    public static void shooterStopTopSpin (double topSpin){
+        topSpin = 0;
         m_shooterTop.set(topSpin);
     }
 }

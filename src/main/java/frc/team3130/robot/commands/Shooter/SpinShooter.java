@@ -49,7 +49,9 @@ public class SpinShooter extends Command {
 
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() { Shooter.shooterSpin(OI.driverGamepad.getRawAxis(RobotMap.LST_BTN_X));
+    protected void execute() {
+        Shooter.shooterSpin(OI.driverGamepad.getRawAxis(RobotMap.LST_BTN_X));
+        Shooter.shooterTopSpin(OI.driverGamepad.getRawAxis(RobotMap.LST_BTN_X));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -61,8 +63,8 @@ public class SpinShooter extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-        Shooter.shooterTopSpin(0);
-        Shooter.shooterSpin(0);
+        Shooter.shooterStopSpin(OI.driverGamepad.getRawAxis(RobotMap.LST_BTN_X));
+        Shooter.shooterStopTopSpin(OI.driverGamepad.getRawAxis(RobotMap.LST_BTN_X));
     }
 
     // Called when another command which requires one or more of the same
